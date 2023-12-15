@@ -3,25 +3,24 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Input } from './'
 
 const meta = {
-    title: 'Components/Button',
-    component: Input,
-    tags: ['autodocs'],
-    argTypes: {
-        variant: {
-            options: ['primary', 'secondary', 'tertiary', 'link'],
-            control: { type: 'radio' },
-        },
+  argTypes: {
+    variant: {
+      control: { type: 'radio' },
+      options: ['primary', 'secondary', 'tertiary', 'link'],
     },
+  },
+  component: Input,
+  tags: ['autodocs'],
+  title: 'Components/Input',
 } satisfies Meta<typeof Input>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
-    args: {
-        variant: 'primary',
-        children: 'Primary Input',
-        disabled: false,
-    },
+  args: {
+    children: 'Primary Input',
+    disabled: false,
+    variant: 'primary',
+  },
 }
-

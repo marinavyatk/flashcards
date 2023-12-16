@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Input } from './'
 
 const meta = {
-    title: 'Components/Button',
+    title: 'Components/Input',
     component: Input,
     tags: ['autodocs'],
     argTypes: {
@@ -21,7 +21,28 @@ export const Primary: Story = {
     args: {
         variant: 'primary',
         children: 'Primary Input',
+        disabled: true,
+        placeholder:'Input'
+    },
+}
+export const Secondary: Story = {
+    args: {
+        variant: 'primary',
+        children: 'Secondary Input',
         disabled: false,
+        icon:'passwordControl',
+        placeholder:'Input'
+    },
+}
+
+export const Tertiary: Story = {
+    args: {
+        variant: 'tertiary',
+        children: 'Tertiary Input',
+        disabled: false,
+        loupe:'loupeSearch',
+        cross:'crossDelete',
+        placeholder:'Input search'
     },
 }
 

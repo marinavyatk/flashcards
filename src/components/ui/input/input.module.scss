@@ -12,7 +12,7 @@ input {
   }
 }
 
-.textInput{
+.textInput {
   margin-bottom: 0.5px;
   color: var(--Dark-100, #808080);
   font-family: Roboto;
@@ -22,7 +22,8 @@ input {
   line-height: 24px; /* 171.429% */
 }
 
-.primary, .tertiary {
+.primary,
+.tertiary {
   max-width: 284px;
   max-height: 36px;
   position: relative;
@@ -30,11 +31,11 @@ input {
   height: 36px;
   flex-shrink: 0;
   border-radius: 2px;
-  border: 1px solid var(--dark-300, #4C4C4C);
+  border: 1px solid var(--dark-300, #4c4c4c);
   background-color: black;
-
 }
-.primary:hover, .tertiary:hover {
+.primary:hover,
+.tertiary:hover {
   color: #808080;
   font-weight: 400;
   line-height: 24px;
@@ -43,17 +44,19 @@ input {
   border: 1px solid #808080;
 }
 
-.primary input:active, .tertiary input:active{
+.primary input:active,
+.tertiary input:active {
   outline: 2px solid white;
   width: 284px;
   height: 36px;
   flex-shrink: 0;
   border-radius: 2px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   background-color: black;
 }
 
-.primary:active::placeholder, .tertiary:active::placeholder{
+.primary:active::placeholder,
+.tertiary:active::placeholder {
   color: white;
   font-family: Roboto;
   font-size: 16px;
@@ -62,8 +65,8 @@ input {
   line-height: 24px; /* 150% */
 }
 
-
-.primary:focus, .tertiary:focus {
+.primary:focus,
+.tertiary:focus {
   outline: none;
   color: white;
   font-weight: 400;
@@ -73,7 +76,8 @@ input {
   border: 2px solid #2f68cc;
 }
 
-.primary:focus::placeholder, .tertiary:focus::placeholder{
+.primary:focus::placeholder,
+.tertiary:focus::placeholder {
   color: white;
   font-family: Roboto;
   font-size: 16px;
@@ -81,35 +85,36 @@ input {
   font-weight: 400;
   line-height: 24px; /* 150% */
 }
-.primary:disabled, .tertiary:disabled {
-  color: #4C4C4C;
+.primary:disabled,
+.tertiary:disabled {
+  color: #4c4c4c;
   font-weight: 400;
   line-height: 24px;
   word-wrap: break-word;
   background-color: black;
-  border: 1px solid #4C4C4C;
+  border: 1px solid #4c4c4c;
 }
 
+.errorMessage {
+  color: red;
+}
 
-
-
-.inputClass{
+.inputClass {
   position: relative;
-  width:fit-content;
+  width: fit-content;
 }
 .passwordControl {
   position: absolute;
-  top:8px;
+  top: 8px;
   right: 12px;
   width: 20px;
   height: 20px;
-  mask-image: url("/flashcards/src/utils/images/eyePassword.svg");
-  -webkit-mask-image: url("/flashcards/src/utils/images/eyePassword.svg");
+  mask-image: url('/flashcards/src/utils/images/eyePassword.svg');
+  -webkit-mask-image: url('/flashcards/src/utils/images/eyePassword.svg');
   background-color: white;
 }
 
-
-::placeholder{
+::placeholder {
   color: var(--dark-100, #808080);
   font-family: Roboto;
   font-size: 16px;
@@ -118,34 +123,34 @@ input {
   line-height: 24px; /* 150% */
 }
 
-.loupeSearch{
+.loupeSearch {
   position: absolute;
-  top:8px;
+  top: 8px;
   left: 12px;
   width: 20px;
   height: 20px;
-  mask-image: url("/flashcards/src/utils/images/loupeSearch.svg");
-  -webkit-mask-image: url("/flashcards/src/utils/images/loupeSearch.svg");
+  mask-image: url('/flashcards/src/utils/images/loupeSearch.svg');
+  -webkit-mask-image: url('/flashcards/src/utils/images/loupeSearch.svg');
   background-color: white;
 }
 
-.tertiary, .loupeSearch input[type='text'] {
+.tertiary,
+.loupeSearch input[type='text'] {
   padding-left: 41px;
 }
 
-.primary, .tertiary input[type='text'] {
+.primary,
+.tertiary input[type='text'] {
   padding-left: 12px;
 }
 
 .crossDelete {
   position: absolute;
-  top:10px;
+  top: 10px;
   right: 10px;
   width: 16px;
   height: 16px;
-  mask-image: url("/flashcards/src/utils/images/cross.svg");
-  -webkit-mask-image: url("/flashcards/src/utils/images/cross.svg");
+  mask-image: url('/flashcards/src/utils/images/cross.svg');
+  -webkit-mask-image: url('/flashcards/src/utils/images/cross.svg');
   background-color: white;
 }
-
-

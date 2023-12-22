@@ -2,7 +2,6 @@ import { useController, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '../../ui/button'
 import { Input } from '../../ui/input'
-import { CheckboxComponent } from '@/components/ui/checkbox'
 import { zodResolver } from '@hookform/resolvers/zod'
 import s from './sing-up.module.scss'
 
@@ -33,7 +32,7 @@ export const SingUp = () => {
   }
 
   const {
-    field: { value, onChange },
+    field: {},
   } = useController({
     name: 'rememberMe',
     control,
@@ -41,9 +40,9 @@ export const SingUp = () => {
   })
 
   return (
-    <div className={s.formSingIn}>
-      <form onSubmit={handleSubmit(onSubmit)} className={s.formBoxSingIn}>
-        <h1 className={s.titleSingIn}>Sing Up</h1>
+    <div className={s.formSingUp}>
+      <form onSubmit={handleSubmit(onSubmit)} className={s.formBoxSingUp}>
+        <h1 className={s.titleSingUp}>Sing Up</h1>
         <div className={s.inputItem}>
           <Input
             register={register}
@@ -79,18 +78,11 @@ export const SingUp = () => {
             errorMessage={errors.password?.message}
           />
         </div>
-        <div className={s.checkboxItem}>
-          <CheckboxComponent
-            onCheckedChange={onChange}
-            checked={value}
-            checkboxTitle={'Remember me'}
-          />
-        </div>
         <div className={s.buttonItem}>
           <Button type="submit">Sing Up</Button>
         </div>
-        <div className={s.dntHaveAcc}>Already have an account?</div>
-        <div className={s.singUp}>Sing In</div>
+        <div className={s.alrHaveAcc}>Already have an account?</div>
+        <div className={s.singIn}>Sing In</div>
       </form>
     </div>
   )

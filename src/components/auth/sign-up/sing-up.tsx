@@ -43,7 +43,7 @@ export const SingUp = () => {
   return (
     <div className={s.formSingIn}>
       <form onSubmit={handleSubmit(onSubmit)} className={s.formBoxSingIn}>
-        <h1 className={s.titleSingIn}>Sing In</h1>
+        <h1 className={s.titleSingIn}>Sing Up</h1>
         <div className={s.inputItem}>
           <Input
             register={register}
@@ -67,19 +67,30 @@ export const SingUp = () => {
             errorMessage={errors.password?.message}
           />
         </div>
+        <div className={s.inputItem}>
+          <Input
+            type={'password'}
+            register={register}
+            controlName={'password'}
+            placeholder={'password'}
+            variant={'primary'}
+            icon={'passwordControl'}
+            textInput={'Confirm Password'}
+            errorMessage={errors.password?.message}
+          />
+        </div>
         <div className={s.checkboxItem}>
           <CheckboxComponent
             onCheckedChange={onChange}
             checked={value}
             checkboxTitle={'Remember me'}
           />
-          <div className={s.forgotPassword}>Forgot Password?</div>
         </div>
         <div className={s.buttonItem}>
-          <Button type="submit">Sing In</Button>
+          <Button type="submit">Sing Up</Button>
         </div>
-        <div className={s.dntHaveAcc}>Don't have an account?</div>
-        <div className={s.singUp}>Sing Up</div>
+        <div className={s.dntHaveAcc}>Already have an account?</div>
+        <div className={s.singUp}>Sing In</div>
       </form>
     </div>
   )

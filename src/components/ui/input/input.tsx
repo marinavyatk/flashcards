@@ -1,7 +1,6 @@
 import { ComponentPropsWithoutRef, ElementType } from 'react'
-
-import s from './input.module.scss'
 import { UseFormRegister } from 'react-hook-form'
+import s from './input.module.scss'
 
 export type InputProps<T extends ElementType = 'input'> = {
   as?: T
@@ -15,6 +14,7 @@ export type InputProps<T extends ElementType = 'input'> = {
   errorMessage?: string
   controlName: string
   register: UseFormRegister<any>
+  type?: 'password'
 } & ComponentPropsWithoutRef<T>
 
 export const Input = <T extends ElementType = 'input'>(
@@ -25,13 +25,14 @@ export const Input = <T extends ElementType = 'input'>(
     className,
     icon = '',
     loupe = '',
-    as: Component = 'input',
     cross = '',
     placeholder = '',
     textInput = '',
     errorMessage = '',
     controlName = '',
     register,
+    type,
+    as: Component = 'input',
   } = props
 
   return (
@@ -41,6 +42,7 @@ export const Input = <T extends ElementType = 'input'>(
         <Component
           className={`${s[variant]}  ${className} `}
           placeholder={placeholder}
+          type={type}
           {...register(controlName)}
         />
         {<div className={s.errorMessage}>{errorMessage}</div>}

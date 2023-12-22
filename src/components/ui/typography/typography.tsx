@@ -24,5 +24,9 @@ export const Typography = <T extends ElementType = 'p'>(
   const { as: Component = 'p', className, variant = 'body1', ...rest } = props
   // const classNames = (s[variant], className)
 
-  return <Component className={`${s[variant]}`} {...rest} />
+  // return <Component className={`${s[variant]}`} {...rest} />
+
+  const classNames = `${s[variant]} ${className ? className : ''}`
+
+  return <Component className={classNames} {...rest} />
 }

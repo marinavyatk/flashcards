@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import s from './forgotPasswordForm.module.css'
-// import {Input} from "@/components/ui/input";
+
 const emailSchema = z.object({
   email: z.string().email(),
-  rememberMe: z.boolean(),
 })
 
 export type FormValues = z.infer<typeof emailSchema>
@@ -20,7 +20,7 @@ export const ForgotPasswordForm = () => {
     handleSubmit,
     register,
   } = useForm<FormValues>({
-    defaultValues: { email: '', rememberMe: false },
+    defaultValues: { email: '' },
     resolver: zodResolver(emailSchema),
   })
   const onSubmit = (data: FormValues) => {
@@ -36,9 +36,16 @@ export const ForgotPasswordForm = () => {
           Forgot your password?
         </Typography>
         {/*<Typography variant={'body2'}>Email</Typography>*/}
-        {/*<Input placeholder={'Email'} register={'hnm'} controlName={"hfhf"}/>*/}
-        <input {...register('email')} />
-        {errors.email?.message && errors.email.message}
+        {/*<input {...register('email')} />*/}
+        <Input
+          controlName={'email'}
+          errorMessage={errors.email?.message}
+          placeholder={'Type your email'}
+          register={register}
+          {...register('email')}
+          className={s.input}
+          textInput={'Email'}
+        />
 
         <Typography className={s.instruction} variant={'body2'}>
           Enter your email address and we will send you further instructions{' '}

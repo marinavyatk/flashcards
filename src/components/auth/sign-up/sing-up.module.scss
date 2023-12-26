@@ -20,7 +20,7 @@
 .inputItem {
   padding-top: 12px;
   padding-bottom: 12px;
-  width: 80%;
+  width: 348px;
 }
 .titleSingUp {
   color: var(--Light-100, #fff);
@@ -36,9 +36,10 @@
 .buttonItem {
   display: flex;
   width: 348px;
-  padding: 55px 28px 6px 28px;
+  padding: 55px 0px 6px 0px;
   justify-content: center;
   align-items: center;
+  width: 348px;
 }
 .alrHaveAcc {
   color: var(--Light-900, #c3c1c7);

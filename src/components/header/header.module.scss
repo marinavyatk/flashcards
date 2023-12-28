@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--Dark-700, #171717);;
+
+  padding: 12px 137px;
+
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+}
+
+.header img{
+  display: inline-block;
+  vertical-align: top;
+  width: 157px;
+  height: 36px;
+}

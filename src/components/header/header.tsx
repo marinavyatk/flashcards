@@ -3,7 +3,7 @@ import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import s from './header.module.scss'
 import {Button} from "@/components/ui/button";
-import logo from "../../utils/images/Logo.png";
+import logo from "../../utils/images/logo.png";
 
 type FormValues = {
     email: string

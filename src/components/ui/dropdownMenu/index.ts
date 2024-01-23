@@ -1,1 +1,1 @@
-import * from './dropdownMenu'
+export * from './dropdownMenu'

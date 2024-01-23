@@ -1,0 +1,90 @@
+.dropdownMenuTrigger {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.dropdownMenuContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 12px;
+
+  font-size: 12px;
+  line-height: var(--line-height-s);
+
+  background-color: var(--color-dark-700);
+  border: 1px solid var(--color-dark-500);
+  border-radius: 4px;
+}
+
+.dropdownMenuItem {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dropdownMenuItem:hover {
+  outline: none;
+}
+
+.dropdownMenuItem img {
+  width: 16px;
+  height: 16px;
+}
+
+.dropdownMenuSeparator {
+  height: 1px;
+  background-color: var(--color-dark-500);
+}
+
+.angle {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  transform: rotate(45deg);
+
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+
+  background-color: var(--color-dark-700);
+  border-top: 1px solid var(--color-dark-500);
+  border-left: 1px solid var(--color-dark-500);
+}
+
+.dropdownMenuArrow {
+  fill: var(--color-dark-700);
+  stroke: var(--color-dark-500);
+  stroke-width: 1px;
+}
+
+.userSection {
+  display: flex;
+  gap: 8px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userSection p {
+  margin: 0 28px 0 0;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-m);
+}
+
+.userEmail {
+  color: var(--color-dark-100);
+}

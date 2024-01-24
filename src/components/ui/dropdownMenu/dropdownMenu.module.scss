@@ -88,3 +88,18 @@
 .userEmail {
   color: var(--color-dark-100);
 }
+
+.dropdownMenuContent[data-side='top'] {
+  .angle {
+    top: unset;
+    bottom: 0;
+
+    margin-top: 0;
+    margin-bottom: -4px;
+
+    border-top: none;
+    border-right: 1px solid var(--color-dark-500);
+    border-bottom: 1px solid var(--color-dark-500);
+    border-left: none;
+  }
+}

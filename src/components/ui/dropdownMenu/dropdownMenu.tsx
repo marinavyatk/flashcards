@@ -1,3 +1,5 @@
+import { ComponentPropsWithoutRef } from 'react'
+
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdownMenu.module.scss'
@@ -16,9 +18,9 @@ export type DropdownMenuComponentProps = {
     name: string
   }
   variant: 'settings' | 'userInfo'
-}
+} & ComponentPropsWithoutRef<'div'>
 export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
-  const { className, menuItems, triggerImage, userInfo, variant } = props
+  const { className, menuItems, triggerImage, userInfo, variant, ...restProps } = props
   const menuItemsSections = menuItems.map((item, index, array) => {
     if (index !== array.length - 1) {
       return (
@@ -43,7 +45,7 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
   })
 
   return (
-    <div className={className}>
+    <div className={className} {...restProps}>
       <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
           asChild

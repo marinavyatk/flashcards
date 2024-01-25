@@ -1,7 +1,11 @@
 import { ComponentPropsWithoutRef } from 'react'
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
+import {
+  DropdownMenuContentProps,
+  DropdownMenuItemProps,
+  DropdownMenuProps,
+} from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdownMenu.module.scss'
 
@@ -11,6 +15,8 @@ type menuItem = {
   title: string
 }
 export type DropdownMenuComponentProps = {
+  contentProps: DropdownMenuContentProps
+  itemProps: DropdownMenuItemProps
   menuItems: menuItem[]
   rootProps?: DropdownMenuProps
   triggerImage: string
@@ -21,12 +27,27 @@ export type DropdownMenuComponentProps = {
   variant: 'settings' | 'userInfo'
 } & ComponentPropsWithoutRef<'div'>
 export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
-  const { className, menuItems, rootProps, triggerImage, userInfo, variant, ...restProps } = props
+  const {
+    className,
+    contentProps,
+    itemProps,
+    menuItems,
+    rootProps,
+    triggerImage,
+    userInfo,
+    variant,
+    ...restProps
+  } = props
   const menuItemsSections = menuItems.map((item, index, array) => {
     if (index !== array.length - 1) {
       return (
         <>
-          <DropdownMenu.Item className={s.dropdownMenuItem} key={item.title} onClick={item.onClick}>
+          <DropdownMenu.Item
+            className={s.dropdownMenuItem}
+            key={item.title}
+            onClick={item.onClick}
+            {...itemProps}
+          >
             <img alt={'Dropdown item'} src={item.icon} />
             {item.title}
           </DropdownMenu.Item>
@@ -37,7 +58,7 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
 
     return (
       <>
-        <DropdownMenu.Item className={s.dropdownMenuItem}>
+        <DropdownMenu.Item className={s.dropdownMenuItem} {...itemProps}>
           <img alt={'Dropdown item'} src={item.icon} />
           {item.title}
         </DropdownMenu.Item>
@@ -61,11 +82,12 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
             alignOffset={variant === 'userInfo' ? 0 : -2}
             className={s.dropdownMenuContent}
             sideOffset={9}
+            {...contentProps}
           >
             <div className={s.angle}></div>
             {variant === 'userInfo' && userInfo && (
               <>
-                <DropdownMenu.Item className={s.dropdownMenuItem}>
+                <DropdownMenu.Item className={s.dropdownMenuItem} {...itemProps}>
                   <div className={s.userSection}>
                     <img alt={'Dropdown item'} className={s.avatar} src={triggerImage} />
                     <div className={s.userInfo}>

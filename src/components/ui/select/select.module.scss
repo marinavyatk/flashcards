@@ -1,10 +1,3 @@
-.selectContainer {
-}
-
-.selectValue {
-  //user-select: none;
-}
-
 .selectTrigger {
   user-select: none;
 
@@ -14,6 +7,8 @@
 
   width: 210px;
   padding: 6px 12px;
+
+  line-height: var(--line-height-m);
 
   background-color: transparent;
   border: 1px solid var(--color-dark-300);
@@ -26,12 +21,6 @@
 
   &:focus-visible {
     border: 1px solid var(--color-info-700);
-  }
-
-  &:disabled {
-    color: var(--color-dark-300);
-    background-color: transparent;
-    border: 1px solid var(--color-dark-300);
   }
 }
 
@@ -57,26 +46,27 @@
   fill: var(--color-light-100);
 }
 
-.selectTrigger:disabled .selectArrow {
-  pointer-events: none;
-  fill: var(--color-dark-300);
-}
-
 .selectTrigger[data-state='open'] {
   border: 1px solid var(--color-dark-100);
   border-radius: 2px 2px 0 0;
 }
 
-.selectTrigger[data-state='closed'] .selectArrow {
+.disabled {
   pointer-events: none;
+  color: var(--color-dark-300);
+  background-color: transparent;
+  border-color: var(--color-dark-300);
+}
+
+.disabled .selectArrow {
+  fill: var(--color-dark-300);
+}
+
+.selectTrigger[data-state='closed'] .selectArrow {
   transform: rotate(180deg);
 }
 
 .selectContent[data-state='open'] {
   border: 1px solid var(--color-dark-100);
   border-top: none;
-}
-
-[data-highlighted] {
-  background-color: var(--color-dark-500);
 }

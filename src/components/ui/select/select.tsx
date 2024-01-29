@@ -1,60 +1,69 @@
-import { ComponentPropsWithoutRef } from 'react'
+import { ComponentPropsWithoutRef, LegacyRef, forwardRef, useState } from 'react'
 
 import { ArrowDown } from '@/utils/images/ArrowDown'
-import * as Select from '@radix-ui/react-select'
+// import * as Select from '@radix-ui/react-select'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {
-  SelectContentProps,
-  SelectItemProps,
-  SelectProps,
-  SelectValueProps,
-} from '@radix-ui/react-select'
+  DropdownMenuContentProps,
+  DropdownMenuItemProps,
+  DropdownMenuProps,
+} from '@radix-ui/react-dropdown-menu'
 
 import s from './select.module.scss'
 
 export type SelectComponentProps = {
-  contentProps?: SelectContentProps
-  itemProps: SelectItemProps[]
-  rootProps?: SelectProps
-  triggerValue: SelectValueProps
+  contentProps?: DropdownMenuContentProps
+  disabled?: boolean
+  itemProps: DropdownMenuItemProps[]
+  rootProps?: DropdownMenuProps
+  triggerTitle: string
 } & ComponentPropsWithoutRef<'div'>
-export const SelectComponent = ({
-  contentProps,
-  itemProps,
-  rootProps,
-  triggerValue,
-  ...restProps
-}: SelectComponentProps) => {
-  const items = itemProps.map((item, index) => {
+export const SelectComponent = forwardRef(
+  (
+    {
+      contentProps,
+      disabled = false,
+      itemProps,
+      rootProps,
+      triggerTitle,
+      ...restProps
+    }: SelectComponentProps,
+    ref: LegacyRef<HTMLSpanElement> | undefined
+  ) => {
+    const [selectedValue, setSelectedValue] = useState(triggerTitle)
+    const items = itemProps.map((item, index) => {
+      return (
+        <DropdownMenu.Item
+          {...itemProps[index]}
+          className={s.selectItem}
+          key={item.textValue}
+          onClick={() => setSelectedValue(item.textValue ? item.textValue : '')}
+        >
+          {item.textValue}
+        </DropdownMenu.Item>
+      )
+    })
+
     return (
-      <Select.Item {...itemProps[index]} className={s.selectItem} key={item.value}>
-        <Select.ItemText>{item.value}</Select.ItemText>
-      </Select.Item>
-    )
-  })
-
-  return (
-    <div {...restProps} className={s.selectContainer}>
-      <Select.Root {...rootProps}>
-        <Select.Trigger className={s.selectTrigger}>
-          <Select.Value {...triggerValue} className={s.selectValue} />
-          <Select.Icon asChild className={s.selectIcon}>
+      <div {...restProps} className={`restProps.className ${disabled ? s.disabled : ''}`}>
+        <DropdownMenu.Root {...rootProps} modal={false}>
+          <DropdownMenu.Trigger className={s.selectTrigger}>
+            <span ref={ref}>{selectedValue}</span>
             <ArrowDown className={s.selectArrow} />
-          </Select.Icon>
-        </Select.Trigger>
+          </DropdownMenu.Trigger>
 
-        <Select.Portal>
-          <Select.Content
-            {...contentProps}
-            avoidCollisions={false}
-            className={s.selectContent}
-            position={'popper'}
-          >
-            <Select.Viewport>
-              <Select.Group>{items}</Select.Group>
-            </Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
-    </div>
-  )
-}
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content
+              {...contentProps}
+              align={'center'}
+              avoidCollisions={false}
+              className={s.selectContent}
+            >
+              {items}
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+      </div>
+    )
+  }
+)

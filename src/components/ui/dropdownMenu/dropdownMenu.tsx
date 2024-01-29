@@ -15,8 +15,8 @@ type menuItem = {
   title: string
 }
 export type DropdownMenuComponentProps = {
-  contentProps: DropdownMenuContentProps
-  itemProps: DropdownMenuItemProps
+  contentProps?: DropdownMenuContentProps
+  itemProps?: DropdownMenuItemProps
   menuItems: menuItem[]
   rootProps?: DropdownMenuProps
   triggerImage: string

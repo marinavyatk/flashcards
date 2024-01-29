@@ -1,0 +1,82 @@
+.selectContainer {
+}
+
+.selectValue {
+  //user-select: none;
+}
+
+.selectTrigger {
+  user-select: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 210px;
+  padding: 6px 12px;
+
+  background-color: transparent;
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+  outline: none;
+
+  &:hover {
+    background-color: var(--color-dark-500);
+  }
+
+  &:focus-visible {
+    border: 1px solid var(--color-info-700);
+  }
+
+  &:disabled {
+    color: var(--color-dark-300);
+    background-color: transparent;
+    border: 1px solid var(--color-dark-300);
+  }
+}
+
+.selectContent {
+  width: 210px;
+  border: 1px solid var(--color-dark-300);
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+}
+
+.selectItem {
+  display: block;
+  padding: 6px 12px;
+  outline: none;
+
+  &:hover {
+    color: var(--color-accent-300);
+    background-color: var(--color-accent-900);
+  }
+}
+
+.selectArrow {
+  fill: var(--color-light-100);
+}
+
+.selectTrigger:disabled .selectArrow {
+  pointer-events: none;
+  fill: var(--color-dark-300);
+}
+
+.selectTrigger[data-state='open'] {
+  border: 1px solid var(--color-dark-100);
+  border-radius: 2px 2px 0 0;
+}
+
+.selectTrigger[data-state='closed'] .selectArrow {
+  pointer-events: none;
+  transform: rotate(180deg);
+}
+
+.selectContent[data-state='open'] {
+  border: 1px solid var(--color-dark-100);
+  border-top: none;
+}
+
+[data-highlighted] {
+  background-color: var(--color-dark-500);
+}

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import avatar from '@/utils/images/dropdownMenu/avatar.png'
-import out from '@/utils/images/dropdownMenu/outIcon.svg'
-import user from '@/utils/images/dropdownMenu/userIcon.svg'
+import avatar from '@/assets/svg/dropdownMenu/avatar.png'
+import deleteIcon from '@/assets/svg/dropdownMenu/deleteIcon.svg'
+import triggerIcon from '@/assets/svg/dropdownMenu/dropDownIcon.png'
+import editIcon from '@/assets/svg/dropdownMenu/editIcon.svg'
+import out from '@/assets/svg/dropdownMenu/outIcon.svg'
+import playIcon from '@/assets/svg/dropdownMenu/playIcon.svg'
+import user from '@/assets/svg/dropdownMenu/userIcon.svg'
 
-import deleteIcon from '../../../utils/images/dropdownMenu/deleteIcon.svg'
-import triggerIcon from '../../../utils/images/dropdownMenu/dropDownIcon.png'
-import editIcon from '../../../utils/images/dropdownMenu/editIcon.svg'
-import playIcon from '../../../utils/images/dropdownMenu/playIcon.svg'
 import { DropdownMenuComponent } from './'
 
 const meta = {
@@ -26,31 +26,26 @@ const userInfo = {
 const menuItemsForUser = [
   {
     icon: user,
-    onClick: () => {},
-    title: 'My profile',
+    menuItemText: 'My profile',
   },
   {
     icon: out,
-    onClick: () => {},
-    title: 'Sign out',
+    menuItemText: 'Sign out',
   },
 ]
 
 const menuItemsForSettings = [
   {
     icon: playIcon,
-    onClick: () => {},
-    title: 'Learn',
+    menuItemText: 'Learn',
   },
   {
     icon: editIcon,
-    onClick: () => {},
-    title: 'Edit',
+    menuItemText: 'Edit',
   },
   {
     icon: deleteIcon,
-    onClick: () => {},
-    title: 'Delete',
+    menuItemText: 'Delete',
   },
 ]
 

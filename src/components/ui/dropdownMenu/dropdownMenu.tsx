@@ -11,12 +11,11 @@ import s from './dropdownMenu.module.scss'
 
 type menuItem = {
   icon: string
-  onClick?: () => void
-  title: string
+  menuItemText: string
+  rest?: DropdownMenuItemProps
 }
 export type DropdownMenuComponentProps = {
-  contentProps: DropdownMenuContentProps
-  itemProps: DropdownMenuItemProps
+  contentProps?: DropdownMenuContentProps
   menuItems: menuItem[]
   rootProps?: DropdownMenuProps
   triggerImage: string
@@ -26,11 +25,11 @@ export type DropdownMenuComponentProps = {
   }
   variant: 'settings' | 'userInfo'
 } & ComponentPropsWithoutRef<'div'>
+
 export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
   const {
     className,
     contentProps,
-    itemProps,
     menuItems,
     rootProps,
     triggerImage,
@@ -38,30 +37,17 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
     variant,
     ...restProps
   } = props
-  const menuItemsSections = menuItems.map((item, index, array) => {
-    if (index !== array.length - 1) {
-      return (
-        <>
-          <DropdownMenu.Item
-            className={s.dropdownMenuItem}
-            key={item.title}
-            onClick={item.onClick}
-            {...itemProps}
-          >
-            <img alt={'Dropdown item'} src={item.icon} />
-            {item.title}
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator className={s.dropdownMenuSeparator} />
-        </>
-      )
-    }
 
+  const menuItemsSections = menuItems.map((item, index, array) => {
     return (
       <>
-        <DropdownMenu.Item className={s.dropdownMenuItem} {...itemProps}>
+        <DropdownMenu.Item {...item.rest} className={s.dropdownMenuItem} key={item.menuItemText}>
           <img alt={'Dropdown item'} src={item.icon} />
-          {item.title}
+          {item.menuItemText}
         </DropdownMenu.Item>
+        <DropdownMenu.Separator
+          className={index === array.length - 1 ? s.lastSeparator : s.dropdownMenuSeparator}
+        />
       </>
     )
   })
@@ -75,7 +61,6 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
         >
           <img alt={'Dropdown trigger'} src={triggerImage} />
         </DropdownMenu.Trigger>
-
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             align={'end'}
@@ -87,7 +72,7 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
             <div className={s.angle}></div>
             {variant === 'userInfo' && userInfo && (
               <>
-                <DropdownMenu.Item className={s.dropdownMenuItem} {...itemProps}>
+                <DropdownMenu.Item className={s.dropdownMenuItem}>
                   <div className={s.userSection}>
                     <img alt={'Dropdown item'} className={s.avatar} src={triggerImage} />
                     <div className={s.userInfo}>

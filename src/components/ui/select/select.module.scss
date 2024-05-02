@@ -25,10 +25,23 @@
 }
 
 .selectContent {
+  /* Скрыть полосу прокрутки в Firefox */
+  scrollbar-width: none;
+
+  overflow-y: auto;
+
   width: 210px;
+  max-height: 200px;
+
   border: 1px solid var(--color-dark-300);
   border-top: none;
   border-radius: 0 0 2px 2px;
+
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 .selectItem {

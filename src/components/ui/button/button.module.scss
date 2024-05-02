@@ -6,97 +6,65 @@
   align-items: center;
   justify-content: center;
 
+  width: fit-content;
   padding: 6px 28px;
 
   font-family: Roboto, sans-serif;
   font-size: 14px;
   font-weight: 700;
+  line-height: var(--line-height-m);
+  text-decoration: none;
 
   border: transparent;
   border-radius: 4px;
 
   &:focus-visible {
-    outline: 2px solid var(--color-info-500);
+    outline: 2px solid var(--color-info-700);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--color-light-100);
   }
 }
 
-// primary
 .primary {
   color: var(--color-light-100);
   background-color: var(--color-accent-500);
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
+
+  &:hover {
+    background-color: var(--color-accent-300);
+  }
+
+  &:active {
+    background-color: var(--color-accent-700);
+  }
+
+  &:disabled {
+    color: var(--color-light-900);
+    background-color: var(--color-accent-900);
+  }
 }
 
-.primary:active {
-  background-color: var(--color-accent-700);
-}
-
-.primary:hover {
-  background-color: var(--color-accent-300);
-}
-
-.primary:disabled {
-  color: var(--color-light-900);
-  background-color: var(--color-accent-900);
-}
-
-// secondary
 .secondary {
   color: var(--color-light-100);
   background-color: var(--color-dark-300);
   box-shadow: 0 4px 4px 0 rgb(77 86 96 / 13%);
-}
 
-.secondary:active {
-  background-color: var(--color-dark-500);
-}
+  &:hover {
+    background-color: var(--color-dark-100);
+  }
 
-.secondary:hover {
-  background-color: var(--color-dark-100);
-}
+  &:active {
+    background-color: var(--color-dark-500);
+  }
 
-.secondary:disabled {
-  color: var(--color-light-900);
-  background-color: var(--color-dark-300);
-}
-
-// tertiary
-.tertiary {
-  color: var(--color-accent-500);
-  background-color: transparent;
-  outline: 1px solid var(--color-accent-500);
-}
-
-.tertiary:active {
-  background-color: var(--color-accent-900);
-}
-
-.tertiary:hover {
-  background-color: var(--color-dark-500);
-}
-
-.tertiary:disabled {
-  color: var(--color-accent-900);
-  border: 1px solid var(--color-accent-900);
-}
-
-// link-button
-.link {
-  padding: 6px 12px;
-  color: var(--color-accent-500);
-  background-color: transparent;
-}
-
-.link:active {
-  color: var(--color-accent-700);
-}
-
-.link:hover {
-  color: var(--color-accent-300);
-}
-
-.link:disabled {
-  color: var(--color-accent-900);
+  &:disabled {
+    color: var(--color-light-900);
+    background-color: var(--color-dark-300);
+  }
 }
 
 .fullWidth {

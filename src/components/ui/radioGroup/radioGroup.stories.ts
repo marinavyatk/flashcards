@@ -3,12 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { RadioGroupComponent } from './'
 
 const meta = {
-  argTypes: {
-    radioItems: {
-      control: { type: 'radio' },
-      // options: ['primary', 'secondary', 'tertiary', 'link'],
-    },
-  },
+  argTypes: {},
   component: RadioGroupComponent,
   tags: ['autodocs'],
   title: 'Components/RadioGroup',
@@ -21,22 +16,26 @@ export const RadioGroup: Story = {
   args: {
     radioItems: [
       {
-        checked: false,
-        disabled: false,
         label: 'First item',
-        value: 'First item',
+        restProps: {
+          disabled: false,
+          value: 'First item',
+        },
       },
       {
-        checked: false,
-        disabled: false,
         label: 'Second item',
-        value: 'Second item',
+        restProps: {
+          disabled: false,
+          value: 'Second item',
+        },
       },
+
       {
-        checked: false,
-        disabled: false,
         label: 'Third item',
-        value: 'Third item',
+        restProps: {
+          disabled: false,
+          value: 'Third item',
+        },
       },
     ],
   },
@@ -46,22 +45,25 @@ export const RadioGroupDisabled: Story = {
   args: {
     radioItems: [
       {
-        checked: false,
-        disabled: true,
         label: 'Disabled item1',
-        value: 'First item',
+        restProps: {
+          disabled: true,
+          value: 'First item',
+        },
       },
       {
-        checked: false,
-        disabled: true,
         label: 'Disabled item2',
-        value: 'Second item',
+        restProps: {
+          disabled: true,
+          value: 'Second item',
+        },
       },
       {
-        checked: false,
-        disabled: true,
         label: 'Disabled item3',
-        value: 'Third item',
+        restProps: {
+          disabled: true,
+          value: 'Third item',
+        },
       },
     ],
   },

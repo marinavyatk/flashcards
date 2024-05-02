@@ -5,7 +5,7 @@ import { TabSwitcher } from './'
 const meta = {
   component: TabSwitcher,
   tags: ['autodocs'],
-  title: 'Components/Slider',
+  title: 'Components/TabSwitcher',
 } satisfies Meta<typeof TabSwitcher>
 
 export default meta

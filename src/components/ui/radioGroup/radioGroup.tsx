@@ -1,47 +1,49 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import * as RadioGroup from '@radix-ui/react-radio-group'
+import { RadioGroupItemProps, RadioGroupProps } from '@radix-ui/react-radio-group'
+import clsx from 'clsx'
 
 import s from './radioGroup.module.scss'
 
 type radioItem = {
-  checked: boolean
-  disabled: boolean
   label: string
-  value: string
+  restProps: RadioGroupItemProps
 }
 type RadioGroupComponentProps = {
-  className?: string
-  onChange?: () => void
-  radioItems?: radioItem[]
-} & ComponentPropsWithoutRef<'button'>
+  radioItems: radioItem[]
+} & RadioGroupProps
 export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupComponentProps>(
   (props: RadioGroupComponentProps, ref) => {
     const { className, onChange, radioItems = [], ...rest } = props
+    const classNames = clsx(s.radioRoot, className)
+
+    const radioGroupItems = radioItems.map(item => {
+      return (
+        <div
+          className={clsx(s.radioItem, item.restProps?.disabled && s.disabled)}
+          key={item.restProps?.value}
+        >
+          <div className={s.radioButton}>
+            <RadioGroup.Item
+              className={s.radioSign}
+              ref={ref}
+              {...item.restProps}
+              id={item.restProps.value}
+            >
+              <RadioGroup.Indicator className={s.radioIndicator} />
+            </RadioGroup.Item>
+          </div>
+          <label className={s.radioLabel} htmlFor={item.restProps.value}>
+            {item.label}
+          </label>
+        </div>
+      )
+    })
 
     return (
-      <RadioGroup.Root
-        className={`${s.radioRoot} ${className && className} `}
-        onValueChange={onChange}
-      >
-        {radioItems.length &&
-          radioItems.map(item => {
-            return (
-              <div className={`${s.radioItem} ${item.disabled ? s.disabled : ''}`} key={item.value}>
-                <div className={s.radioButton}>
-                  <RadioGroup.Item
-                    className={s.radioSign}
-                    disabled={item.disabled}
-                    ref={ref}
-                    value={item.value}
-                  >
-                    <RadioGroup.Indicator className={s.radioIndicator} />
-                  </RadioGroup.Item>
-                </div>
-                <label className={s.radioLabel}>{item.label}</label>
-              </div>
-            )
-          })}
+      <RadioGroup.Root className={classNames} {...rest}>
+        {radioGroupItems}
       </RadioGroup.Root>
     )
   }

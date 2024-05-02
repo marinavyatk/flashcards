@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import OutIcon from '@/assets/svg/icon-out.svg?react'
+
 import { Button } from './'
 
 const meta = {
   argTypes: {
     variant: {
       control: { type: 'radio' },
-      options: ['primary', 'secondary', 'tertiary', 'link'],
+      options: ['primary', 'secondary'],
     },
   },
   component: Button,
@@ -25,6 +27,20 @@ export const Primary: Story = {
   },
 }
 
+export const PrimaryWithIcon: Story = {
+  args: {
+    disabled: false,
+    variant: 'primary',
+  },
+  render: args => {
+    return (
+      <Button {...args}>
+        <OutIcon /> Primary button with icon
+      </Button>
+    )
+  },
+}
+
 export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
@@ -32,18 +48,12 @@ export const Secondary: Story = {
     variant: 'secondary',
   },
 }
-export const Tertiary: Story = {
-  args: {
-    children: 'Tertiary Button',
-    disabled: false,
-    variant: 'tertiary',
-  },
-}
+
 export const Link: Story = {
   args: {
+    as: 'a',
     children: 'Link Button',
     disabled: false,
-    variant: 'link',
   },
 }
 

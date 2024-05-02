@@ -1,47 +1,33 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react'
 
-import { CheckboxChecked } from '@/components/ui/checkbox/CheckboxChecked'
-import { CheckboxUnchecked } from '@/components/ui/checkbox/checkboxUnchecked'
+import CheckboxCheckedIcon from '@/assets/svg/checkbox-checked.svg?react'
+import CheckboxUncheckedIcon from '@/assets/svg/checkbox-unchecked.svg?react'
 import * as Checkbox from '@radix-ui/react-checkbox'
+import { CheckboxProps } from '@radix-ui/react-checkbox'
+import clsx from 'clsx'
 
 import s from './checkbox.module.scss'
 
 export type CheckboxComponentProps = {
-  checkboxTitle?: string
-  checked?: boolean
-  disabled?: boolean
-  onCheckedChange?: () => void
-  required?: boolean
-} & ComponentPropsWithoutRef<'button'>
+  divProps?: ComponentPropsWithoutRef<'div'>
+  label?: string
+} & CheckboxProps
 
 export const CheckboxComponent = forwardRef<HTMLButtonElement, CheckboxComponentProps>(
   (props: CheckboxComponentProps, ref) => {
-    const {
-      checkboxTitle,
-      checked = false,
-      disabled,
-      onCheckedChange,
-      required = false,
-      ...rest
-    } = props
+    const { divProps, label, ...rest } = props
+
+    const classNames = clsx(s.checkbox, divProps?.className)
 
     return (
-      <div className={`${s.checkbox} ${disabled ? s.disabled : ''}`}>
-        <Checkbox.Root
-          checked={checked}
-          className={s.checkboxRoot}
-          disabled={disabled}
-          onCheckedChange={onCheckedChange}
-          ref={ref}
-          required={required}
-          {...rest}
-        >
+      <div className={classNames} {...divProps}>
+        <Checkbox.Root className={s.checkboxRoot} id={rest.name} ref={ref} {...rest}>
           <Checkbox.Indicator className={s.checkboxIndicator}>
-            <CheckboxChecked />
+            <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />
           </Checkbox.Indicator>
-          {!checked && <CheckboxUnchecked />}
+          {!rest.checked && <CheckboxUncheckedIcon className={s.CheckboxUncheckedIcon} />}
         </Checkbox.Root>
-        <label>{checkboxTitle}</label>
+        <label htmlFor={rest.name}>{label}</label>
       </div>
     )
   }

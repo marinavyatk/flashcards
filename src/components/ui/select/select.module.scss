@@ -25,7 +25,6 @@
 }
 
 .selectContent {
-  /* Скрыть полосу прокрутки в Firefox */
   scrollbar-width: none;
 
   overflow-y: auto;
@@ -62,6 +61,10 @@
 .selectTrigger[data-state='open'] {
   border: 1px solid var(--color-dark-100);
   border-radius: 2px 2px 0 0;
+
+  .selectArrow {
+    transform: rotate(180deg);
+  }
 }
 
 .disabled {
@@ -73,10 +76,6 @@
 
 .disabled .selectArrow {
   fill: var(--color-dark-300);
-}
-
-.selectTrigger[data-state='closed'] .selectArrow {
-  transform: rotate(180deg);
 }
 
 .selectContent[data-state='open'] {

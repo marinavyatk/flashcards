@@ -10,7 +10,7 @@ type radioItem = {
   label: string
   restProps: RadioGroupItemProps
 }
-type RadioGroupComponentProps = {
+export type RadioGroupComponentProps = {
   radioItems: radioItem[]
 } & RadioGroupProps
 export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupComponentProps>(

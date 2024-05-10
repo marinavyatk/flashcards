@@ -1,0 +1,127 @@
+.textField {
+  .textFieldContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+    justify-content: space-between;
+
+    height: fit-content;
+    padding: 6px 12px;
+
+    border: 1px solid var(--color-dark-300);
+    border-radius: 2px;
+
+    .startElements {
+      display: flex;
+      flex-grow: 2;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .input {
+      resize: none;
+
+      flex-grow: 2;
+
+      max-height: 200px;
+      padding: 0;
+
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      color: var(--light-100);
+
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      outline: none;
+
+      &::placeholder {
+        color: var(--color-dark-100);
+      }
+    }
+
+    .endButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: transparent;
+      border: none;
+
+      &:has(.deleteIcon) {
+        display: none;
+      }
+    }
+
+    .deleteIcon {
+      display: none;
+    }
+
+    &:hover:not(:has(:disabled)) {
+      background: var(--color-dark-700);
+      border-color: var(--color-dark-100);
+    }
+
+    &:focus-within:not(:has(:disabled)) {
+      border-color: var(--color-info-700);
+      outline: 1px solid var(--color-info-700);
+
+      .endButton {
+        display: flex;
+      }
+
+      .deleteIcon {
+        display: block;
+      }
+    }
+
+    &:active:not(:has(:disabled)) {
+      border-color: var(--color-light-100);
+    }
+  }
+
+  &.disabled {
+    .textFieldContainer {
+      border-color: var(--color-dark-300);
+
+      svg {
+        fill: var(--color-dark-300);
+      }
+
+      .input {
+        &::placeholder {
+          color: var(--color-dark-300);
+        }
+      }
+    }
+  }
+
+  &.error {
+    .textFieldContainer {
+      border-color: var(--color-danger-300);
+
+      &:focus-within {
+        border-color: var(--color-danger-300);
+        outline: 1px solid var(--color-danger-300);
+      }
+
+      .input {
+        color: var(--color-danger-300);
+      }
+
+      &:hover {
+        border-color: var(--color-danger-300);
+      }
+    }
+
+    .errorMessage {
+      position: absolute;
+      color: var(--color-danger-300);
+    }
+  }
+
+  .label {
+    color: var(--color-dark-100);
+  }
+}

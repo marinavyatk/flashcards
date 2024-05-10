@@ -1,13 +1,13 @@
 import { ComponentPropsWithoutRef, LegacyRef, forwardRef, useState } from 'react'
 
-import { ArrowDown } from '@/utils/images/ArrowDown'
-// import * as Select from '@radix-ui/react-select'
+import ArrowDownIcon from '@/assets/svg/arrowDown.svg?react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenuContentProps,
   DropdownMenuItemProps,
   DropdownMenuProps,
 } from '@radix-ui/react-dropdown-menu'
+import clsx from 'clsx'
 
 import s from './select.module.scss'
 
@@ -44,12 +44,14 @@ export const SelectComponent = forwardRef(
       )
     })
 
+    const classNames = clsx(restProps.className, disabled && s.disabled)
+
     return (
-      <div {...restProps} className={`restProps.className ${disabled ? s.disabled : ''}`}>
+      <div {...restProps} className={classNames}>
         <DropdownMenu.Root {...rootProps} modal={false}>
           <DropdownMenu.Trigger className={s.selectTrigger}>
             <span ref={ref}>{selectedValue}</span>
-            <ArrowDown className={s.selectArrow} />
+            <ArrowDownIcon className={s.selectArrow} />
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Portal>

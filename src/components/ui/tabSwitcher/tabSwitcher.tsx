@@ -1,49 +1,39 @@
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { useState } from 'react'
 
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import { ToggleGroupItemProps, ToggleGroupSingleProps } from '@radix-ui/react-toggle-group'
+import clsx from 'clsx'
 
 import s from './tabSwitcher.module.scss'
 
 export type TabSwitcherProps = {
   itemProps: ToggleGroupItemProps[]
-  rootProps?: ToggleGroupSingleProps
-} & ComponentPropsWithoutRef<'div'>
-export const TabSwitcher = ({
-  className,
-  itemProps,
-  rootProps,
-  ...restProps
-}: TabSwitcherProps) => {
-  const [value, setValue] = useState(rootProps?.defaultValue || '')
-  const items = itemProps?.map((switcher, index) => {
+} & ToggleGroupSingleProps
+export const TabSwitcher = ({ className, itemProps, ...restProps }: TabSwitcherProps) => {
+  const [value, setValue] = useState(restProps?.defaultValue || '')
+  const items = itemProps?.map(toggleItem => {
     return (
-      <ToggleGroup.Item
-        {...itemProps?.[index]}
-        className={s.toggleItem}
-        key={switcher.value}
-        value={switcher.value}
-      >
-        {switcher.value}
+      <ToggleGroup.Item className={s.toggleItem} key={toggleItem.value} {...toggleItem}>
+        {toggleItem.value}
       </ToggleGroup.Item>
     )
   })
 
+  const classNames = clsx(s.toggleRoot, className)
+
   return (
-    <div {...restProps} className={className}>
-      <ToggleGroup.Root
-        {...rootProps}
-        className={s.toggleRoot + ' ' + rootProps?.className}
-        onValueChange={value => {
-          if (value) {
-            setValue(value)
-          }
-        }}
-        type={'single'}
-        value={value}
-      >
-        {items}
-      </ToggleGroup.Root>
-    </div>
+    <ToggleGroup.Root
+      {...restProps}
+      className={classNames}
+      onValueChange={value => {
+        if (value) {
+          setValue(value)
+        }
+      }}
+      type={'single'}
+      value={value}
+    >
+      {items}
+    </ToggleGroup.Root>
   )
 }

@@ -2,6 +2,7 @@ import { ComponentPropsWithoutRef, useState } from 'react'
 
 import * as Slider from '@radix-ui/react-slider'
 import { SliderProps } from '@radix-ui/react-slider'
+import clsx from 'clsx'
 
 import s from './slider.module.scss'
 
@@ -15,8 +16,10 @@ export const SliderComponent = ({ className, rootProps, ...restProps }: SliderCo
     setValuesValue(values)
   }
 
+  const classNames = clsx(s.sliderContainer, className)
+
   return (
-    <div className={s.sliderContainer + ' ' + className} {...restProps}>
+    <div className={classNames} {...restProps}>
       <div className={s.extremeNumber}>{values[0]}</div>
 
       <Slider.Root

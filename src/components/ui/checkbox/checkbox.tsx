@@ -21,10 +21,10 @@ export const CheckboxComponent = forwardRef<
   const { className, containerProps, id, label, ...rest } = props
   const generatedId = useId()
   const finalId = id ?? generatedId
-  const classNames = clsx(s.checkbox, className)
+  const classNames = clsx(s.checkbox, containerProps?.className)
 
   return (
-    <div className={classNames} {...containerProps}>
+    <div {...containerProps} className={classNames}>
       <Checkbox.Root className={s.checkboxRoot} id={finalId} ref={ref} {...rest}>
         <Checkbox.Indicator className={s.checkboxIndicator}>
           <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />

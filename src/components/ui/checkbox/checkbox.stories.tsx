@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { useArgs } from '@storybook/preview-api'
-
 import { CheckboxComponent } from './'
 
 const meta = {
@@ -43,19 +41,8 @@ export const CheckboxCheckedDisabled: Story = {
   },
 }
 
-export const Example: Story = {
+export const CheckboxCheckedUncontrolled: Story = {
   args: {
-    checked: true,
     label: 'Checkbox',
-  },
-
-  render: args => {
-    const [{ isChecked }, updateArgs] = useArgs()
-
-    function onChange() {
-      updateArgs({ isChecked: !isChecked })
-    }
-
-    return <CheckboxComponent {...args} checked={isChecked} onCheckedChange={onChange} />
   },
 }

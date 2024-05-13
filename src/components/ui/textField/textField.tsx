@@ -1,6 +1,15 @@
-import { ComponentPropsWithoutRef, ElementType, Ref, forwardRef, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  ComponentPropsWithoutRef,
+  ElementType,
+  Ref,
+  forwardRef,
+  useRef,
+  useState,
+} from 'react'
 
 import DeleteIcon from '@/assets/svg/deleteIcon.svg?react'
+import HidePasswordIcon from '@/assets/svg/hidePasswordIcon.svg?react'
 import SearchIcon from '@/assets/svg/searchIcon.svg?react'
 import ShowPasswordIcon from '@/assets/svg/showPasswordIcon.svg?react'
 import { useCombinedRef } from '@/common/customHooks'
@@ -9,11 +18,26 @@ import clsx from 'clsx'
 
 import s from './textField.module.scss'
 
+function getFinalType(
+  type?: TextFieldProps['type'],
+  showPassword?: boolean
+): TextFieldProps['type'] {
+  if (type !== 'password') {
+    return type
+  }
+  if (showPassword) {
+    return 'text'
+  }
+
+  return 'password'
+}
+
 export type TextFieldProps<T extends ElementType = 'input'> = {
   as?: T
-  divProps?: ComponentPropsWithoutRef<'div'>
+  containerProps?: ComponentPropsWithoutRef<'div'>
   errorMessage?: string
   label?: string
+  onValueChange?: (value: string) => void
   variant?: 'password' | 'primary' | 'search'
 } & ComponentPropsWithoutRef<T>
 
@@ -26,57 +50,71 @@ export const TextField = forwardRef(
     const {
       as: Component = 'input',
       className,
-      divProps,
+      containerProps,
       errorMessage,
       label,
-      variant = 'primary',
+      onValueChange,
+      type,
       ...restProps
     } = props
-    const [hidden, setHidden] = useState(true)
-    const classNames = clsx(s.textField, s[variant], className, {
+    const [isPasswordShown, setIsPasswordShown] = useState(false)
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
+    const finalRef = useCombinedRef(ref, inputRef)
+    const containerClassNames = clsx(s.textField, containerProps?.className, {
       [s.disabled]: restProps.disabled,
       [s.error]: errorMessage,
     })
-    const type = variant === 'password' && hidden ? 'password' : 'text'
+    const inputClassNames = clsx(s.input, className)
+    const finalType = getFinalType(type, isPasswordShown)
     const handleTogglePassword = () => {
-      setHidden(!hidden)
+      setIsPasswordShown(!isPasswordShown)
+    }
+    const isPasswordVisibilityButtonShown = type === 'password'
+    const isDeleteButtonShown = type === 'search'
+
+    function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+      restProps.onChange?.(event)
+      onValueChange?.(event.target.value)
     }
 
-    const inputRef = useRef<HTMLInputElement>(null)
-
-    const handleRemoveInputContent = () => {
+    const handleDeleteInput = () => {
       if (inputRef.current) {
         inputRef.current.value = ''
+        onValueChange?.('')
       }
     }
 
-    const finalRef = useCombinedRef(inputRef, ref)
-
     return (
-      <div {...divProps} className={classNames}>
+      <div {...containerProps} className={containerClassNames}>
         <Typography as={'label'} className={s.label} htmlFor={restProps.name} variant={'body2'}>
           {label}
         </Typography>
         <div className={s.textFieldContainer}>
           <div className={s.startElements}>
-            {variant === 'search' && <SearchIcon className={s.searchIcon} />}
+            {finalType === 'search' && <SearchIcon className={s.searchIcon} />}
 
             <Component
               {...restProps}
-              className={s.input}
+              className={inputClassNames}
               disabled={restProps.disabled}
               id={restProps.name}
+              onChange={handleChange}
               ref={finalRef}
-              type={type}
+              type={finalType}
             />
           </div>
-          {variant !== 'primary' && (
-            <button className={s.endButton}>
-              {variant === 'password' ? (
-                <ShowPasswordIcon onClick={handleTogglePassword} />
+          {isPasswordVisibilityButtonShown && (
+            <button className={s.endButton} type={'button'}>
+              {isPasswordShown ? (
+                <HidePasswordIcon onClick={handleTogglePassword} />
               ) : (
-                <DeleteIcon className={s.deleteIcon} onClick={handleRemoveInputContent} />
+                <ShowPasswordIcon onClick={handleTogglePassword} />
               )}
+            </button>
+          )}
+          {isDeleteButtonShown && (
+            <button className={s.endButton} type={'button'}>
+              <DeleteIcon className={s.deleteIcon} onClick={handleDeleteInput} />
             </button>
           )}
         </div>

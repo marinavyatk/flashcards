@@ -1,7 +1,8 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, useId } from 'react'
 
 import CheckboxCheckedIcon from '@/assets/svg/checkbox-checked.svg?react'
 import CheckboxUncheckedIcon from '@/assets/svg/checkbox-unchecked.svg?react'
+import { Typography } from '@/components/ui/typography'
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { CheckboxProps } from '@radix-ui/react-checkbox'
 import clsx from 'clsx'
@@ -9,26 +10,30 @@ import clsx from 'clsx'
 import s from './checkbox.module.scss'
 
 export type CheckboxComponentProps = {
-  divProps?: ComponentPropsWithoutRef<'div'>
+  containerProps?: ComponentPropsWithoutRef<'div'>
   label?: string
 } & CheckboxProps
 
-export const CheckboxComponent = forwardRef<HTMLButtonElement, CheckboxComponentProps>(
-  (props: CheckboxComponentProps, ref) => {
-    const { divProps, label, ...rest } = props
+export const CheckboxComponent = forwardRef<
+  ElementRef<typeof Checkbox.Root>,
+  CheckboxComponentProps
+>((props: CheckboxComponentProps, ref) => {
+  const { className, containerProps, id, label, ...rest } = props
+  const generatedId = useId()
+  const finalId = id ?? generatedId
+  const classNames = clsx(s.checkbox, className)
 
-    const classNames = clsx(s.checkbox, divProps?.className)
-
-    return (
-      <div className={classNames} {...divProps}>
-        <Checkbox.Root className={s.checkboxRoot} id={rest.name} ref={ref} {...rest}>
-          <Checkbox.Indicator className={s.checkboxIndicator}>
-            <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />
-          </Checkbox.Indicator>
-          {!rest.checked && <CheckboxUncheckedIcon className={s.CheckboxUncheckedIcon} />}
-        </Checkbox.Root>
-        <label htmlFor={rest.name}>{label}</label>
-      </div>
-    )
-  }
-)
+  return (
+    <div className={classNames} {...containerProps}>
+      <Checkbox.Root className={s.checkboxRoot} id={finalId} ref={ref} {...rest}>
+        <Checkbox.Indicator className={s.checkboxIndicator}>
+          <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />
+        </Checkbox.Indicator>
+        <CheckboxUncheckedIcon className={s.checkboxUncheckedIcon} />
+      </Checkbox.Root>
+      <Typography as={'label'} htmlFor={finalId} variant={'body2'}>
+        {label}
+      </Typography>
+    </div>
+  )
+})

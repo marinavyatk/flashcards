@@ -1,7 +1,10 @@
 .checkbox {
   display: flex;
+  flex-wrap: nowrap;
   gap: 2px;
   align-items: center;
+
+  width: fit-content;
 
   font-family: Roboto, sans-serif;
   font-size: 14px;
@@ -25,6 +28,10 @@
   .CheckboxUncheckedIcon {
     width: 18px;
     height: 18px;
+  }
+
+  &[data-state='checked'] .checkboxUncheckedIcon {
+    display: none;
   }
 
   .checkboxIndicator {
@@ -56,7 +63,7 @@
       }
     }
 
-    .CheckboxUncheckedIcon {
+    .checkboxUncheckedIcon {
       fill: var(--color-dark-100);
     }
   }

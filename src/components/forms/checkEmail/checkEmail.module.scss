@@ -1,0 +1,24 @@
+.checkEmail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding-bottom: 44px;
+
+  .header {
+    margin: 0 auto 27px;
+  }
+
+  .checkEmailIcon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .instruction {
+    margin: 19px 0 65px;
+    color: var(--color-light-900);
+    text-align: center;
+    opacity: 0.5;
+  }
+}

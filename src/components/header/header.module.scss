@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--Dark-700, #171717);;
+  background: var(--Dark-700, #171717);
 
   padding: 12px 137px;
 
@@ -11,14 +11,13 @@
   border-bottom: 1px solid rgb(0 0 0 / 10%);
 }
 
-.header img{
+.header img {
   display: inline-block;
   vertical-align: top;
   width: 157px;
   height: 36px;
 }
 
-.header button{
+.header button {
   margin: 12px 0px 12px 137px;
-
 }

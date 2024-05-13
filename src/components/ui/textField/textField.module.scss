@@ -39,6 +39,16 @@
       &::placeholder {
         color: var(--color-dark-100);
       }
+
+      &[type='search']::-webkit-search-cancel-button {
+        display: none;
+      }
+
+      &:-webkit-autofill {
+        box-shadow: 0 0 0 1000px var(--color-dark-700) inset;
+
+        -webkit-text-fill-color: var(--color-light-100);
+      }
     }
 
     .endButton {
@@ -48,6 +58,11 @@
 
       background-color: transparent;
       border: none;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
 
       &:has(.deleteIcon) {
         display: none;

@@ -31,49 +31,49 @@ export const Primary: Story = {
   args: {
     disabled: false,
     placeholder: 'primary input',
-    variant: 'primary',
   },
 }
 export const PrimaryDisabled: Story = {
   args: {
     disabled: true,
     placeholder: 'primary input disabled',
-    variant: 'primary',
   },
 }
 export const Password: Story = {
   args: {
     disabled: false,
     placeholder: 'password input',
-    variant: 'password',
+    type: 'password',
   },
 }
 export const PasswordDisabled: Story = {
   args: {
     disabled: true,
     placeholder: 'password input disabled',
-    variant: 'password',
+    type: 'password',
   },
 }
 export const Search: Story = {
   args: {
     disabled: false,
     placeholder: 'primary input',
-    variant: 'search',
+    type: 'search',
   },
 }
 export const SearchDisabled: Story = {
   args: {
     disabled: true,
     placeholder: 'primary input disabled',
-    variant: 'search',
+    type: 'search',
   },
 }
 export const Textarea: Story = {
   args: {
     as: TextareaAutosize,
     disabled: false,
+    onValueChange: () => {
+      alert('reset')
+    },
     placeholder: 'primary input',
-    variant: 'primary',
   },
 }

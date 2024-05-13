@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useId } from 'react'
 
 import * as RadioGroup from '@radix-ui/react-radio-group'
 import { RadioGroupItemProps, RadioGroupProps } from '@radix-ui/react-radio-group'
@@ -15,26 +15,23 @@ export type RadioGroupComponentProps = {
 } & RadioGroupProps
 export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupComponentProps>(
   (props: RadioGroupComponentProps, ref) => {
-    const { className, onChange, radioItems = [], ...rest } = props
+    const { className, radioItems = [], ...restProps } = props
     const classNames = clsx(s.radioRoot, className)
-
+    const generatedId = useId()
     const radioGroupItems = radioItems.map(item => {
+      const finalId = restProps.id ?? generatedId + item.restProps.value
+
       return (
         <div
           className={clsx(s.radioItem, item.restProps?.disabled && s.disabled)}
           key={item.restProps?.value}
         >
           <div className={s.radioButton}>
-            <RadioGroup.Item
-              className={s.radioSign}
-              ref={ref}
-              {...item.restProps}
-              id={item.restProps.value}
-            >
+            <RadioGroup.Item className={s.radioSign} ref={ref} {...item.restProps} id={finalId}>
               <RadioGroup.Indicator className={s.radioIndicator} />
             </RadioGroup.Item>
           </div>
-          <label className={s.radioLabel} htmlFor={item.restProps.value}>
+          <label className={s.radioLabel} htmlFor={finalId}>
             {item.label}
           </label>
         </div>
@@ -42,7 +39,7 @@ export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupCompo
     })
 
     return (
-      <RadioGroup.Root className={classNames} {...rest}>
+      <RadioGroup.Root className={classNames} {...restProps}>
         {radioGroupItems}
       </RadioGroup.Root>
     )

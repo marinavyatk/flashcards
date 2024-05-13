@@ -12,6 +12,9 @@ const meta = {
     },
   },
   component: Button,
+  parameters: {
+    layout: 'centered',
+  },
   tags: ['autodocs'],
   title: 'Components/Button',
 } satisfies Meta<typeof Button>
@@ -29,15 +32,13 @@ export const Primary: Story = {
 
 export const PrimaryWithIcon: Story = {
   args: {
+    children: (
+      <>
+        <OutIcon /> Primary button with icon
+      </>
+    ),
     disabled: false,
     variant: 'primary',
-  },
-  render: args => {
-    return (
-      <Button {...args}>
-        <OutIcon /> Primary button with icon
-      </Button>
-    )
   },
 }
 
@@ -63,5 +64,8 @@ export const FullWidth: Story = {
     disabled: false,
     fullWidth: true,
     variant: 'primary',
+  },
+  parameters: {
+    layout: 'padded',
   },
 }

@@ -4,6 +4,10 @@ import {
   DecksListResponse,
   DeleteDeckArgs,
   GetDecksArgs,
+  MinMaxCardAmountResponse,
+  RetrieveCardsInDeckArgs,
+  RetrieveCardsInDeckResponse,
+  RetrieveDeckArgs,
   UpdateDeckArgs,
 } from '@/services/decks/decks.types'
 import { flashcardsApi } from '@/services/flashcards-api'
@@ -35,6 +39,25 @@ export const decksApi = flashcardsApi.injectEndpoints({
           url: '/v2/decks',
         }),
       }),
+
+      getMinMaxCardAmount: builder.query<MinMaxCardAmountResponse, void>({
+        query: () => ({
+          method: 'GET',
+          url: '/v2/decks/min-max-cards',
+        }),
+      }),
+      retrieveCardsInDeck: builder.query<RetrieveCardsInDeckResponse, RetrieveCardsInDeckArgs>({
+        query: ({ id, ...args }) => ({
+          params: args,
+          url: `/v1/decks/${id}/cards`,
+        }),
+      }),
+      retrieveDeck: builder.query<Deck, RetrieveDeckArgs>({
+        query: args => ({
+          method: 'GET',
+          url: `/v1/decks/${args.id}`,
+        }),
+      }),
       updateDeck: builder.mutation<Deck, UpdateDeckArgs>({
         invalidatesTags: ['Decks'],
         query: ({ id, ...body }) => ({
@@ -51,5 +74,8 @@ export const {
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
+  useGetMinMaxCardAmountQuery,
+  useRetrieveCardsInDeckQuery,
+  useRetrieveDeckQuery,
   useUpdateDeckMutation,
 } = decksApi

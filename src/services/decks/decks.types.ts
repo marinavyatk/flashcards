@@ -1,3 +1,5 @@
+import { Card } from '@/services/cards/cardsTypes'
+
 export type DecksListResponse = {
   items: Deck[]
   pagination: Pagination
@@ -46,4 +48,24 @@ export type UpdateDeckArgs = {
 
 export type DeleteDeckArgs = {
   id: string
+}
+
+export type MinMaxCardAmountResponse = {
+  max: number
+  min: number
+}
+
+export type RetrieveDeckArgs = DeleteDeckArgs
+
+export type RetrieveCardsInDeckArgs = {
+  answer?: string
+  currentPage?: number
+  id: string
+  itemsPerPage?: number
+  orderBy?: null | string
+  question?: string
+}
+export type RetrieveCardsInDeckResponse = {
+  items: Card[]
+  pagination: Pagination
 }

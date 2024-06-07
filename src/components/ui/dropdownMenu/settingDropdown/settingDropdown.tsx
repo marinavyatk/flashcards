@@ -4,10 +4,11 @@ import DeleteIcon from '@/assets/svg/dropdownMenu/deleteIcon.svg?react'
 import EditIcon from '@/assets/svg/dropdownMenu/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/dropdownMenu/playIcon.svg?react'
 import SettingIcon from '@/assets/svg/dropdownMenu/settingIcon.svg?react'
-// import SettingIcon from '@/assets/svg/dropdownMenu/settingIcon.svg'
-import { DropdownMenuComponent } from '@/components/ui/dropdownMenu'
-import { DropdownItem } from '@/components/ui/dropdownMenu/dropdownItem/dropdownItem'
-import { DropdownSeparator } from '@/components/ui/dropdownMenu/dropdownSeparator/dropdownSeparator'
+import {
+  DropdownItem,
+  DropdownMenuComponent,
+  DropdownSeparator,
+} from '@/components/ui/dropdownMenu'
 import { Typography } from '@/components/ui/typography'
 
 import s from './settingDropdown.module.scss'

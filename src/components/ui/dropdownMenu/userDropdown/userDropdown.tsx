@@ -2,9 +2,11 @@ import { ComponentPropsWithoutRef } from 'react'
 
 import OutIcon from '@/assets/svg/dropdownMenu/outIcon.svg?react'
 import ProfileIcon from '@/assets/svg/dropdownMenu/userIcon.svg?react'
-import { DropdownMenuComponent } from '@/components/ui/dropdownMenu'
-import { DropdownItem } from '@/components/ui/dropdownMenu/dropdownItem/dropdownItem'
-import { DropdownSeparator } from '@/components/ui/dropdownMenu/dropdownSeparator/dropdownSeparator'
+import {
+  DropdownItem,
+  DropdownMenuComponent,
+  DropdownSeparator,
+} from '@/components/ui/dropdownMenu'
 import { Typography } from '@/components/ui/typography'
 
 import s from './userDropdown.module.scss'

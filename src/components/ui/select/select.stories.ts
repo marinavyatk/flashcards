@@ -13,31 +13,31 @@ type Story = StoryObj<typeof meta>
 
 export const Select: Story = {
   args: {
-    itemProps: [{ textValue: 'First option' }, { textValue: 'Second option' }],
-    triggerTitle: 'Choose option',
+    itemProps: [{ value: 'First option' }, { value: 'Second option' }],
+    triggerValue: { placeholder: 'Choose option' },
   },
 }
 export const SelectDisabled: Story = {
   args: {
-    disabled: true,
-    itemProps: [{ textValue: 'First option' }, { textValue: 'Second option' }],
-    triggerTitle: 'Choose option',
+    itemProps: [{ value: 'First option' }, { value: 'Second option' }],
+    rootProps: { disabled: true },
+    triggerValue: { placeholder: 'Choose option' },
   },
 }
 export const SelectWithFewElements: Story = {
   args: {
     itemProps: [
-      { textValue: 'First option' },
-      { textValue: 'Second option' },
-      { textValue: 'Third option' },
-      { textValue: 'Fourth option' },
-      { textValue: 'Fifth option' },
-      { textValue: 'Sixth option' },
-      { textValue: 'Seventh option' },
-      { textValue: 'Eighth option' },
-      { textValue: 'Ninth option' },
-      { textValue: 'Tenth option' },
+      { value: 'First option' },
+      { value: 'Second option' },
+      { value: 'Third option' },
+      { value: 'Fourth option' },
+      { value: 'Fifth option' },
+      { value: 'Sixth option' },
+      { value: 'Seventh option' },
+      { value: 'Eighth option' },
+      { value: 'Ninth option' },
+      { value: 'Tenth option' },
     ],
-    triggerTitle: 'Choose option',
+    triggerValue: { placeholder: 'Choose option' },
   },
 }

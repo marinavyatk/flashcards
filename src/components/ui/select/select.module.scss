@@ -1,16 +1,15 @@
 .selectTrigger {
+  cursor: pointer;
   user-select: none;
 
   display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
 
-  width: 210px;
   padding: 6px 12px;
 
-  line-height: var(--line-height-m);
-
-  background-color: transparent;
+  background-color: var(--color-dark-500);
   border: 1px solid var(--color-dark-300);
   border-radius: 2px;
   outline: none;
@@ -22,30 +21,25 @@
   &:focus-visible {
     border: 1px solid var(--color-info-700);
   }
+
+  &:disabled {
+    color: var(--color-dark-300);
+    background-color: var(--color-dark-500);
+    border: 1px solid var(--color-dark-300);
+  }
 }
 
 .selectContent {
-  scrollbar-width: none;
-
-  overflow-y: auto;
-
-  width: 210px;
-  max-height: 200px;
-
+  width: var(--radix-select-trigger-width);
   border: 1px solid var(--color-dark-300);
   border-top: none;
   border-radius: 0 0 2px 2px;
-
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    width: 0;
-  }
 }
 
 .selectItem {
   display: block;
   padding: 6px 12px;
+  background-color: var(--color-dark-500);
   outline: none;
 
   &:hover {
@@ -58,6 +52,11 @@
   fill: var(--color-light-100);
 }
 
+.selectTrigger:disabled .selectArrow {
+  pointer-events: none;
+  fill: var(--color-dark-300);
+}
+
 .selectTrigger[data-state='open'] {
   border: 1px solid var(--color-dark-100);
   border-radius: 2px 2px 0 0;
@@ -67,18 +66,11 @@
   }
 }
 
-.disabled {
-  pointer-events: none;
-  color: var(--color-dark-300);
-  background-color: transparent;
-  border-color: var(--color-dark-300);
-}
-
-.disabled .selectArrow {
-  fill: var(--color-dark-300);
-}
-
 .selectContent[data-state='open'] {
   border: 1px solid var(--color-dark-100);
   border-top: none;
+}
+
+[data-highlighted] {
+  background-color: var(--color-dark-500);
 }

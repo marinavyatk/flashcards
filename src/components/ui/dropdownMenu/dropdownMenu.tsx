@@ -1,7 +1,11 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { DropdownMenuContentProps, DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
+import {
+  DropdownMenuContentProps,
+  DropdownMenuItemProps,
+  DropdownMenuProps,
+} from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdownMenu.module.scss'
 
@@ -33,4 +37,13 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
       </DropdownMenu.Root>
     </div>
   )
+}
+
+export type DropdownItemProps = DropdownMenuItemProps
+export const DropdownItem = (props: DropdownItemProps) => {
+  return <DropdownMenu.Item {...props} className={props.className} />
+}
+
+export const DropdownSeparator = () => {
+  return <DropdownMenu.Separator className={s.separator} />
 }

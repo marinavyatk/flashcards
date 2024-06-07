@@ -1,0 +1,21 @@
+.trigger {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+}
+
+.item {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+
+  img,
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}

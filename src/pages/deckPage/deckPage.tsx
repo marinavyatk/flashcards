@@ -1,5 +1,11 @@
 //Временная страница для настройки запросов
 
+import { Modal } from '@/components/ui/modal/modal'
+
 export function DecksPage() {
-  return <div></div>
+  return (
+    <div>
+      <Modal modalHeader={'que'}>HJjhejr kjfnkr???</Modal>
+    </div>
+  )
 }

@@ -21,7 +21,14 @@ export const UserDropdown = (props: UserDropdownProps) => {
 
   return (
     <DropdownMenuComponent
-      trigger={<img alt={'open menu'} className={s.trigger} src={avatar} />}
+      trigger={
+        <div className={s.trigger}>
+          <Typography as={'span'} className={s.name} variant={'subtitle1'}>
+            {name}
+          </Typography>
+          <img alt={'open menu'} className={s.trigger} src={avatar} />
+        </div>
+      }
       {...restProps}
       className={className}
       contentProps={{ alignOffset: -5 }}

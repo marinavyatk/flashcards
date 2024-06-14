@@ -1,0 +1,12 @@
+.appPagination {
+  display: flex;
+  gap: 24px;
+  width: 535px;
+}
+
+.selectWithText {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12px;
+  align-items: center;
+}

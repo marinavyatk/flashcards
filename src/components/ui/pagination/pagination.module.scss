@@ -1,0 +1,68 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  color: var(--color-light-100);
+  list-style: none;
+
+  .paginationItem {
+    all: unset;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 2px;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-info-900);
+    }
+
+    &:hover {
+      background-color: var(--color-dark-500);
+    }
+
+    &.selected {
+      color: var(--color-dark-900);
+      background-color: var(--color-light-100);
+    }
+  }
+
+  .paginationDots {
+    width: 24px;
+    height: 24px;
+  }
+
+  .arrowRight {
+    transform: rotate(180deg);
+  }
+
+  .arrowLeft,
+  .arrowRight {
+    svg {
+      width: 5px;
+      fill: var(--color-light-100);
+    }
+
+    &:disabled {
+      cursor: unset;
+
+      svg {
+        fill: var(--color-dark-100);
+      }
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.header {
+  width: 100%;
+  background: var(--color-dark-700);
+
+  .innerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 79%;
+    margin: auto;
+    padding: 12px 0;
+  }
+
+  .logo {
+    width: 157px;
+    height: 36px;
+  }
+}

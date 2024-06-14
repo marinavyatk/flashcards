@@ -1,11 +1,19 @@
 .trigger {
   cursor: pointer;
+  display: flex;
+  gap: 14px;
+  align-items: center;
 
-  width: 36px;
-  height: 36px;
+  .name {
+    border-bottom: 1px var(--color-light-100) dashed;
+  }
 
-  object-fit: cover;
-  border-radius: 50%;
+  img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 }
 
 .userSection {

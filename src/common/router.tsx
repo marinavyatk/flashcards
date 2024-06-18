@@ -7,22 +7,47 @@ import {
 } from 'react-router-dom'
 
 import { DecksPage } from '@/pages/deckPage/deckPage'
+import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
+import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
+import { SignInPage } from '@/pages/formPages/signInPage'
+import { SignUpPage } from '@/pages/formPages/signUpPage'
+
+export const routes = {
+  checkEmail: 'check-email',
+  createNewPassword: '/create-new-password',
+  forgotPassword: '/forgot-password',
+  main: '/',
+  signIn: '/sign-in',
+  signUp: '/sign-up',
+}
 
 const publicRoutes: RouteObject[] = [
   {
-    element: <div>login</div>,
-    path: '/login',
+    element: <SignInPage />,
+    path: routes.signIn,
+  },
+  {
+    element: <SignUpPage />,
+    path: routes.signUp,
+  },
+  {
+    element: <ForgotPasswordPage />,
+    path: routes.forgotPassword,
+  },
+  {
+    element: <CheckEmailPage />,
+    path: routes.checkEmail,
   },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     element: <DecksPage />,
-    path: '/',
+    path: routes.main,
   },
 ]
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     children: privateRoutes,
     element: <PrivateRoutes />,

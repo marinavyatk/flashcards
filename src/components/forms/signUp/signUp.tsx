@@ -1,32 +1,21 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
+import { routes } from '@/common/router'
+import { SignUpFormValues, signUpSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
-import { z } from 'zod'
 
 import s from './signUp.module.scss'
 
 import { Button } from '../../ui/button'
 
-const signUpSchema = z
-  .object({
-    confirmPassword: z.string().min(3).max(30),
-    email: z.string().email(),
-    password: z.string().min(3).max(30),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: 'Passwords must match',
-    path: ['confirmPassword'],
-  })
-
-export type FormValues = z.infer<typeof signUpSchema>
-
 type SingUpProps = {
-  onFormSubmit: (data: FormValues) => void
+  onFormSubmit: (data: SignUpFormValues) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const SingUp = (props: SingUpProps) => {
@@ -35,7 +24,7 @@ export const SingUp = (props: SingUpProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<SignUpFormValues>({
     defaultValues: {
       confirmPassword: '',
       email: '',
@@ -69,7 +58,7 @@ export const SingUp = (props: SingUpProps) => {
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Already have an account?
         </Typography>
-        <Typography as={'a'} className={s.singUp} href={'#'} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.signIn} variant={'subtitle1'}>
           Sing In
         </Typography>
       </form>

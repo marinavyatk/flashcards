@@ -1,6 +1,8 @@
 import { ComponentPropsWithoutRef } from 'react'
+import { Link } from 'react-router-dom'
 
 import CheckEmailIcon from '@/assets/svg/checkEmailIcon.svg?react'
+import { routes } from '@/common/router'
 import { Card } from '@/components/ui/card'
 import { Typography } from '@/components/ui/typography'
 import clsx from 'clsx'
@@ -24,7 +26,9 @@ export const CheckEmail = (props: CheckEmailProps) => {
       <Typography as={'p'} className={s.instruction} variant={'body2'}>
         We’ve sent an Email with instructions to example@mail.com
       </Typography>
-      <Button fullWidth>Back to Sign In</Button>
+      <Button as={Link} fullWidth to={routes.signIn}>
+        Back to Sign In
+      </Button>
     </Card>
   )
 }

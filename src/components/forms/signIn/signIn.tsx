@@ -1,28 +1,22 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
+import { routes } from '@/common/router'
+import { SignInFormValues, signInSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
-import { z } from 'zod'
 
 import s from './signIn.module.scss'
 
 import { Button } from '../../ui/button'
 
-const signInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(3).max(30),
-  rememberMe: z.boolean().optional(),
-})
-
-export type FormValues = z.infer<typeof signInSchema>
-
 type SingInProps = {
-  onFormSubmit: (data: FormValues) => void
+  onFormSubmit: (data: SignInFormValues) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const SingIn = (props: SingInProps) => {
@@ -31,7 +25,7 @@ export const SingIn = (props: SingInProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<SignInFormValues>({
     defaultValues: {
       email: '',
       password: '',
@@ -61,14 +55,19 @@ export const SingIn = (props: SingInProps) => {
           label={'Remember me'}
           name={'rememberMe'}
         />
-        <Typography as={'a'} className={s.forgotPassword} href={'#'} variant={'body2'}>
+        <Typography
+          as={Link}
+          className={s.forgotPassword}
+          to={routes.forgotPassword}
+          variant={'body2'}
+        >
           Forgot Password?
         </Typography>
         <Button fullWidth>Sing In</Button>
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Don't have an account?
         </Typography>
-        <Typography as={'a'} className={s.singUp} href={'#'} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.signUp} variant={'subtitle1'}>
           Sing Up
         </Typography>
       </form>

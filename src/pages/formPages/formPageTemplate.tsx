@@ -1,17 +1,17 @@
-//Временная страница для настройки запросов
+import { ReactNode } from 'react'
 
 import { Header } from '@/components/layouts/header'
-import { Modal } from '@/components/ui/modal/modal'
 import { useGetCurrentUserDataQuery } from '@/services/authApi/authApi'
 
 import s from '@/pages/formPages/formPage.module.scss'
 
-export function DecksPage() {
+type FormPageTemplateProps = { children: ReactNode }
+export const FormPageTemplate = ({ children }: FormPageTemplateProps) => {
   const { data } = useGetCurrentUserDataQuery()
   const isAuthorized = !!data
 
   return (
-    <div>
+    <div className={s.formPage}>
       <Header
         className={s.header}
         isAuthorized={isAuthorized}
@@ -21,7 +21,7 @@ export function DecksPage() {
           name: data?.name || '',
         }}
       />
-      <Modal modalHeader={'que'}>HJjhejr kjfnkr???</Modal>
+      {children}
     </div>
   )
 }

@@ -1,25 +1,22 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
 
+import {
+  CreateNewPasswordFormValues,
+  createNewPasswordSchema,
+} from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
-import { z } from 'zod'
 
 import s from './createNewPassword.module.scss'
 
 import { Button } from '../../ui/button'
 
-const forgotPasswordSchema = z.object({
-  password: z.string().min(3).max(30),
-})
-
-export type FormValues = z.infer<typeof forgotPasswordSchema>
-
 type CreateNewPasswordProps = {
-  onFormSubmit: (data: FormValues) => void
+  onFormSubmit: (data: CreateNewPasswordFormValues) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const CreateNewPassword = (props: CreateNewPasswordProps) => {
@@ -28,12 +25,12 @@ export const CreateNewPassword = (props: CreateNewPasswordProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<CreateNewPasswordFormValues>({
     defaultValues: {
       password: '',
     },
     mode: 'onBlur',
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(createNewPasswordSchema),
   })
 
   console.log('errors: ', errors)

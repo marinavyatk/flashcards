@@ -2,25 +2,19 @@ import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
+import { EditNicknameFormValues, editNicknameSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
-import { z } from 'zod'
 
 import s from './editNickname.module.scss'
 
 import { Button } from '../../ui/button'
 
-const forgotPasswordSchema = z.object({
-  nickname: z.string().min(3).max(30),
-})
-
-export type FormValues = z.infer<typeof forgotPasswordSchema>
-
 type EditNicknameProps = {
-  onFormSubmit: (data: FormValues) => void
+  onFormSubmit: (data: EditNicknameFormValues) => void
   profilePhoto?: string
 } & ComponentPropsWithoutRef<'div'>
 
@@ -30,12 +24,12 @@ export const EditNickname = (props: EditNicknameProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<EditNicknameFormValues>({
     defaultValues: {
       nickname: '',
     },
     mode: 'onBlur',
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(editNicknameSchema),
   })
 
   console.log('errors: ', errors)

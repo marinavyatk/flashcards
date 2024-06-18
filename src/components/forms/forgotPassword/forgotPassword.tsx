@@ -1,25 +1,21 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
+import { routes } from '@/common/router'
+import { ForgotPasswordFormValues, forgotPasswordSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
-import { z } from 'zod'
 
 import s from './forgotPassword.module.scss'
 
 import { Button } from '../../ui/button'
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email(),
-})
-
-export type FormValues = z.infer<typeof forgotPasswordSchema>
-
 type ForgotPasswordProps = {
-  onFormSubmit: (data: FormValues) => void
+  onFormSubmit: (data: ForgotPasswordFormValues) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const ForgotPassword = (props: ForgotPasswordProps) => {
@@ -28,7 +24,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormValues>({
+  } = useForm<ForgotPasswordFormValues>({
     defaultValues: {
       email: '',
     },
@@ -59,7 +55,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Did you remember your password?
         </Typography>
-        <Typography as={'a'} className={s.singUp} href={'#'} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.signIn} variant={'subtitle1'}>
           Try logging in
         </Typography>
       </form>

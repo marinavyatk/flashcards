@@ -1,13 +1,16 @@
 import { ComponentPropsWithoutRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import OutIcon from '@/assets/svg/dropdownMenu/outIcon.svg?react'
 import ProfileIcon from '@/assets/svg/dropdownMenu/userIcon.svg?react'
+import { routes } from '@/common/router'
 import {
   DropdownItem,
   DropdownMenuComponent,
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
 import { Typography } from '@/components/ui/typography'
+import { useSignOutMutation } from '@/services/authApi/authApi'
 
 import s from './userDropdown.module.scss'
 
@@ -18,6 +21,16 @@ export type UserDropdownProps = {
 } & ComponentPropsWithoutRef<'div'>
 export const UserDropdown = (props: UserDropdownProps) => {
   const { avatar, className, email, name, ...restProps } = props
+  const [signOut] = useSignOutMutation()
+  const navigate = useNavigate()
+  const handleSignOut = async () => {
+    try {
+      await signOut().unwrap()
+      navigate(routes.signIn)
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
 
   return (
     <DropdownMenuComponent
@@ -54,7 +67,7 @@ export const UserDropdown = (props: UserDropdownProps) => {
         </Typography>
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.dropItem}>
+      <DropdownItem className={s.dropItem} onClick={handleSignOut}>
         <OutIcon />
         <Typography as={'span'} variant={'caption'}>
           Sign Out

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 import { routes } from '@/common/router'
-import { EditProfile } from '@/components/forms/editNickname'
+import { EditProfile } from '@/components/forms/editProfile'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useSignOutMutation, useUpdateUserDataMutation } from '@/services/authApi/authApi'
 import { UpdateUserData } from '@/services/authApi/authApiTypes'

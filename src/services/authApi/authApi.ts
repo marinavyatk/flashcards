@@ -49,7 +49,8 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       sendPasswordRecoveryEmail: builder.mutation<void, SendPasswordRecoveryEmailArgs>({
-        query: () => ({
+        query: args => ({
+          body: args,
           method: 'POST',
           url: '/v1/auth/recover-password',
         }),
@@ -77,7 +78,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
           url: '/v2/auth/logout',
         }),
       }),
-      updateUserData: builder.mutation<UpdateUserData, UserData>({
+      updateUserData: builder.mutation<UserData, UpdateUserData>({
         invalidatesTags: ['UserData'],
         query: args => ({
           body: { ...args },

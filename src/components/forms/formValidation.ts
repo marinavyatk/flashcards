@@ -6,11 +6,11 @@ export const createNewPasswordSchema = z.object({
 
 export type CreateNewPasswordFormValues = z.infer<typeof createNewPasswordSchema>
 
-export const editNicknameSchema = z.object({
-  nickname: z.string().min(3).max(30),
+export const editProfileSchema = z.object({
+  name: z.string().min(3).max(30),
 })
 
-export type EditNicknameFormValues = z.infer<typeof editNicknameSchema>
+export type EditProfileFormValues = z.infer<typeof editProfileSchema>
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email(),

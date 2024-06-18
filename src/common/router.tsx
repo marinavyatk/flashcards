@@ -8,13 +8,15 @@ import {
 
 import { DecksPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
+import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
 import { SignUpPage } from '@/pages/formPages/signUpPage'
 
 export const routes = {
-  checkEmail: 'check-email',
+  checkEmail: '/check-email',
   createNewPassword: '/create-new-password',
+  editProfile: '/edit-profile',
   forgotPassword: '/forgot-password',
   main: '/',
   signIn: '/sign-in',
@@ -45,6 +47,10 @@ const privateRoutes: RouteObject[] = [
     element: <DecksPage />,
     path: routes.main,
   },
+  {
+    element: <EditProfilePage />,
+    path: routes.editProfile,
+  },
 ]
 
 export const router = createBrowserRouter([
@@ -58,7 +64,7 @@ export const router = createBrowserRouter([
 function PrivateRoutes() {
   const isAuthenticated = true
 
-  return isAuthenticated ? <Outlet /> : <Navigate to={'/login'} />
+  return isAuthenticated ? <Outlet /> : <Navigate to={routes.signIn} />
 }
 export function Router() {
   return <RouterProvider router={router} />

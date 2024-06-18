@@ -53,7 +53,17 @@ export const baseQueryWithReauth: BaseQueryFn<
           localStorage.setItem('refreshToken', refreshResult.data.refreshToken)
           result = await baseQuery(args, api, extraOptions)
         } else {
-          router.navigate(routes.signIn)
+          const publicRoutes = [
+            routes.signUp,
+            routes.forgotPassword,
+            routes.checkEmail,
+            routes.createNewPassword,
+          ]
+          const location = window.location.pathname
+
+          if (!publicRoutes.includes(location)) {
+            router.navigate(routes.signIn)
+          }
         }
       } finally {
         release()

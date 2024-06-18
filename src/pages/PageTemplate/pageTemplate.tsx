@@ -3,10 +3,10 @@ import { ReactNode } from 'react'
 import { Header } from '@/components/layouts/header'
 import { useGetCurrentUserDataQuery } from '@/services/authApi/authApi'
 
-import s from '@/pages/formPages/formPage.module.scss'
+import s from '@/pages/PageTemplate/pageTemplate.module.scss'
 
-type FormPageTemplateProps = { children: ReactNode }
-export const FormPageTemplate = ({ children }: FormPageTemplateProps) => {
+type PageTemplateProps = { children: ReactNode }
+export const PageTemplate = ({ children }: PageTemplateProps) => {
   const { data } = useGetCurrentUserDataQuery()
   const isAuthorized = !!data
 

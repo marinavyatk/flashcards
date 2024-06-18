@@ -1,6 +1,4 @@
-.editNickname {
-  padding-bottom: 84px;
-
+.editProfile {
   .header {
     margin: 0 auto 27px;
   }
@@ -13,6 +11,7 @@
   }
 
   .profilePhoto {
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,6 +21,12 @@
 
     background-color: var(--color-dark-100);
     border-radius: 50%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
     svg {
       width: 80%;
@@ -33,5 +38,40 @@
   .formTextField {
     width: 100%;
     margin-bottom: 26px;
+  }
+
+  .cancelButton {
+    margin-top: 16px;
+  }
+
+  .name {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    margin: 16px 0 10px;
+
+    button {
+      all: unset;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .email {
+    margin-bottom: 13px;
+    color: var(--color-dark-100);
+  }
+
+  .logoutButton {
+    margin-bottom: 16px;
   }
 }

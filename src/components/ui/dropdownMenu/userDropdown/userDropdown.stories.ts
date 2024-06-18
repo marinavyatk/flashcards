@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Avatar from '@/assets/svg/dropdownMenu/avatar.png'
+import Avatar from '@/assets/svg/avatar.png'
 import { UserDropdown } from '@/components/ui/dropdownMenu/userDropdown/userDropdown'
 
 const meta = {

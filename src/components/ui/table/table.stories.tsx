@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Cover from '@/assets/defaultDeckCover.png'
-import DeleteIcon from '@/assets/svg/dropdownMenu/deleteIcon.svg?react'
-import EditIcon from '@/assets/svg/dropdownMenu/editIcon.svg?react'
-import PlayIcon from '@/assets/svg/dropdownMenu/playIcon.svg?react'
+import DeleteIcon from '@/assets/svg/binIcon.svg?react'
+import EditIcon from '@/assets/svg/editIcon.svg?react'
+import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import Star from '@/assets/svg/ratingStar.svg?react'
 import StarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { Table } from '@/components/ui/table/table'

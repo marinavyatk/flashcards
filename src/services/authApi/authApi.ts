@@ -73,6 +73,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       signOut: builder.mutation<void, void>({
+        invalidatesTags: ['UserData'],
         query: () => ({
           method: 'POST',
           url: '/v2/auth/logout',

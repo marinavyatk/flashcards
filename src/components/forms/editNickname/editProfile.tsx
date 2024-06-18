@@ -2,34 +2,34 @@ import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
-import { EditNicknameFormValues, editNicknameSchema } from '@/components/forms/formValidation'
+import { EditProfileFormValues, editProfileSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 
-import s from './editNickname.module.scss'
+import s from './editProfile.module.scss'
 
 import { Button } from '../../ui/button'
 
-type EditNicknameProps = {
-  onFormSubmit: (data: EditNicknameFormValues) => void
+type EditProfileProps = {
+  onFormSubmit: (data: EditProfileFormValues) => void
   profilePhoto?: string
 } & ComponentPropsWithoutRef<'div'>
 
-export const EditNickname = (props: EditNicknameProps) => {
+export const EditProfile = (props: EditProfileProps) => {
   const { className, onFormSubmit, profilePhoto, ...restProps } = props
   const {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<EditNicknameFormValues>({
+  } = useForm<EditProfileFormValues>({
     defaultValues: {
-      nickname: '',
+      name: '',
     },
     mode: 'onBlur',
-    resolver: zodResolver(editNicknameSchema),
+    resolver: zodResolver(editProfileSchema),
   })
 
   console.log('errors: ', errors)
@@ -54,7 +54,7 @@ export const EditNickname = (props: EditNicknameProps) => {
           containerProps={{ className: s.formTextField }}
           control={control}
           label={'Nickname'}
-          name={'nickname'}
+          name={'name'}
         />
         <Button fullWidth>Save Changes</Button>
       </form>

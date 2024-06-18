@@ -9,8 +9,8 @@ export type UserData = {
 }
 
 export type UpdateUserData = {
-  avatar: string
-  name: string
+  avatar?: string
+  name?: string
 }
 
 export type SignInArgs = {

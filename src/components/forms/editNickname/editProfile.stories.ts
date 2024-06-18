@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { EditNickname, FormValues } from '@/components/forms/editNickname/editNickname'
+import { EditNickname, FormValues } from '@/components/forms/editNickname/editProfile'
 
 const meta = {
   component: EditNickname,

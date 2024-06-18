@@ -26,10 +26,14 @@ export const UserDropdown = (props: UserDropdownProps) => {
   const handleSignOut = async () => {
     try {
       await signOut().unwrap()
+      localStorage.clear()
       navigate(routes.signIn)
     } catch (error: any) {
       console.log(error)
     }
+  }
+  const handleOpenProfile = () => {
+    navigate(routes.editProfile)
   }
 
   return (
@@ -60,7 +64,7 @@ export const UserDropdown = (props: UserDropdownProps) => {
         </div>
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.dropItem}>
+      <DropdownItem className={s.dropItem} onClick={handleOpenProfile}>
         <ProfileIcon />
         <Typography as={'span'} variant={'caption'}>
           My Profile

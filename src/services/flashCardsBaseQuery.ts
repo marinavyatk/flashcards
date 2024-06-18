@@ -58,11 +58,12 @@ export const baseQueryWithReauth: BaseQueryFn<
             routes.forgotPassword,
             routes.checkEmail,
             routes.createNewPassword,
+            routes.pageNotFound,
           ]
           const location = window.location.pathname
 
           if (!publicRoutes.includes(location)) {
-            router.navigate(routes.signIn)
+            // router.navigate(routes.signIn) //temp
           }
         }
       } finally {

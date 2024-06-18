@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/common/router'
 import { CreateNewPassword } from '@/components/forms/createNewPassword/createNewPassword'
 import { CreateNewPasswordFormValues } from '@/components/forms/formValidation'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useResetPasswordMutation } from '@/services/authApi/authApi'
 
 export const CreateNewPasswordPage = () => {
@@ -23,8 +23,8 @@ export const CreateNewPasswordPage = () => {
   }
 
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <CreateNewPassword onFormSubmit={onSubmit} />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

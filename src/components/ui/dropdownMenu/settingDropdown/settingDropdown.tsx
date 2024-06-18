@@ -1,9 +1,9 @@
 import { ComponentPropsWithoutRef } from 'react'
 
-import DeleteIcon from '@/assets/svg/dropdownMenu/deleteIcon.svg?react'
-import EditIcon from '@/assets/svg/dropdownMenu/editIcon.svg?react'
-import PlayIcon from '@/assets/svg/dropdownMenu/playIcon.svg?react'
-import SettingIcon from '@/assets/svg/dropdownMenu/settingIcon.svg?react'
+import DeleteIcon from '@/assets/svg/binIcon.svg?react'
+import EditIcon from '@/assets/svg/editIcon.svg?react'
+import PlayIcon from '@/assets/svg/playIcon.svg?react'
+import SettingIcon from '@/assets/svg/settingIcon.svg?react'
 import {
   DropdownItem,
   DropdownMenuComponent,

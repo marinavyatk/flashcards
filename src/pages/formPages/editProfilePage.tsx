@@ -3,12 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/common/router'
 import { EditProfile } from '@/components/forms/editProfile'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
-import { useSignOutMutation, useUpdateUserDataMutation } from '@/services/authApi/authApi'
+import {
+  useGetCurrentUserDataQuery,
+  useSignOutMutation,
+  useUpdateUserDataMutation,
+} from '@/services/authApi/authApi'
 import { UpdateUserData } from '@/services/authApi/authApiTypes'
 
 export const EditProfilePage = () => {
   const [updateUserData] = useUpdateUserDataMutation()
   const [signOut] = useSignOutMutation()
+  const { data } = useGetCurrentUserDataQuery()
   const navigate = useNavigate()
 
   const handleSignOut = async () => {
@@ -23,15 +28,24 @@ export const EditProfilePage = () => {
   const onSubmit = async (data: UpdateUserData) => {
     try {
       await updateUserData(data).unwrap()
-      navigate(routes.main)
     } catch (error: any) {
       console.log(error)
     }
   }
 
+  if (!data) {
+    return
+  }
+
   return (
     <PageTemplate>
-      <EditProfile onFormSubmit={onSubmit} />
+      <EditProfile
+        email={data?.email}
+        name={data?.name}
+        onFormSubmit={onSubmit}
+        onSignOut={handleSignOut}
+        profilePhoto={data?.avatar}
+      />
     </PageTemplate>
   )
 }

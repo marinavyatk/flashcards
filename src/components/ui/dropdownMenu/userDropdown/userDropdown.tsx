@@ -1,8 +1,9 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import OutIcon from '@/assets/svg/dropdownMenu/outIcon.svg?react'
-import ProfileIcon from '@/assets/svg/dropdownMenu/userIcon.svg?react'
+import ProfilePhotoDefault from '@/assets/defaultUserPhoto.png'
+import OutIcon from '@/assets/svg/outIcon.svg?react'
+import ProfileIcon from '@/assets/svg/userIcon.svg?react'
 import { routes } from '@/common/router'
 import {
   DropdownItem,
@@ -43,7 +44,7 @@ export const UserDropdown = (props: UserDropdownProps) => {
           <Typography as={'span'} className={s.name} variant={'subtitle1'}>
             {name}
           </Typography>
-          <img alt={'open menu'} className={s.trigger} src={avatar} />
+          <img alt={'open menu'} className={s.trigger} src={avatar || ProfilePhotoDefault} />
         </div>
       }
       {...restProps}
@@ -52,7 +53,7 @@ export const UserDropdown = (props: UserDropdownProps) => {
     >
       <DropdownItem>
         <div className={s.userSection}>
-          <img alt={'Your photo'} src={avatar} />
+          <img alt={'Your photo'} src={avatar || ProfilePhotoDefault} />
           <div className={s.userInfo}>
             <Typography as={'span'} className={s.userName} variant={'subtitle2'}>
               {name}

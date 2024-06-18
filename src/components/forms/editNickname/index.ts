@@ -1,1 +1,1 @@
-export * from './editNickname'
+export * from './editProfile'

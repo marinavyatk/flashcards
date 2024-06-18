@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { routes } from '@/common/router'
 import { EditProfile } from '@/components/forms/editNickname'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useSignOutMutation, useUpdateUserDataMutation } from '@/services/authApi/authApi'
 import { UpdateUserData } from '@/services/authApi/authApiTypes'
 
@@ -30,8 +30,8 @@ export const EditProfilePage = () => {
   }
 
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <EditProfile onFormSubmit={onSubmit} />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

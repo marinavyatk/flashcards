@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { routes } from '@/common/router'
 import { SingIn } from '@/components/forms/signIn'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useSignInMutation } from '@/services/authApi/authApi'
 import { SignInArgs } from '@/services/authApi/authApiTypes'
 
@@ -20,8 +20,8 @@ export const SignInPage = () => {
   }
 
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <SingIn onFormSubmit={onSubmit} />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

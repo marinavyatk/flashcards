@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/common/router'
 import { SignUpFormValues } from '@/components/forms/formValidation'
 import { SingUp } from '@/components/forms/signUp'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useCreateNewAccountMutation } from '@/services/authApi/authApi'
 import { CreateNewAccountArgs } from '@/services/authApi/authApiTypes'
 
@@ -23,8 +23,8 @@ export const SignUpPage = () => {
   }
 
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <SingUp onFormSubmit={onSubmit} />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

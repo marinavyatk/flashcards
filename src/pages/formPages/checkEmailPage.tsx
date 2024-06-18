@@ -1,10 +1,10 @@
 import { CheckEmail } from '@/components/forms/checkEmail'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 
 export const CheckEmailPage = () => {
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <CheckEmail />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

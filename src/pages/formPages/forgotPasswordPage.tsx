@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { routes } from '@/common/router'
 import { ForgotPassword } from '@/components/forms/forgotPassword'
-import { FormPageTemplate } from '@/pages/formPages/formPageTemplate'
+import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useSendPasswordRecoveryEmailMutation } from '@/services/authApi/authApi'
 import { SendPasswordRecoveryEmailArgs } from '@/services/authApi/authApiTypes'
 
@@ -21,8 +21,8 @@ export const ForgotPasswordPage = () => {
   }
 
   return (
-    <FormPageTemplate>
+    <PageTemplate>
       <ForgotPassword onFormSubmit={onSubmit} />
-    </FormPageTemplate>
+    </PageTemplate>
   )
 }

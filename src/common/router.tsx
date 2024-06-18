@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
+import { PageNotFound } from '@/pages/404/404'
 import { DecksPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
@@ -19,6 +20,7 @@ export const routes = {
   editProfile: '/edit-profile',
   forgotPassword: '/forgot-password',
   main: '/',
+  pageNotFound: '/*',
   signIn: '/sign-in',
   signUp: '/sign-up',
 }
@@ -39,6 +41,10 @@ const publicRoutes: RouteObject[] = [
   {
     element: <CheckEmailPage />,
     path: routes.checkEmail,
+  },
+  {
+    element: <PageNotFound />,
+    path: routes.pageNotFound,
   },
 ]
 

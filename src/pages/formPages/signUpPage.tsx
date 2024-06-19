@@ -4,8 +4,8 @@ import { routes } from '@/common/router'
 import { SignUpFormValues } from '@/components/forms/formValidation'
 import { SingUp } from '@/components/forms/signUp'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
-import { useCreateNewAccountMutation } from '@/services/authApi/authApi'
-import { CreateNewAccountArgs } from '@/services/authApi/authApiTypes'
+import { useCreateNewAccountMutation } from '@/services/auth/authApi'
+import { CreateNewAccountArgs } from '@/services/auth/authApiTypes'
 
 export const SignUpPage = () => {
   const [signUp] = useCreateNewAccountMutation()

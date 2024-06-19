@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/common/router'
 import { ForgotPassword } from '@/components/forms/forgotPassword'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
-import { useSendPasswordRecoveryEmailMutation } from '@/services/authApi/authApi'
-import { SendPasswordRecoveryEmailArgs } from '@/services/authApi/authApiTypes'
+import { useSendPasswordRecoveryEmailMutation } from '@/services/auth/authApi'
+import { SendPasswordRecoveryEmailArgs } from '@/services/auth/authApiTypes'
 
 export const ForgotPasswordPage = () => {
   const [sendPasswordRecoveryEmail] = useSendPasswordRecoveryEmailMutation()

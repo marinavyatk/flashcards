@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { FormValues, SingUp } from './'
+import { SignUpFormValues } from '@/components/forms/formValidation'
+
+import { SingUp } from './'
 
 const meta = {
   component: SingUp,
@@ -16,7 +18,7 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    onFormSubmit: (data: FormValues) => {
+    onFormSubmit: (data: SignUpFormValues) => {
       console.log(data)
     },
   },

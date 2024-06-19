@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ForgotPassword, FormValues } from './'
+import { ForgotPasswordFormValues } from '@/components/forms/formValidation'
+
+import { ForgotPassword } from './'
 
 const meta = {
   component: ForgotPassword,
@@ -16,7 +18,7 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    onFormSubmit: (data: FormValues) => {
+    onFormSubmit: (data: ForgotPasswordFormValues) => {
       console.log(data)
     },
   },

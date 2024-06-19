@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/common/router'
 import { SingIn } from '@/components/forms/signIn'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
-import { useSignInMutation } from '@/services/authApi/authApi'
-import { SignInArgs } from '@/services/authApi/authApiTypes'
+import { useSignInMutation } from '@/services/auth/authApi'
+import { SignInArgs } from '@/services/auth/authApiTypes'
 
 export const SignInPage = () => {
   const [signIn] = useSignInMutation()

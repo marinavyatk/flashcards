@@ -1,12 +1,14 @@
 import { ReactNode } from 'react'
 
 import { Header } from '@/components/layouts/header'
+import { Notification } from '@/components/ui/notification'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 
 import s from '@/pages/PageTemplate/pageTemplate.module.scss'
 
-type PageTemplateProps = { children: ReactNode }
-export const PageTemplate = ({ children }: PageTemplateProps) => {
+type PageTemplateProps = { children: ReactNode; notificationDescription?: string }
+
+export const PageTemplate = ({ children, notificationDescription }: PageTemplateProps) => {
   const { data } = useGetCurrentUserDataQuery()
   const isAuthorized = !!data
 
@@ -22,6 +24,7 @@ export const PageTemplate = ({ children }: PageTemplateProps) => {
         }}
       />
       {children}
+      {notificationDescription && <Notification description={notificationDescription} />}
     </div>
   )
 }

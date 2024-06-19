@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { EditProfile } from '@/components/forms/editProfile/editProfile'
-import { EditProfileFormValues } from '@/components/forms/formValidation'
+import { UpdateUserData } from '@/services/auth/authApiTypes'
 
 const meta = {
   component: EditProfile,
@@ -17,8 +17,11 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    onFormSubmit: (data: EditProfileFormValues) => {
+    email: '1234@mail.ru',
+    name: 'Ivan',
+    onFormSubmit: (data: UpdateUserData) => {
       console.log(data)
     },
+    onSignOut: () => {},
   },
 }

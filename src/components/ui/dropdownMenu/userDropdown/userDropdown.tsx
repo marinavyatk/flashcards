@@ -11,7 +11,7 @@ import {
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
 import { Typography } from '@/components/ui/typography'
-import { useSignOutMutation } from '@/services/authApi/authApi'
+import { useSignOutMutation } from '@/services/auth/authApi'
 
 import s from './userDropdown.module.scss'
 

@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import EditIcon from '@/assets/svg/editIcon.svg?react'
@@ -6,8 +6,10 @@ import LogOutIcon from '@/assets/svg/icon-out.svg?react'
 import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
 import { EditProfileFormValues, editProfileSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
+import { InputFile } from '@/components/ui/inputFile'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
+import { UpdateUserData } from '@/services/auth/authApiTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 
@@ -18,7 +20,7 @@ import { Button } from '../../ui/button'
 type EditProfileProps = {
   email: string
   name: string
-  onFormSubmit: (data: EditProfileFormValues) => void
+  onFormSubmit: (data: UpdateUserData) => void
   onSignOut: () => void
   profilePhoto?: string
 } & ComponentPropsWithoutRef<'div'>
@@ -41,6 +43,13 @@ export const EditProfile = (props: EditProfileProps) => {
   console.log('errors: ', errors)
 
   const [editMode, setEditMode] = useState(false)
+
+  const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log('onFileChange')
+    const attachedFile = event.currentTarget.files?.[0]
+
+    onFormSubmit({ avatar: attachedFile })
+  }
 
   const onSubmit = (data: EditProfileFormValues) => {
     onFormSubmit(data)
@@ -68,6 +77,7 @@ export const EditProfile = (props: EditProfileProps) => {
           ) : (
             <ProfilePhotoDefault />
           )}
+          {!editMode && <InputFile className={s.file} fileProps={{ onChange: onFileChange }} />}
         </div>
         {editMode ? (
           <>

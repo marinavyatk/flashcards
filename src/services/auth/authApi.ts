@@ -8,7 +8,7 @@ import {
   UpdateUserData,
   UserData,
   VerifyUserEmailArgs,
-} from '@/services/authApi/authApiTypes'
+} from '@/services/auth/authApiTypes'
 import { flashcardsApi } from '@/services/flashcards-api'
 
 export const AuthApi = flashcardsApi.injectEndpoints({
@@ -81,11 +81,19 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       updateUserData: builder.mutation<UserData, UpdateUserData>({
         invalidatesTags: ['UserData'],
-        query: args => ({
-          body: { ...args },
-          method: 'PATCH',
-          url: '/v1/auth/me',
-        }),
+        query: args => {
+          const { avatar, name } = args
+          const formData = new FormData()
+
+          name && formData.append('name', name)
+          avatar && formData.append('avatar', avatar)
+
+          return {
+            body: formData,
+            method: 'PATCH',
+            url: '/v1/auth/me',
+          }
+        },
       }),
       verifyUserEmail: builder.mutation<void, VerifyUserEmailArgs>({
         query: args => ({

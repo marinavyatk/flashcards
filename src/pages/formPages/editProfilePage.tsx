@@ -7,14 +7,16 @@ import {
   useGetCurrentUserDataQuery,
   useSignOutMutation,
   useUpdateUserDataMutation,
-} from '@/services/authApi/authApi'
-import { UpdateUserData } from '@/services/authApi/authApiTypes'
+} from '@/services/auth/authApi'
+import { UpdateUserData } from '@/services/auth/authApiTypes'
 
 export const EditProfilePage = () => {
-  const [updateUserData] = useUpdateUserDataMutation()
+  const [updateUserData, { error }] = useUpdateUserDataMutation()
   const [signOut] = useSignOutMutation()
   const { data } = useGetCurrentUserDataQuery()
   const navigate = useNavigate()
+
+  console.log('request error', error)
 
   const handleSignOut = async () => {
     try {
@@ -26,6 +28,7 @@ export const EditProfilePage = () => {
     }
   }
   const onSubmit = async (data: UpdateUserData) => {
+    console.log('onSubmit')
     try {
       await updateUserData(data).unwrap()
     } catch (error: any) {

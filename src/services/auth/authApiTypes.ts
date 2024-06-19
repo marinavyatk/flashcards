@@ -9,7 +9,7 @@ export type UserData = {
 }
 
 export type UpdateUserData = {
-  avatar?: string
+  avatar?: File | null | string
   name?: string
 }
 

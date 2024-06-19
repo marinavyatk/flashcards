@@ -4,7 +4,7 @@ import { routes } from '@/common/router'
 import { CreateNewPassword } from '@/components/forms/createNewPassword/createNewPassword'
 import { CreateNewPasswordFormValues } from '@/components/forms/formValidation'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
-import { useResetPasswordMutation } from '@/services/authApi/authApi'
+import { useResetPasswordMutation } from '@/services/auth/authApi'
 
 export const CreateNewPasswordPage = () => {
   const [createNewPassword] = useResetPasswordMutation()

@@ -1,0 +1,51 @@
+.mainPage {
+  width: 100%;
+  max-width: 1008px;
+
+  .container {
+    display: flex;
+    gap: 24px;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+  }
+
+  .elementWithCaption {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .searchFilter {
+    width: 100%;
+    max-width: 299px;
+  }
+
+  .deckMainInfo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+
+    button {
+      all: unset;
+      cursor: pointer;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: var(--color-light-100);
+      }
+    }
+  }
+
+  .table {
+    margin: 36px 0 24px;
+  }
+}

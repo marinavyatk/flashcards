@@ -15,7 +15,7 @@ export const Modal = (props: ModalProps) => {
 
   return (
     <div {...restProps}>
-      <Dialog.Root defaultOpen>
+      <Dialog.Root>
         <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className={s.overlay} />

@@ -34,6 +34,8 @@
 }
 
 .sliderThumb {
+  cursor: pointer;
+
   display: block;
 
   width: 16px;
@@ -49,6 +51,10 @@
 }
 
 .extremeNumber {
+  cursor: default;
+
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;

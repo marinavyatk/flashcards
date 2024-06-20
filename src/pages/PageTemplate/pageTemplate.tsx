@@ -13,7 +13,7 @@ export const PageTemplate = ({ children, notificationDescription }: PageTemplate
   const isAuthorized = !!data
 
   return (
-    <div className={s.formPage}>
+    <div className={s.template}>
       <Header
         className={s.header}
         isAuthorized={isAuthorized}
@@ -23,7 +23,8 @@ export const PageTemplate = ({ children, notificationDescription }: PageTemplate
           name: data?.name || '',
         }}
       />
-      {children}
+      <div className={s.children}>{children}</div>
+
       {notificationDescription && <Notification description={notificationDescription} />}
     </div>
   )

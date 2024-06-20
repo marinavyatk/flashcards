@@ -1,10 +1,15 @@
 .table {
   border-collapse: collapse;
+  width: 100%;
   text-align: left;
 
   thead {
     color: var(--color-light-100);
     background: var(--color-dark-500);
+  }
+
+  th {
+    cursor: pointer;
   }
 
   th,

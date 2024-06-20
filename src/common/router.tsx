@@ -7,12 +7,12 @@ import {
 } from 'react-router-dom'
 
 import { PageNotFound } from '@/pages/404/404'
-import { DecksPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
 import { SignUpPage } from '@/pages/formPages/signUpPage'
+import { MainPage } from '@/pages/mainPage/mainPage'
 
 export const routes = {
   checkEmail: '/check-email',
@@ -50,7 +50,7 @@ const publicRoutes: RouteObject[] = [
 
 const privateRoutes: RouteObject[] = [
   {
-    element: <DecksPage />,
+    element: <MainPage />,
     path: routes.main,
   },
   {

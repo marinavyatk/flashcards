@@ -1,11 +1,7 @@
-.formPage {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-
-  .header {
-    position: fixed;
-    top: 0;
+.template {
+  .children {
+    display: flex;
+    justify-content: center;
+    margin: 36px auto 0;
   }
 }

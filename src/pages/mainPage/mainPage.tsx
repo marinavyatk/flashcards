@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import ArrowDown from '@/assets/svg/arrowDown.svg?react'
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import DeleteIcon from '@/assets/svg/deleteIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
-import { formatDate } from '@/common/commonFunctions'
+import { debounce, formatDate } from '@/common/commonFunctions'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
@@ -20,20 +21,75 @@ import { useGetDecksQuery, useGetMinMaxCardAmountQuery } from '@/services/decks/
 
 import s from './mainPage.module.scss'
 
+export let debounceHandler: any = null
+
 export const MainPage = () => {
-  const { data: userData } = useGetCurrentUserDataQuery()
-  const { data } = useGetDecksQuery()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const search = searchParams.get('search')
+  const [inputSearchValue, setInputSearchValue] = useState(search)
+
+  const minCardsCount = searchParams.get('minCardsCount')
+  const maxCardsCount = searchParams.get('maxCardsCount')
+
+  useMemo(() => {
+    debounceHandler = debounce(
+      () => {
+        if (inputSearchValue) {
+          searchParams.set('search', inputSearchValue)
+        } else {
+          searchParams.delete('search')
+        }
+        setSearchParams(searchParams)
+      },
+      debounceHandler,
+      1000
+    )
+  }, [inputSearchValue])
+
+  const handleSearchChange = (value: string) => {
+    setInputSearchValue(value)
+  }
+
+  const handleCardsCountChange = (values: number[]) => {
+    if (values[0] !== minMaxData?.min) {
+      searchParams.set('minCardsCount', String(values[0]))
+    } else {
+      searchParams.delete('minCardsCount')
+    }
+    if (values[1] !== minMaxData?.max) {
+      searchParams.set('maxCardsCount', String(values[1]))
+    } else {
+      searchParams.delete('maxCardsCount')
+    }
+    setSearchParams(searchParams)
+  }
 
   const { data: minMaxData } = useGetMinMaxCardAmountQuery()
+  const { data: userData } = useGetCurrentUserDataQuery()
 
-  const initialValues = useMemo(() => {
-    if (!minMaxData) {
+  const { data } = useGetDecksQuery({
+    maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
+    minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
+    name: search ?? undefined,
+  })
+
+  console.log('pagination', data?.pagination)
+
+  const cardsNumbersFromSearchParams = [
+    minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
+    maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
+  ]
+
+  const cardsNumberInitialValues = useMemo(() => {
+    if (
+      cardsNumbersFromSearchParams[0] === undefined ||
+      cardsNumbersFromSearchParams[1] === undefined
+    ) {
       return undefined
     }
 
-    return [minMaxData.min, minMaxData.max]
-  }, [minMaxData])
-  const [rangeCardsNumber, setRangeCardsNumber] = useState(initialValues)
+    return cardsNumbersFromSearchParams
+  }, [minMaxData, minCardsCount, maxCardsCount])
 
   const tableRows = data?.items.map(item => {
     const isMyDeck = item.author.id === userData?.id
@@ -80,7 +136,12 @@ export const MainPage = () => {
           <Modal modalHeader={'Add New Deck'} trigger={<Button>Add New Deck</Button>} />
         </div>
         <div className={s.container}>
-          <TextField containerProps={{ className: s.searchFilter }} type={'search'} />
+          <TextField
+            containerProps={{ className: s.searchFilter }}
+            onValueChange={handleSearchChange}
+            type={'search'}
+            value={inputSearchValue}
+          />
           <div className={s.elementWithCaption}>
             <Typography as={'span'} variant={'body2'}>
               Show decks cards
@@ -97,10 +158,10 @@ export const MainPage = () => {
             </Typography>
             <SliderComponent
               rootProps={{
-                defaultValue: initialValues,
+                defaultValue: cardsNumberInitialValues,
                 max: minMaxData ? minMaxData.max : undefined,
                 min: minMaxData ? minMaxData.min : undefined,
-                onValueCommit: setRangeCardsNumber,
+                onValueCommit: handleCardsCountChange,
               }}
             />
           </div>

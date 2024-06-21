@@ -26,10 +26,13 @@ export let debounceHandler: any = null
 export const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const search = searchParams.get('search')
-  const [inputSearchValue, setInputSearchValue] = useState(search)
-
   const minCardsCount = searchParams.get('minCardsCount')
   const maxCardsCount = searchParams.get('maxCardsCount')
+  const deckOwnership = searchParams.get('deckOwnership')
+
+  console.log('deckOwnership', deckOwnership)
+
+  const [inputSearchValue, setInputSearchValue] = useState(search ?? '')
 
   useMemo(() => {
     debounceHandler = debounce(
@@ -64,10 +67,22 @@ export const MainPage = () => {
     setSearchParams(searchParams)
   }
 
+  const handleSwitchDeckOwnership = (value: string) => {
+    console.log('handleSwitchDeckOwnership')
+
+    if (value === 'My Cards') {
+      searchParams.set('deckOwnership', '~caller')
+    } else {
+      searchParams.delete('deckOwnership')
+    }
+    setSearchParams(searchParams)
+  }
+
   const { data: minMaxData } = useGetMinMaxCardAmountQuery()
   const { data: userData } = useGetCurrentUserDataQuery()
 
   const { data } = useGetDecksQuery({
+    authorId: deckOwnership ? deckOwnership : undefined,
     maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
     minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
     name: search ?? undefined,
@@ -149,7 +164,8 @@ export const MainPage = () => {
             <TabSwitcher
               defaultValue={'All Cards'}
               itemProps={[{ value: 'My Cards' }, { value: 'All Cards' }]}
-              type={'single'}
+              onValueChange={handleSwitchDeckOwnership}
+              value={deckOwnership === '~caller' ? 'My Cards' : 'All Cards'}
             />
           </div>
           <div className={s.elementWithCaption}>

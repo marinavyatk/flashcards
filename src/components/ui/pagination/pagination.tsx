@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import s from './pagination.module.scss'
 
 export type PaginationProps = {
-  onPageChange: (pageNumber: number | string) => void
+  onPageChange: (pageNumber: number) => void
 } & ComponentPropsWithoutRef<'div'> &
   usePaginationProps
 
@@ -34,6 +34,8 @@ export const Pagination = (props: PaginationProps) => {
     onPageChange(currentPage - 1)
   }
 
+  // const handle
+
   const lastPage = paginationRange[paginationRange.length - 1]
 
   return (
@@ -52,17 +54,21 @@ export const Pagination = (props: PaginationProps) => {
           )
         }
 
-        return (
-          <li key={pageNumber} onClick={() => onPageChange(pageNumber)}>
-            <button
-              className={clsx(s.paginationItem, {
-                [s.selected]: pageNumber === currentPage,
-              })}
-            >
-              {pageNumber}
-            </button>
-          </li>
-        )
+        if (typeof pageNumber !== 'string') {
+          return (
+            <li key={pageNumber}>
+              <button
+                className={clsx(s.paginationItem, {
+                  [s.selected]: pageNumber === currentPage,
+                })}
+                onClick={() => onPageChange(pageNumber)}
+                value={pageNumber}
+              >
+                {pageNumber}
+              </button>
+            </li>
+          )
+        }
       })}
       <li onClick={onNext}>
         <button

@@ -1,0 +1,21 @@
+.sortButton {
+  all: unset;
+
+  cursor: pointer;
+
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.ascArrow {
+  transition: transform 0.5s;
+}
+
+.descArrow {
+  transform: rotate(-180deg);
+  transition: transform 0.5s;
+}

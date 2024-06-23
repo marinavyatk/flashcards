@@ -8,6 +8,7 @@ import {
   SelectProps,
   SelectValueProps,
 } from '@radix-ui/react-select'
+import clsx from 'clsx'
 
 import s from './select.module.scss'
 
@@ -18,12 +19,14 @@ export type SelectComponentProps = {
   triggerValue: SelectValueProps
 } & ComponentPropsWithoutRef<'div'>
 export const SelectComponent = ({
+  className,
   contentProps,
   itemProps,
   rootProps,
   triggerValue,
   ...restProps
 }: SelectComponentProps) => {
+  const classNames = clsx(s.selectContainer, className)
   const items = itemProps.map((item, index) => {
     return (
       <Select.Item {...itemProps[index]} className={s.selectItem} key={item.value}>
@@ -33,7 +36,7 @@ export const SelectComponent = ({
   })
 
   return (
-    <div {...restProps}>
+    <div {...restProps} className={classNames}>
       <Select.Root {...rootProps}>
         <Select.Trigger className={s.selectTrigger}>
           <Select.Value {...triggerValue} className={s.selectValue} />
@@ -43,12 +46,7 @@ export const SelectComponent = ({
         </Select.Trigger>
 
         <Select.Portal>
-          <Select.Content
-            {...contentProps}
-            avoidCollisions={false}
-            className={s.selectContent}
-            position={'popper'}
-          >
+          <Select.Content {...contentProps} className={s.selectContent} position={'popper'}>
             <Select.Viewport>
               <Select.Group>{items}</Select.Group>
             </Select.Viewport>

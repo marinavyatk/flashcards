@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import ArrowDown from '@/assets/svg/arrowDown.svg?react'
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import DeleteIcon from '@/assets/svg/deleteIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
@@ -11,6 +10,7 @@ import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { SliderComponent } from '@/components/ui/slider'
+import { SortElement } from '@/components/ui/sortElement/sortElement'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
@@ -29,8 +29,9 @@ export const MainPage = () => {
   const minCardsCount = searchParams.get('minCardsCount')
   const maxCardsCount = searchParams.get('maxCardsCount')
   const deckOwnership = searchParams.get('deckOwnership')
-
-  console.log('deckOwnership', deckOwnership)
+  const pageSize = searchParams.get('pageSize')
+  const currentPage = searchParams.get('currentPage')
+  const orderBy = searchParams.get('orderBy')
 
   const [inputSearchValue, setInputSearchValue] = useState(search ?? '')
 
@@ -42,6 +43,7 @@ export const MainPage = () => {
         } else {
           searchParams.delete('search')
         }
+        searchParams.delete('currentPage')
         setSearchParams(searchParams)
       },
       debounceHandler,
@@ -64,31 +66,70 @@ export const MainPage = () => {
     } else {
       searchParams.delete('maxCardsCount')
     }
+    searchParams.delete('currentPage')
     setSearchParams(searchParams)
   }
 
   const handleSwitchDeckOwnership = (value: string) => {
-    console.log('handleSwitchDeckOwnership')
-
     if (value === 'My Cards') {
       searchParams.set('deckOwnership', '~caller')
     } else {
       searchParams.delete('deckOwnership')
     }
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
+  }
+
+  const handlePageSizeChange = (value: string) => {
+    if (value !== '10') {
+      searchParams.set('pageSize', value)
+    } else {
+      searchParams.delete('pageSize')
+    }
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
+  }
+
+  const handleCurrentPageChange = (value: number) => {
+    if (value !== 1) {
+      searchParams.set('currentPage', String(value))
+    } else {
+      searchParams.delete('currentPage')
+    }
+    setSearchParams(searchParams)
+  }
+
+  const handleOrderByChange = (value: string) => {
+    if (value !== 'created-desc') {
+      searchParams.set('orderBy', value)
+    } else {
+      searchParams.delete('orderBy')
+    }
+    setSearchParams(searchParams)
+  }
+
+  const clearFilters = () => {
+    searchParams.delete('search')
+    setInputSearchValue('')
+    searchParams.delete('minCardsCount')
+    searchParams.delete('maxCardsCount')
+    searchParams.delete('deckOwnership')
+    searchParams.delete('orderBy')
+    searchParams.delete('currentPage')
     setSearchParams(searchParams)
   }
 
   const { data: minMaxData } = useGetMinMaxCardAmountQuery()
   const { data: userData } = useGetCurrentUserDataQuery()
-
   const { data } = useGetDecksQuery({
     authorId: deckOwnership ? deckOwnership : undefined,
+    currentPage: currentPage ? Number(currentPage) : undefined,
+    itemsPerPage: pageSize ? Number(pageSize) : undefined,
     maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
     minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
     name: search ?? undefined,
+    orderBy: orderBy ? orderBy : undefined,
   })
-
-  console.log('pagination', data?.pagination)
 
   const cardsNumbersFromSearchParams = [
     minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
@@ -182,7 +223,7 @@ export const MainPage = () => {
             />
           </div>
 
-          <Button variant={'secondary'}>
+          <Button onClick={clearFilters} variant={'secondary'}>
             <BinIcon /> Clear Filter
           </Button>
         </div>
@@ -191,21 +232,62 @@ export const MainPage = () => {
           tbody={<>{tableRows}</>}
           thead={
             <tr>
-              <th>Deck name</th>
-              <th>Cards</th>
               <th>
-                Last Updated <ArrowDown />
+                <SortElement
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'created-desc'}
+                  orderBy={'name'}
+                >
+                  Deck name
+                </SortElement>
               </th>
-              <th>Created by</th>
+              <th>
+                <SortElement
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'created-desc'}
+                  orderBy={'cardsCount'}
+                >
+                  Cards
+                </SortElement>
+              </th>
+              <th>
+                <SortElement
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'created-desc'}
+                  orderBy={'updated'}
+                >
+                  Last Updated
+                </SortElement>
+              </th>
+              <th>
+                <SortElement
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'created-desc'}
+                  orderBy={'author.name'}
+                >
+                  Created by
+                </SortElement>
+              </th>
               <th></th>
             </tr>
           }
         />
         <AppPagination
+          className={s.pagination}
           paginationProps={{
             currentPage: data?.pagination.currentPage || 1,
-            onPageChange: () => {},
+            onPageChange: handleCurrentPageChange,
             totalCount: data?.pagination.totalItems || 1,
+          }}
+          selectProps={{
+            rootProps: {
+              onValueChange: handlePageSizeChange,
+              value: pageSize ? pageSize : undefined,
+            },
           }}
         />
       </div>

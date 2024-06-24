@@ -48,3 +48,14 @@ export const addNewDeckSchema = z.object({
 })
 
 export type addNewDeckFromValues = z.infer<typeof addNewDeckSchema>
+
+export const addNewCardSchema = z.object({
+  answer: z.string().min(3).max(500),
+  answerImg: fileSchema,
+  answerVideo: fileSchema,
+  question: z.string().min(3).max(500),
+  questionImg: fileSchema,
+  questionVideo: fileSchema,
+})
+
+export type addNewCardFormValues = z.infer<typeof addNewCardSchema>

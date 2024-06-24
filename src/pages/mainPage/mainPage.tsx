@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import DeleteIcon from '@/assets/svg/deleteIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import { debounce, formatDate } from '@/common/commonFunctions'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
+import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { Button } from '@/components/ui/button'
 import { SliderComponent } from '@/components/ui/slider'
 import { SortElement } from '@/components/ui/sortElement/sortElement'
@@ -19,6 +19,7 @@ import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateDeckMutation,
+  useDeleteDeckMutation,
   useGetDecksQuery,
   useGetMinMaxCardAmountQuery,
 } from '@/services/decks/decksApi'
@@ -136,6 +137,7 @@ export const MainPage = () => {
   })
 
   const [createDeck] = useCreateDeckMutation()
+  const [deleteDeck] = useDeleteDeckMutation()
 
   const cardsNumbersFromSearchParams = [
     minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
@@ -152,6 +154,10 @@ export const MainPage = () => {
 
     return cardsNumbersFromSearchParams
   }, [minMaxData, minCardsCount, maxCardsCount])
+
+  const handleDeleteDeck = (id: string) => {
+    deleteDeck({ id })
+  }
 
   const tableRows = data?.items.map(item => {
     const isMyDeck = item.author.id === userData?.id
@@ -178,9 +184,11 @@ export const MainPage = () => {
               </button>
             )}
             {isMyDeck && (
-              <button>
-                <DeleteIcon />
-              </button>
+              <ConfirmDeleteModal
+                deletedElement={'Deck'}
+                elementName={item.name}
+                onConfirm={() => handleDeleteDeck(item.id)}
+              />
             )}
           </div>
         </td>

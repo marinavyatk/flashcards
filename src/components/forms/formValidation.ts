@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+export const fileSchema = z.custom<File>().optional()
+
 export const createNewPasswordSchema = z.object({
   password: z.string().min(3).max(30),
 })
@@ -38,3 +40,11 @@ export const signUpSchema = z
   })
 
 export type SignUpFormValues = z.infer<typeof signUpSchema>
+
+export const addNewDeckSchema = z.object({
+  cover: fileSchema,
+  isPrivate: z.boolean().optional(),
+  name: z.string().min(3).max(30),
+})
+
+export type addNewDeckFromValues = z.infer<typeof addNewDeckSchema>

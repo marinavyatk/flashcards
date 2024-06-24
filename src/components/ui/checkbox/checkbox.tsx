@@ -9,31 +9,30 @@ import clsx from 'clsx'
 
 import s from './checkbox.module.scss'
 
-export type CheckboxComponentProps = {
+export type CheckboxInputProps = {
   containerProps?: ComponentPropsWithoutRef<'div'>
   label?: string
 } & CheckboxProps
 
-export const CheckboxComponent = forwardRef<
-  ElementRef<typeof Checkbox.Root>,
-  CheckboxComponentProps
->((props: CheckboxComponentProps, ref) => {
-  const { className, containerProps, id, label, ...rest } = props
-  const generatedId = useId()
-  const finalId = id ?? generatedId
-  const classNames = clsx(s.checkbox, containerProps?.className)
+export const CheckboxInput = forwardRef<ElementRef<typeof Checkbox.Root>, CheckboxInputProps>(
+  (props: CheckboxInputProps, ref) => {
+    const { className, containerProps, id, label, ...rest } = props
+    const generatedId = useId()
+    const finalId = id ?? generatedId
+    const classNames = clsx(s.checkbox, containerProps?.className)
 
-  return (
-    <div {...containerProps} className={classNames}>
-      <Checkbox.Root className={s.checkboxRoot} id={finalId} ref={ref} {...rest}>
-        <Checkbox.Indicator className={s.checkboxIndicator}>
-          <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />
-        </Checkbox.Indicator>
-        <CheckboxUncheckedIcon className={s.checkboxUncheckedIcon} />
-      </Checkbox.Root>
-      <Typography as={'label'} htmlFor={finalId} variant={'body2'}>
-        {label}
-      </Typography>
-    </div>
-  )
-})
+    return (
+      <div {...containerProps} className={classNames}>
+        <Checkbox.Root className={s.checkboxRoot} id={finalId} ref={ref} {...rest}>
+          <Checkbox.Indicator className={s.checkboxIndicator}>
+            <CheckboxCheckedIcon className={s.checkboxCheckedIcon} />
+          </Checkbox.Indicator>
+          <CheckboxUncheckedIcon className={s.checkboxUncheckedIcon} />
+        </Checkbox.Root>
+        <Typography as={'label'} htmlFor={finalId} variant={'body2'}>
+          {label}
+        </Typography>
+      </div>
+    )
+  }
+)

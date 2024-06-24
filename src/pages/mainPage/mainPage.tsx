@@ -7,8 +7,8 @@ import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import { debounce, formatDate } from '@/common/commonFunctions'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
+import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
 import { Button } from '@/components/ui/button'
-import { Modal } from '@/components/ui/modal'
 import { SliderComponent } from '@/components/ui/slider'
 import { SortElement } from '@/components/ui/sortElement/sortElement'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
@@ -17,7 +17,11 @@ import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
-import { useGetDecksQuery, useGetMinMaxCardAmountQuery } from '@/services/decks/decksApi'
+import {
+  useCreateDeckMutation,
+  useGetDecksQuery,
+  useGetMinMaxCardAmountQuery,
+} from '@/services/decks/decksApi'
 
 import s from './mainPage.module.scss'
 
@@ -131,6 +135,8 @@ export const MainPage = () => {
     orderBy: orderBy ? orderBy : undefined,
   })
 
+  const [createDeck] = useCreateDeckMutation()
+
   const cardsNumbersFromSearchParams = [
     minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
     maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
@@ -182,6 +188,10 @@ export const MainPage = () => {
     )
   })
 
+  const handleAddNewDeck = data => {
+    createDeck(data)
+  }
+
   return (
     <PageTemplate>
       <div className={s.mainPage}>
@@ -189,7 +199,7 @@ export const MainPage = () => {
           <Typography as={'h1'} variant={'large'}>
             Decks list
           </Typography>
-          <Modal modalHeader={'Add New Deck'} trigger={<Button>Add New Deck</Button>} />
+          <AddNewDeckModal onFormSubmit={handleAddNewDeck} />
         </div>
         <div className={s.container}>
           <TextField

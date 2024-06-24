@@ -37,7 +37,7 @@ export type GetDecksArgs = {
 }
 
 export type CreateDeckArgs = {
-  cover?: string
+  cover?: File
   isPrivate?: boolean
   name: string
 }

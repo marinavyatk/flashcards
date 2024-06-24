@@ -17,11 +17,26 @@ export const decksApi = flashcardsApi.injectEndpoints({
     return {
       createDeck: builder.mutation<Deck, CreateDeckArgs>({
         invalidatesTags: ['Decks'],
-        query: args => ({
-          body: args ?? undefined,
-          method: 'POST',
-          url: '/v1/decks',
-        }),
+        query: args => {
+          const { cover, isPrivate, name } = args
+          const formData = new FormData()
+
+          if (cover) {
+            formData.append('cover', cover)
+          }
+          if (name) {
+            formData.append('name', name)
+          }
+          if (isPrivate) {
+            formData.append('isPrivate', String(isPrivate))
+          }
+
+          return {
+            body: formData,
+            method: 'POST',
+            url: '/v1/decks',
+          }
+        },
       }),
       deleteDeck: builder.mutation<void, DeleteDeckArgs>({
         invalidatesTags: ['Decks'],

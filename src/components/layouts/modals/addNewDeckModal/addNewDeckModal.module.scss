@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 23px 24px 36px;
+}
+
+.deckCover {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.buttonsBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -12,7 +12,7 @@ import { CreateDeckArgs } from '@/services/decks/decks.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
-import s from './addNewDeckModal.module.scss'
+import s from '../modals.module.scss'
 
 export type AddNewDeckModalProps = {
   onFormSubmit: (data: addNewDeckFromValues) => void
@@ -64,9 +64,9 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
       rootProps={{ onOpenChange: setOpen, open: open }}
       trigger={<Button>Add New Deck</Button>}
     >
-      <form className={s.form} onSubmit={handleSubmit(handleFormSubmit)}>
+      <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextField control={control} label={'Name Pack'} name={'name'} />
-        {cover && <img alt={'Deck Cover'} className={s.deckCover} src={cover} />}
+        {cover && <img alt={'Deck Cover'} className={s.cover} src={cover} />}
         <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
           <ImageIcon /> Upload Image
         </FormInputFileCover>

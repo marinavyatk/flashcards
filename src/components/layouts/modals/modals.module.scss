@@ -1,11 +1,11 @@
-.form {
+.modalContent {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 23px 24px 36px;
 }
 
-.deckCover {
+.cover {
   width: 100%;
   height: 120px;
   object-fit: cover;

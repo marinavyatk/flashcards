@@ -9,12 +9,14 @@
 }
 
 .item {
+  cursor: pointer;
   display: flex;
   gap: 6px;
   align-items: center;
 
   img,
   svg {
+    cursor: pointer;
     width: 16px;
     height: 16px;
   }

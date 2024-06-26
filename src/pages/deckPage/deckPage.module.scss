@@ -1,0 +1,62 @@
+.deckPage {
+  width: 100%;
+  max-width: 1008px;
+}
+
+.deckContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 36px;
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .deckNameWithOptions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+  }
+}
+
+.noCardsContainer {
+  width: 100%;
+  max-width: 1008px;
+
+  .deckName {
+    margin-bottom: 70px;
+  }
+
+  .noCardMessage {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+
+    p {
+      color: var(--color-dark-100);
+    }
+  }
+}
+
+.backLink {
+  all: unset;
+
+  cursor: pointer;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  margin-bottom: 33px;
+}
+
+.deckCover {
+  width: fit-content;
+  height: 170px;
+  object-fit: contain;
+  border-radius: 2px;
+}

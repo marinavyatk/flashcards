@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { PageNotFound } from '@/pages/404/404'
+import { DeckPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
@@ -17,6 +18,7 @@ import { MainPage } from '@/pages/mainPage/mainPage'
 export const routes = {
   checkEmail: '/check-email',
   createNewPassword: '/create-new-password',
+  deck: '/decks/:deckId',
   editProfile: '/edit-profile',
   forgotPassword: '/forgot-password',
   main: '/',
@@ -52,6 +54,10 @@ const privateRoutes: RouteObject[] = [
   {
     element: <MainPage />,
     path: routes.main,
+  },
+  {
+    element: <DeckPage />,
+    path: routes.deck,
   },
   {
     element: <EditProfilePage />,

@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ElementType, Ref, forwardRef } from 'react'
+import { ComponentPropsWithoutRef, ElementType, ReactElement, Ref, forwardRef } from 'react'
 
 import clsx from 'clsx'
 
@@ -26,4 +26,4 @@ export const Button = forwardRef(
   }
 ) as <T extends ElementType = 'button'>(
   props: { ref?: Ref<HTMLElement> } & ButtonProps<T>
-) => JSX.Element
+) => ReactElement

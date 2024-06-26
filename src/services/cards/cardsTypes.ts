@@ -16,12 +16,12 @@ export type Card = {
 
 export type CreateCardArgs = {
   answer: string
-  answerImg?: string
-  answerVideo?: string
+  answerImg?: File
+  answerVideo?: File
   id: string
   question: string
-  questionImg?: string
-  questionVideo?: string
+  questionImg?: File
+  questionVideo?: File
 }
 
 export type RetrieveRandomCardArgs = {

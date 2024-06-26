@@ -59,3 +59,9 @@ export const addNewCardSchema = z.object({
 })
 
 export type addNewCardFormValues = z.infer<typeof addNewCardSchema>
+
+export const saveGradeSchema = z.object({
+  grade: z.string().max(1).min(1),
+})
+
+export type saveGradeFormValues = z.infer<typeof saveGradeSchema>

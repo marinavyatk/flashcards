@@ -1,0 +1,47 @@
+.questionPage {
+  width: 100%;
+  max-width: 1008px;
+}
+
+.questionCard {
+  padding: 33px 36px 48px;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.deckTitle {
+  margin-bottom: 45px;
+}
+
+.questionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.shots {
+  color: var(--color-dark-100);
+}
+
+.backLink {
+  all: unset;
+
+  cursor: pointer;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  margin-bottom: 36px;
+}
+
+.nextQuestionButton {
+  margin-top: 30px;
+}
+
+.formHeader {
+  margin-bottom: 13px;
+}

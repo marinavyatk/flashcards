@@ -2,6 +2,7 @@ import { ComponentPropsWithoutRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import Logo from '@/assets/svg/logo.svg?react'
+import { routes } from '@/common/router'
 import { Button } from '@/components/ui/button'
 import {
   UserDropdown,
@@ -23,7 +24,9 @@ export const Header = (props: HeaderProps) => {
   return (
     <header className={classNames} {...restProps}>
       <div className={s.innerContainer}>
-        <Logo className={s.logo} />
+        <Link to={routes.main}>
+          <Logo className={s.logo} />
+        </Link>
         {isAuthorized ? (
           userDropdownProps && (
             <UserDropdown

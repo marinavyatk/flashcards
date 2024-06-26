@@ -14,6 +14,7 @@ import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
 import { SignUpPage } from '@/pages/formPages/signUpPage'
 import { MainPage } from '@/pages/mainPage/mainPage'
+import { QuestionPage } from '@/pages/questionPage/questionPage'
 
 export const routes = {
   checkEmail: '/check-email',
@@ -21,6 +22,7 @@ export const routes = {
   deck: '/decks/:deckId',
   editProfile: '/edit-profile',
   forgotPassword: '/forgot-password',
+  learn: 'learn/:deckId/:cardId',
   main: '/',
   pageNotFound: '/*',
   signIn: '/sign-in',
@@ -62,6 +64,10 @@ const privateRoutes: RouteObject[] = [
   {
     element: <EditProfilePage />,
     path: routes.editProfile,
+  },
+  {
+    element: <QuestionPage />,
+    path: routes.learn,
   },
 ]
 

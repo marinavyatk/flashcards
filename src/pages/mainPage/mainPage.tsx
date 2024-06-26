@@ -2,21 +2,20 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import EditIcon from '@/assets/svg/editIcon.svg?react'
-import PlayIcon from '@/assets/svg/playIcon.svg?react'
-import { debounce, formatDate } from '@/common/commonFunctions'
+import { debounce } from '@/common/commonFunctions'
+import { decksData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
+import { TableBodyDecks, TableHead } from '@/components/layouts/appTable/appTable'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
-import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { Button } from '@/components/ui/button'
 import { SliderComponent } from '@/components/ui/slider'
-import { SortElement } from '@/components/ui/sortElement/sortElement'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
+import { CreateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
@@ -130,8 +129,8 @@ export const MainPage = () => {
     authorId: deckOwnership ? deckOwnership : undefined,
     currentPage: currentPage ? Number(currentPage) : undefined,
     itemsPerPage: pageSize ? Number(pageSize) : undefined,
-    maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
-    minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
+    maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
+    minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
     name: search ?? undefined,
     orderBy: orderBy ? orderBy : undefined,
   })
@@ -140,63 +139,15 @@ export const MainPage = () => {
   const [deleteDeck] = useDeleteDeckMutation()
 
   const cardsNumbersFromSearchParams = [
-    minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min,
-    maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
+    minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
+    maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
   ]
-
-  const cardsNumberInitialValues = useMemo(() => {
-    if (
-      cardsNumbersFromSearchParams[0] === undefined ||
-      cardsNumbersFromSearchParams[1] === undefined
-    ) {
-      return undefined
-    }
-
-    return cardsNumbersFromSearchParams
-  }, [minMaxData, minCardsCount, maxCardsCount])
 
   const handleDeleteDeck = (id: string) => {
     deleteDeck({ id })
   }
 
-  const tableRows = data?.items.map(item => {
-    const isMyDeck = item.author.id === userData?.id
-
-    return (
-      <tr key={item.id}>
-        <td>
-          <div className={s.deckMainInfo}>
-            {item.cover && <img alt={`${item.name} cover`} src={item.cover} />}
-            <Typography as={'span'}>{item.name}</Typography>
-          </div>
-        </td>
-        <td>{item.cardsCount}</td>
-        <td>{formatDate(item.created)}</td>
-        <td>{item.author.name}</td>
-        <td>
-          <div className={s.actions}>
-            <button>
-              <PlayIcon />
-            </button>
-            {isMyDeck && (
-              <button>
-                <EditIcon />
-              </button>
-            )}
-            {isMyDeck && (
-              <ConfirmDeleteModal
-                deletedElement={'Deck'}
-                elementName={item.name}
-                onConfirm={() => handleDeleteDeck(item.id)}
-              />
-            )}
-          </div>
-        </td>
-      </tr>
-    )
-  })
-
-  const handleAddNewDeck = data => {
+  const handleAddNewDeck = (data: CreateDeckArgs) => {
     createDeck(data)
   }
 
@@ -233,7 +184,7 @@ export const MainPage = () => {
             </Typography>
             <SliderComponent
               rootProps={{
-                defaultValue: cardsNumberInitialValues,
+                defaultValue: cardsNumbersFromSearchParams,
                 max: minMaxData ? minMaxData.max : undefined,
                 min: minMaxData ? minMaxData.min : undefined,
                 onValueCommit: handleCardsCountChange,
@@ -247,53 +198,24 @@ export const MainPage = () => {
         </div>
         <Table
           className={s.table}
-          tbody={<>{tableRows}</>}
           thead={
             <tr>
-              <th>
-                <SortElement
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'created-desc'}
-                  orderBy={'name'}
-                >
-                  Deck name
-                </SortElement>
-              </th>
-              <th>
-                <SortElement
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'created-desc'}
-                  orderBy={'cardsCount'}
-                >
-                  Cards
-                </SortElement>
-              </th>
-              <th>
-                <SortElement
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'created-desc'}
-                  orderBy={'updated'}
-                >
-                  Last Updated
-                </SortElement>
-              </th>
-              <th>
-                <SortElement
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'created-desc'}
-                  orderBy={'author.name'}
-                >
-                  Created by
-                </SortElement>
-              </th>
-              <th></th>
+              <TableHead
+                cellsData={decksData}
+                changeSort={handleOrderByChange}
+                currentOrderBy={orderBy}
+                defaultValue={'updated-desc'}
+              />
             </tr>
           }
-        />
+        >
+          {' '}
+          <TableBodyDecks
+            onConfirmDelete={handleDeleteDeck}
+            tableRowsData={data?.items || []}
+            userId={userData?.id || ''}
+          />
+        </Table>
         <AppPagination
           className={s.pagination}
           paginationProps={{

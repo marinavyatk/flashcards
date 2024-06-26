@@ -6,25 +6,27 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import s from '../modals.module.scss'
 
-type DeletedElement = 'Card' | 'Deck'
+export type DeletedElement = 'Card' | 'Deck'
 
 export type AddNewDeckModalProps = {
   deletedElement: DeletedElement
   elementName?: string
   onConfirm: () => void
+  triggerText?: string
 }
 export const ConfirmDeleteModal = ({
   deletedElement,
   elementName,
   onConfirm,
+  triggerText,
 }: AddNewDeckModalProps) => {
   return (
     <Modal
       modalHeader={`Add New ${deletedElement}`}
       trigger={
-        <Button>
-          <BinIcon />
-        </Button>
+        <button className={s.triggerButton}>
+          <BinIcon /> {triggerText && triggerText}
+        </button>
       }
     >
       <div className={s.modalContent}>

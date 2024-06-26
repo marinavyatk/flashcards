@@ -1,0 +1,42 @@
+.th {
+  white-space: nowrap;
+}
+
+.deckMainInfo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  color: var(--color-light-100);
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+
+  button {
+    all: unset;
+    cursor: pointer;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--color-light-100);
+    }
+  }
+}
+
+.cellWithImg {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-align: justify;
+}
+
+.grade {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

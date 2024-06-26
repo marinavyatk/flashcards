@@ -17,3 +17,10 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.triggerButton {
+  all: unset;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}

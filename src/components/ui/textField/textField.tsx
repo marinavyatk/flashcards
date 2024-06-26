@@ -2,7 +2,8 @@ import {
   ChangeEvent,
   ComponentPropsWithoutRef,
   ElementType,
-  Ref,
+  ForwardedRef,
+  ReactElement,
   forwardRef,
   useRef,
   useState,
@@ -42,10 +43,9 @@ export type TextFieldProps<T extends ElementType = 'input'> = {
 } & ComponentPropsWithoutRef<T>
 
 export const TextField = forwardRef(
-  //need to type correctly
   <T extends ElementType = 'input'>(
     props: TextFieldProps<T>,
-    ref: Ref<HTMLInputElement | HTMLTextAreaElement> | undefined
+    ref: ForwardedRef<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const {
       as: Component = 'input',
@@ -126,4 +126,6 @@ export const TextField = forwardRef(
       </div>
     )
   }
-)
+) as <T extends ElementType = 'input'>(
+  props: { ref?: ForwardedRef<HTMLInputElement | HTMLTextAreaElement> } & TextFieldProps<T>
+) => ReactElement

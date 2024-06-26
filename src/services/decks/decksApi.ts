@@ -62,12 +62,14 @@ export const decksApi = flashcardsApi.injectEndpoints({
         }),
       }),
       retrieveCardsInDeck: builder.query<RetrieveCardsInDeckResponse, RetrieveCardsInDeckArgs>({
+        providesTags: ['Cards'],
         query: ({ id, ...args }) => ({
           params: args,
           url: `/v1/decks/${id}/cards`,
         }),
       }),
       retrieveDeck: builder.query<Deck, RetrieveDeckArgs>({
+        providesTags: ['Cards'],
         query: args => ({
           method: 'GET',
           url: `/v1/decks/${args.id}`,

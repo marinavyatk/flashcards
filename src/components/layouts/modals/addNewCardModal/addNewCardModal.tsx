@@ -28,11 +28,11 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
   } = useForm<addNewCardFormValues>({
     defaultValues: {
       answer: '',
-      answerImg: {} as File,
-      answerVideo: {} as File,
+      answerImg: undefined,
+      answerVideo: undefined,
       question: '',
-      questionImg: {} as File,
-      questionVideo: {} as File,
+      questionImg: undefined,
+      questionVideo: undefined,
     },
     mode: 'onBlur',
     resolver: zodResolver(addNewCardSchema),

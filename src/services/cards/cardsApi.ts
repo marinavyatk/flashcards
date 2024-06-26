@@ -15,11 +15,31 @@ export const cardsApi = flashcardsApi.injectEndpoints({
     return {
       createCard: builder.mutation<Card, CreateCardArgs>({
         invalidatesTags: ['Cards', 'Decks'],
-        query: ({ id, ...args }) => ({
-          body: { ...args },
-          method: 'POST',
-          url: `/v1/decks/${id}/cards`,
-        }),
+        query: ({ id, ...args }) => {
+          const formData = new FormData()
+
+          formData.append('answer', args.answer)
+          formData.append('question', args.question)
+
+          if (args.answerImg) {
+            formData.append('answerImg', args.answerImg)
+          }
+          if (args.questionImg) {
+            formData.append('questionImg', args.questionImg)
+          }
+          if (args.answerVideo) {
+            formData.append('answerVideo', args.answerVideo)
+          }
+          if (args.questionVideo) {
+            formData.append('questionVideo', args.questionVideo)
+          }
+
+          return {
+            body: formData,
+            method: 'POST',
+            url: `/v1/decks/${id}/cards`,
+          }
+        },
       }),
       deleteCard: builder.mutation<void, DeleteCard>({
         invalidatesTags: ['Cards', 'Decks'],

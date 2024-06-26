@@ -1,9 +1,12 @@
 import { ComponentPropsWithoutRef } from 'react'
 
-import DeleteIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import SettingIcon from '@/assets/svg/settingIcon.svg?react'
+import {
+  ConfirmDeleteModal,
+  DeletedElement,
+} from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import {
   DropdownItem,
   DropdownMenuComponent,
@@ -13,9 +16,15 @@ import { Typography } from '@/components/ui/typography'
 
 import s from './settingDropdown.module.scss'
 
-export type SettingDropdownProps = ComponentPropsWithoutRef<'div'>
+export type SettingDropdownProps = {
+  deletedElement: DeletedElement
+  elementName: string
+  id: string
+  onConfirmDelete: (id: string) => void
+} & ComponentPropsWithoutRef<'div'>
+
 export const SettingDropdown = (props: SettingDropdownProps) => {
-  const { className, ...restProps } = props
+  const { className, deletedElement, elementName, id, onConfirmDelete, ...restProps } = props
 
   return (
     <DropdownMenuComponent
@@ -30,23 +39,26 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
     >
       <DropdownItem className={s.item}>
         <PlayIcon />
-        <Typography as={'label'} variant={'caption'}>
+        <Typography as={'span'} variant={'caption'}>
           Learn
         </Typography>
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>
         <EditIcon />
-        <Typography as={'label'} variant={'caption'}>
+        <Typography as={'span'} variant={'caption'}>
           Edit
         </Typography>
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>
-        <DeleteIcon />
-        <Typography as={'label'} variant={'caption'}>
-          Delete
-        </Typography>
+        <ConfirmDeleteModal
+          deletedElement={deletedElement}
+          elementName={elementName}
+          onConfirm={() => onConfirmDelete(id)}
+          triggerText={'Delete'}
+        />
+        <Typography as={'span'} variant={'caption'}></Typography>
       </DropdownItem>
     </DropdownMenuComponent>
   )

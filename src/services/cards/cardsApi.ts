@@ -56,6 +56,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         }),
       }),
       retrieveRandomCard: builder.query<Card, RetrieveRandomCardArgs>({
+        providesTags: ['RandomCard'],
         query: ({ deckId, ...args }) => ({
           method: 'GET',
           params: { ...args } ?? undefined,
@@ -63,7 +64,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         }),
       }),
       saveCardGrade: builder.mutation<Card, SaveCardGradeArgs>({
-        invalidatesTags: ['Cards'],
+        invalidatesTags: ['Cards', 'RandomCard'],
         query: ({ deckId, ...args }) => ({
           body: { ...args },
           method: 'POST',

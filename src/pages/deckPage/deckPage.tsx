@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import { debounce } from '@/common/commonFunctions'
@@ -15,7 +15,11 @@ import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
-import { useCreateCardMutation, useDeleteCardMutation } from '@/services/cards/cardsApi'
+import {
+  useCreateCardMutation,
+  useDeleteCardMutation,
+  useRetrieveRandomCardQuery,
+} from '@/services/cards/cardsApi'
 import { useRetrieveCardsInDeckQuery, useRetrieveDeckQuery } from '@/services/decks/decksApi'
 
 import s from './deckPage.module.scss'
@@ -46,9 +50,11 @@ export const DeckPage = () => {
     question: search ? search : undefined,
   })
 
-  const isMyDeck = cards?.items?.[0]?.userId === userData?.id
+  const { data: randomCardData } = useRetrieveRandomCardQuery({
+    deckId: deckData?.id ? deckData?.id : '',
+  })
 
-  console.log(cards)
+  const isMyDeck = cards?.items?.[0]?.userId === userData?.id
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
     createCard({ ...data, id: deckId ? deckId : '' })
@@ -163,7 +169,9 @@ export const DeckPage = () => {
             {isMyDeck ? (
               <AddNewCardModal onFormSubmit={handleAddNewCard} />
             ) : (
-              <Button>Learn to Pack</Button>
+              <Button as={Link} to={`/learn/${deckData?.id}/${randomCardData?.id}`}>
+                Learn to Pack
+              </Button>
             )}
           </div>
           {deckData?.cover && (

@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
 
-import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { EditCardModal } from '@/components/layouts/modals/editCard/editCard'
+import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
 import { SortElement } from '@/components/ui/sortElement/sortElement'
 import { Card } from '@/services/cards/cardsTypes'
-import { Deck } from '@/services/decks/decks.types'
+import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
 
@@ -47,12 +48,13 @@ export const TableHead = (props: TableHeadProps) => {
 
 export type TableBodyProps = {
   onConfirmDelete: (id: string) => void
+  onEdit: (id: string) => void
   tableRowsData: Deck[]
   userId: string
 }
 
 export const TableBodyDecks = (props: TableBodyProps) => {
-  const { onConfirmDelete, tableRowsData, userId } = props
+  const { onConfirmDelete, onEdit, tableRowsData, userId } = props
   const tableRows = tableRowsData.map(item => {
     const isMyDeck = item.author.id === userId
 
@@ -72,11 +74,7 @@ export const TableBodyDecks = (props: TableBodyProps) => {
             <button>
               <PlayIcon />
             </button>
-            {isMyDeck && (
-              <button>
-                <EditIcon />
-              </button>
-            )}
+            {isMyDeck && <EditDeckModal id={item.id} onFormSubmit={onEdit} />}
             {isMyDeck && (
               <ConfirmDeleteModal
                 deletedElement={'Deck'}
@@ -96,11 +94,12 @@ export const TableBodyDecks = (props: TableBodyProps) => {
 export type TableBodyCardsProps = {
   isMyDeck: boolean
   onConfirmDelete: (id: string) => void
+  onEditCard: (data: UpdateDeckArgs) => void
   tableRowsData: Card[]
 }
 
 export const TableBodyCards = (props: TableBodyCardsProps) => {
-  const { isMyDeck, onConfirmDelete, tableRowsData } = props
+  const { isMyDeck, onConfirmDelete, onEditCard, tableRowsData } = props
 
   const getRating = (grade: number) => {
     const rating = []
@@ -133,14 +132,15 @@ export const TableBodyCards = (props: TableBodyCardsProps) => {
           <div className={s.grade}>{getRating(item.grade)}</div>
         </td>
         {isMyDeck && (
-          <td className={s.actions}>
-            <button>
-              <EditIcon />
-            </button>
-            <ConfirmDeleteModal
-              deletedElement={'Card'}
-              onConfirm={() => onConfirmDelete(item.id)}
-            />
+          <td>
+            <div className={s.actions}>
+              <EditCardModal cardId={item.id} onFormSubmit={onEditCard} />
+
+              <ConfirmDeleteModal
+                deletedElement={'Card'}
+                onConfirm={() => onConfirmDelete(item.id)}
+              />
+            </div>
           </td>
         )}
       </tr>

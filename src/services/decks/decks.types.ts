@@ -43,7 +43,7 @@ export type CreateDeckArgs = {
 }
 
 export type UpdateDeckArgs = {
-  id?: string
+  id: string
 } & Partial<CreateDeckArgs>
 
 export type DeleteDeckArgs = {

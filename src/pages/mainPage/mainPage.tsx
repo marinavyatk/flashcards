@@ -1,8 +1,5 @@
-import { useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import { debounce } from '@/common/commonFunctions'
+import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
 import { decksData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { TableBodyDecks, TableHead } from '@/components/layouts/appTable/appTable'
@@ -25,106 +22,30 @@ import {
 
 import s from './mainPage.module.scss'
 
-export let debounceHandler: any = null
-
 export const MainPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const search = searchParams.get('search')
-  const minCardsCount = searchParams.get('minCardsCount')
-  const maxCardsCount = searchParams.get('maxCardsCount')
-  const deckOwnership = searchParams.get('deckOwnership')
-  const pageSize = searchParams.get('pageSize')
-  const currentPage = searchParams.get('currentPage')
-  const orderBy = searchParams.get('orderBy')
-
-  const [inputSearchValue, setInputSearchValue] = useState(search ?? '')
-
-  useMemo(() => {
-    debounceHandler = debounce(
-      () => {
-        if (inputSearchValue) {
-          searchParams.set('search', inputSearchValue)
-        } else {
-          searchParams.delete('search')
-        }
-        searchParams.delete('currentPage')
-        setSearchParams(searchParams)
-      },
-      debounceHandler,
-      1000
-    )
-  }, [inputSearchValue])
-
-  const handleSearchChange = (value: string) => {
-    setInputSearchValue(value)
-  }
-
-  const handleCardsCountChange = (values: number[]) => {
-    if (values[0] !== minMaxData?.min) {
-      searchParams.set('minCardsCount', String(values[0]))
-    } else {
-      searchParams.delete('minCardsCount')
-    }
-    if (values[1] !== minMaxData?.max) {
-      searchParams.set('maxCardsCount', String(values[1]))
-    } else {
-      searchParams.delete('maxCardsCount')
-    }
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }
-
-  const handleSwitchDeckOwnership = (value: string) => {
-    if (value === 'My Cards') {
-      searchParams.set('deckOwnership', '~caller')
-    } else {
-      searchParams.delete('deckOwnership')
-    }
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }
-
-  const handlePageSizeChange = (value: string) => {
-    if (value !== '10') {
-      searchParams.set('pageSize', value)
-    } else {
-      searchParams.delete('pageSize')
-    }
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }
-
-  const handleCurrentPageChange = (value: number) => {
-    if (value !== 1) {
-      searchParams.set('currentPage', String(value))
-    } else {
-      searchParams.delete('currentPage')
-    }
-    setSearchParams(searchParams)
-  }
-
-  const handleOrderByChange = (value: string) => {
-    if (value !== 'created-desc') {
-      searchParams.set('orderBy', value)
-    } else {
-      searchParams.delete('orderBy')
-    }
-    setSearchParams(searchParams)
-  }
-
-  const clearFilters = () => {
-    searchParams.delete('search')
-    setInputSearchValue('')
-    searchParams.delete('minCardsCount')
-    searchParams.delete('maxCardsCount')
-    searchParams.delete('deckOwnership')
-    searchParams.delete('orderBy')
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }
-
-  const { data: minMaxData } = useGetMinMaxCardAmountQuery()
   const { data: userData } = useGetCurrentUserDataQuery()
+  const { data: minMaxData } = useGetMinMaxCardAmountQuery()
+  const [createDeck] = useCreateDeckMutation()
+  const [deleteDeck] = useDeleteDeckMutation()
+
+  const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
+  const {
+    currentPage,
+    deckOwnership,
+    handleCardsCountChange,
+    handleCurrentPageChange,
+    handleOrderByChange,
+    handlePageSizeChange,
+    handleSwitchDeckOwnership,
+    maxCardsCount,
+    minCardsCount,
+    orderBy,
+    pageSize,
+    search,
+    searchParams,
+    setSearchParams,
+  } = useAppSearchParams({ max: minMaxData?.max ?? 1, min: minMaxData?.min ?? 0 })
+
   const { data } = useGetDecksQuery({
     authorId: deckOwnership ? deckOwnership : undefined,
     currentPage: currentPage ? Number(currentPage) : undefined,
@@ -135,8 +56,15 @@ export const MainPage = () => {
     orderBy: orderBy ? orderBy : undefined,
   })
 
-  const [createDeck] = useCreateDeckMutation()
-  const [deleteDeck] = useDeleteDeckMutation()
+  const clearFilters = () => {
+    searchParams.delete('search')
+    searchParams.delete('minCardsCount')
+    searchParams.delete('maxCardsCount')
+    searchParams.delete('deckOwnership')
+    searchParams.delete('orderBy')
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
+  }
 
   const cardsNumbersFromSearchParams = [
     minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
@@ -165,7 +93,7 @@ export const MainPage = () => {
             containerProps={{ className: s.searchFilter }}
             onValueChange={handleSearchChange}
             type={'search'}
-            value={inputSearchValue}
+            value={inputValue}
           />
           <div className={s.elementWithCaption}>
             <Typography as={'span'} variant={'body2'}>

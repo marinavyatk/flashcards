@@ -19,5 +19,6 @@ export const Primary: Story = {
       siblingCount: 1,
       totalCount: 300,
     },
+    selectProps: {},
   },
 }

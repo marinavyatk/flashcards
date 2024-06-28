@@ -33,7 +33,7 @@ export type GetDecksArgs = {
   maxCardsCount?: number
   minCardsCount?: number
   name?: string
-  orderBy?: string
+  orderBy?: null | string
 }
 
 export type CreateDeckArgs = {

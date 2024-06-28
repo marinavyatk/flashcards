@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
 import { decksData } from '@/common/tableData'
@@ -53,7 +56,7 @@ export const MainPage = () => {
     maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
     minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
     name: search ?? undefined,
-    orderBy: orderBy ? orderBy : undefined,
+    orderBy: orderBy,
   })
 
   const clearFilters = () => {
@@ -66,10 +69,16 @@ export const MainPage = () => {
     setSearchParams(searchParams)
   }
 
-  const cardsNumbersFromSearchParams = [
-    minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
-    maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
-  ]
+  const cardsNumbersFromSearchParams = useMemo(() => {
+    if (!minMaxData) {
+      return undefined
+    }
+
+    return [
+      minCardsCount !== null ? Number(minCardsCount) : minMaxData.min,
+      maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max,
+    ]
+  }, [minMaxData, minCardsCount, maxCardsCount])
 
   const handleDeleteDeck = (id: string) => {
     deleteDeck({ id })
@@ -78,6 +87,9 @@ export const MainPage = () => {
   const handleAddNewDeck = (data: CreateDeckArgs) => {
     createDeck(data)
   }
+  // const { key , search} = useLocation()
+
+  console.log(useLocation())
 
   return (
     <PageTemplate>
@@ -137,7 +149,6 @@ export const MainPage = () => {
             </tr>
           }
         >
-          {' '}
           <TableBodyDecks
             onConfirmDelete={handleDeleteDeck}
             tableRowsData={data?.items || []}

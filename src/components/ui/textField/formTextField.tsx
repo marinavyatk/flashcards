@@ -2,9 +2,9 @@ import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
 
 import { TextField, TextFieldProps } from '@/components/ui/textField/textField'
 
-export type FormTextFieldProps<T extends FieldValues> = Omit<
+export type FormTextFieldProps<T extends FieldValues> = { as: T } & Omit<
   TextFieldProps,
-  'id' | 'onChange' | 'value'
+  'as' | 'id' | 'onChange' | 'value'
 > &
   UseControllerProps<T>
 export const FormTextField = <T extends FieldValues>(props: FormTextFieldProps<T>) => {
@@ -14,5 +14,5 @@ export const FormTextField = <T extends FieldValues>(props: FormTextFieldProps<T
     fieldState: { error },
   } = useController({ control, defaultValue, name, rules, shouldUnregister })
 
-  return <TextField {...field} {...textFieldProps} errorMessage={error?.message} />
+  return <TextField {...textFieldProps} errorMessage={error?.message} {...field} />
 }

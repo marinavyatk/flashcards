@@ -126,6 +126,6 @@ export const TextField = forwardRef(
       </div>
     )
   }
-) as <T extends ElementType = 'input'>(
-  props: { ref?: ForwardedRef<HTMLInputElement | HTMLTextAreaElement> } & TextFieldProps<T>
+) as (
+  props: { ref?: ForwardedRef<HTMLInputElement | HTMLTextAreaElement> } & TextFieldProps
 ) => ReactElement

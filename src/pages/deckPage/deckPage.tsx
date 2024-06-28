@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
-import { debounce } from '@/common/commonFunctions'
+import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
 import { deckTableData } from '@/common/tableData'
 import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
@@ -24,16 +23,18 @@ import { useRetrieveCardsInDeckQuery, useRetrieveDeckQuery } from '@/services/de
 
 import s from './deckPage.module.scss'
 
-let debounceHandler: any = null
-
 export const DeckPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const { deckId } = useParams()
-  const search = searchParams.get('search')
-  const orderBy = searchParams.get('orderBy')
-  const pageSize = searchParams.get('pageSize')
-  const currentPage = searchParams.get('currentPage')
-  const [inputSearchValue, setInputSearchValue] = useState(search ?? '')
+  const {
+    currentPage,
+    handleCurrentPageChange,
+    handleOrderByChange,
+    handlePageSizeChange,
+    orderBy,
+    pageSize,
+    search,
+  } = useAppSearchParams()
+  const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
 
   const navigate = useNavigate()
 
@@ -54,7 +55,7 @@ export const DeckPage = () => {
     deckId: deckData?.id ? deckData?.id : '',
   })
 
-  const isMyDeck = cards?.items?.[0]?.userId === userData?.id
+  const isMyDeck = deckData?.author === userData?.id
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
     createCard({ ...data, id: deckId ? deckId : '' })
@@ -62,53 +63,6 @@ export const DeckPage = () => {
 
   const handleDeleteCard = (cardId: string) => {
     deleteCard({ cardId })
-  }
-
-  const handleSearchChange = (value: string) => {
-    setInputSearchValue(value)
-  }
-
-  useMemo(() => {
-    debounceHandler = debounce(
-      () => {
-        if (inputSearchValue) {
-          searchParams.set('search', inputSearchValue)
-        } else {
-          searchParams.delete('search')
-        }
-        searchParams.delete('currentPage')
-        setSearchParams(searchParams)
-      },
-      debounceHandler,
-      1000
-    )
-  }, [inputSearchValue])
-
-  const handleOrderByChange = (value: string) => {
-    if (value !== 'updated-desc') {
-      searchParams.set('orderBy', value)
-    } else {
-      searchParams.delete('orderBy')
-    }
-    setSearchParams(searchParams)
-  }
-
-  const handleCurrentPageChange = (value: number) => {
-    if (value !== 1) {
-      searchParams.set('currentPage', String(value))
-    } else {
-      searchParams.delete('currentPage')
-    }
-    setSearchParams(searchParams)
-  }
-  const handlePageSizeChange = (value: string) => {
-    if (value !== '10') {
-      searchParams.set('pageSize', value)
-    } else {
-      searchParams.delete('pageSize')
-    }
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
   }
 
   if (!cards?.items.length) {
@@ -177,7 +131,7 @@ export const DeckPage = () => {
           {deckData?.cover && (
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
-          <TextField onValueChange={handleSearchChange} type={'search'} value={inputSearchValue} />
+          <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
           <Table
             thead={
               <tr>

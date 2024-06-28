@@ -11,4 +11,12 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const DropdownMenuWithSettings: Story = {}
+export const DropdownMenuWithSettings: Story = {
+  args: {
+    deletedElement: 'Card',
+    id: '1234',
+    onConfirmDelete: (id: string) => {
+      console.log(id)
+    },
+  },
+}

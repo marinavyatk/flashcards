@@ -18,7 +18,7 @@ import s from './settingDropdown.module.scss'
 
 export type SettingDropdownProps = {
   deletedElement: DeletedElement
-  elementName: string
+  elementName?: string
   id: string
   onConfirmDelete: (id: string) => void
 } & ComponentPropsWithoutRef<'div'>

@@ -7,6 +7,7 @@ import {
   ConfirmDeleteModal,
   DeletedElement,
 } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { UpdateDeckModal } from '@/components/layouts/modals/updateDeck/updateDeck'
 import {
   DropdownItem,
   DropdownMenuComponent,
@@ -21,10 +22,12 @@ export type SettingDropdownProps = {
   elementName?: string
   id: string
   onConfirmDelete: (id: string) => void
+  onEdit: (id: string) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const SettingDropdown = (props: SettingDropdownProps) => {
-  const { className, deletedElement, elementName, id, onConfirmDelete, ...restProps } = props
+  const { className, deletedElement, elementName, id, onConfirmDelete, onEdit, ...restProps } =
+    props
 
   return (
     <DropdownMenuComponent
@@ -45,10 +48,7 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>
-        <EditIcon />
-        <Typography as={'span'} variant={'caption'}>
-          Edit
-        </Typography>
+        <UpdateDeckModal id={id} onFormSubmit={() => onEdit(id)} triggerText={'Edit'} />
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>

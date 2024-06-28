@@ -19,7 +19,12 @@ import {
   useDeleteCardMutation,
   useRetrieveRandomCardQuery,
 } from '@/services/cards/cardsApi'
-import { useRetrieveCardsInDeckQuery, useRetrieveDeckQuery } from '@/services/decks/decksApi'
+import { UpdateDeckArgs } from '@/services/decks/decks.types'
+import {
+  useRetrieveCardsInDeckQuery,
+  useRetrieveDeckQuery,
+  useUpdateDeckMutation,
+} from '@/services/decks/decksApi'
 
 import s from './deckPage.module.scss'
 
@@ -40,6 +45,7 @@ export const DeckPage = () => {
 
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
+  const [updateDeck] = useUpdateDeckMutation()
 
   const { data: userData } = useGetCurrentUserDataQuery()
   const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
@@ -55,14 +61,19 @@ export const DeckPage = () => {
     deckId: deckData?.id ? deckData?.id : '',
   })
 
-  const isMyDeck = deckData?.author === userData?.id
+  const isMyDeck = deckData?.userId === userData?.id
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
+    debugger
+    console.log('handleAddNewCard', deckId)
     createCard({ ...data, id: deckId ? deckId : '' })
   }
 
   const handleDeleteCard = (cardId: string) => {
     deleteCard({ cardId })
+  }
+  const handleEditDeck = (data: UpdateDeckArgs) => {
+    updateDeck(data)
   }
 
   if (!cards?.items.length) {
@@ -117,6 +128,7 @@ export const DeckPage = () => {
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
                   onConfirmDelete={handleDeleteCard}
+                  onEdit={handleEditDeck}
                 />
               )}
             </div>

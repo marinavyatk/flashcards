@@ -6,6 +6,7 @@ import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { UpdateDeckModal } from '@/components/layouts/modals/updateDeck/updateDeck'
 import { SortElement } from '@/components/ui/sortElement/sortElement'
 import { Card } from '@/services/cards/cardsTypes'
 import { Deck } from '@/services/decks/decks.types'
@@ -47,12 +48,13 @@ export const TableHead = (props: TableHeadProps) => {
 
 export type TableBodyProps = {
   onConfirmDelete: (id: string) => void
+  onEdit: (id: string) => void
   tableRowsData: Deck[]
   userId: string
 }
 
 export const TableBodyDecks = (props: TableBodyProps) => {
-  const { onConfirmDelete, tableRowsData, userId } = props
+  const { onConfirmDelete, onEdit, tableRowsData, userId } = props
   const tableRows = tableRowsData.map(item => {
     const isMyDeck = item.author.id === userId
 
@@ -72,11 +74,7 @@ export const TableBodyDecks = (props: TableBodyProps) => {
             <button>
               <PlayIcon />
             </button>
-            {isMyDeck && (
-              <button>
-                <EditIcon />
-              </button>
-            )}
+            {isMyDeck && <UpdateDeckModal id={item.id} onFormSubmit={onEdit} />}
             {isMyDeck && (
               <ConfirmDeleteModal
                 deletedElement={'Deck'}

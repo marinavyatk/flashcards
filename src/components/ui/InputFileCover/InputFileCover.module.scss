@@ -1,5 +1,6 @@
 .inputFileWithPreview {
   position: relative;
+  width: 100%;
 
   input {
     width: 0.1px;
@@ -17,6 +18,8 @@
 
     width: 99.9%;
     padding: 6px;
+
+    white-space: nowrap;
 
     background-color: var(--color-dark-300);
     border-radius: 4px;

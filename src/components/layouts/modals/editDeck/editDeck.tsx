@@ -10,19 +10,18 @@ import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
-import { CreateDeckArgs } from '@/services/decks/decks.types'
 import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import s from '../modals.module.scss'
 
-export type AddNewDeckModalProps = {
+export type EditDeckModalProps = {
   id: string
   onFormSubmit: (data: updateDeckFormValues) => void
   triggerText?: string
 }
-export const UpdateDeckModal = ({ id, onFormSubmit, triggerText }: AddNewDeckModalProps) => {
+export const EditDeckModal = ({ id, onFormSubmit, triggerText }: EditDeckModalProps) => {
   const { data: deckData, isLoading } = useRetrieveDeckQuery({ id })
   const [cover, setCover] = useState<string>(deckData?.cover || '')
   const [open, setOpen] = useState(false)

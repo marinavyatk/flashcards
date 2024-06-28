@@ -18,6 +18,7 @@ import {
   useCreateCardMutation,
   useDeleteCardMutation,
   useRetrieveRandomCardQuery,
+  useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
@@ -46,6 +47,7 @@ export const DeckPage = () => {
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
   const [updateDeck] = useUpdateDeckMutation()
+  const [updateCard] = useUpdateCardMutation()
 
   const { data: userData } = useGetCurrentUserDataQuery()
   const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
@@ -160,6 +162,7 @@ export const DeckPage = () => {
             <TableBodyCards
               isMyDeck={isMyDeck}
               onConfirmDelete={handleDeleteCard}
+              onEditCard={updateCard}
               tableRowsData={cards.items}
             />
           </Table>

@@ -24,3 +24,14 @@
   gap: 6px;
   align-items: center;
 }
+
+.coverControlBlock {
+  display: flex;
+  gap: 10px;
+  justify-content: stretch;
+
+  .removeCoverButton,
+  .coverInput {
+    flex-shrink: 1;
+  }
+}

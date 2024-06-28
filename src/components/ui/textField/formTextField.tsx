@@ -2,7 +2,7 @@ import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
 
 import { TextField, TextFieldProps } from '@/components/ui/textField/textField'
 
-export type FormTextFieldProps<T extends FieldValues> = { as: T } & Omit<
+export type FormTextFieldProps<T extends FieldValues> = { as?: T } & Omit<
   TextFieldProps,
   'as' | 'id' | 'onChange' | 'value'
 > &

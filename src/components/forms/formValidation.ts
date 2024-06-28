@@ -65,3 +65,22 @@ export const saveGradeSchema = z.object({
 })
 
 export type saveGradeFormValues = z.infer<typeof saveGradeSchema>
+
+export const updateDeckSchema = z.object({
+  cover: fileSchema,
+  isPrivate: z.boolean().optional(),
+  name: z.string().min(3).max(30).optional(),
+})
+
+export type updateDeckFormValues = z.infer<typeof updateDeckSchema>
+
+export const updateCardSchema = z.object({
+  answer: z.string().min(3).max(500).optional(),
+  answerImg: fileSchema,
+  answerVideo: fileSchema,
+  question: z.string().min(3).max(500).optional(),
+  questionImg: fileSchema,
+  questionVideo: fileSchema,
+})
+
+export type updateCardFormValues = z.infer<typeof updateCardSchema>

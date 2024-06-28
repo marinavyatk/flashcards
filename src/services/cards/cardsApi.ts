@@ -73,11 +73,34 @@ export const cardsApi = flashcardsApi.injectEndpoints({
       }),
       updateCard: builder.mutation<Card, UpdateCardArg>({
         invalidatesTags: ['Cards'],
-        query: ({ cardId, ...args }) => ({
-          body: { ...args },
-          method: 'PATCH',
-          url: `/v1/cards/${cardId}`,
-        }),
+        query: ({ cardId, ...args }) => {
+          const formData = new FormData()
+
+          if (args.answer) {
+            formData.append('answer', args.answer)
+          }
+          if (args.question) {
+            formData.append('question', args.question)
+          }
+          if (args.answerImg) {
+            formData.append('answerImg', args.answerImg)
+          }
+          if (args.questionImg) {
+            formData.append('questionImg', args.questionImg)
+          }
+          if (args.answerVideo) {
+            formData.append('answerVideo', args.answerVideo)
+          }
+          if (args.questionVideo) {
+            formData.append('questionVideo', args.questionVideo)
+          }
+
+          return {
+            body: formData,
+            method: 'PATCH',
+            url: `/v1/cards/${cardId}`,
+          }
+        },
       }),
     }
   },

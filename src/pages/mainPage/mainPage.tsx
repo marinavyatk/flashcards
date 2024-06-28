@@ -15,12 +15,13 @@ import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
-import { CreateDeckArgs } from '@/services/decks/decks.types'
+import { CreateDeckArgs, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
   useGetMinMaxCardAmountQuery,
+  useUpdateDeckMutation,
 } from '@/services/decks/decksApi'
 
 import s from './mainPage.module.scss'
@@ -30,6 +31,7 @@ export const MainPage = () => {
   const { data: minMaxData } = useGetMinMaxCardAmountQuery()
   const [createDeck] = useCreateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
+  const [updateDeck] = useUpdateDeckMutation()
 
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const {
@@ -85,11 +87,16 @@ export const MainPage = () => {
   }
 
   const handleAddNewDeck = (data: CreateDeckArgs) => {
+    console.log('handleAddNewDeck', data)
     createDeck(data)
+    clearFilters()
+  }
+
+  const handleEditDeck = (data: UpdateDeckArgs) => {
+    updateDeck(data)
   }
   // const { key , search} = useLocation()
-
-  console.log(useLocation())
+  // console.log(useLocation())
 
   return (
     <PageTemplate>
@@ -151,6 +158,7 @@ export const MainPage = () => {
         >
           <TableBodyDecks
             onConfirmDelete={handleDeleteDeck}
+            onEdit={handleEditDeck}
             tableRowsData={data?.items || []}
             userId={userData?.id || ''}
           />

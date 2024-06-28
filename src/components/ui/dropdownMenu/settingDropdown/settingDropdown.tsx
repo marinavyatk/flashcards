@@ -1,12 +1,12 @@
 import { ComponentPropsWithoutRef } from 'react'
 
-import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import SettingIcon from '@/assets/svg/settingIcon.svg?react'
 import {
   ConfirmDeleteModal,
   DeletedElement,
 } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
 import {
   DropdownItem,
   DropdownMenuComponent,
@@ -21,10 +21,12 @@ export type SettingDropdownProps = {
   elementName?: string
   id: string
   onConfirmDelete: (id: string) => void
+  onEdit: (id: string) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const SettingDropdown = (props: SettingDropdownProps) => {
-  const { className, deletedElement, elementName, id, onConfirmDelete, ...restProps } = props
+  const { className, deletedElement, elementName, id, onConfirmDelete, onEdit, ...restProps } =
+    props
 
   return (
     <DropdownMenuComponent
@@ -45,10 +47,7 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>
-        <EditIcon />
-        <Typography as={'span'} variant={'caption'}>
-          Edit
-        </Typography>
+        <EditDeckModal id={id} onFormSubmit={() => onEdit(id)} triggerText={'Edit'} />
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.item}>

@@ -8,6 +8,7 @@ import { FormInputFileCover } from '@/components/ui/InputFileCover/formInputFile
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
+import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -93,7 +94,10 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
           name={'questionImg'}
           onFileChange={handleQuestionFileChange}
         >
-          <ImageIcon /> Upload Image
+          <ImageIcon />
+          <Typography as={'span'} variant={'subtitle2'}>
+            {questionCover ? 'Change Image' : 'Upload Image'}
+          </Typography>
         </FormInputFileCover>
 
         <FormTextField as={TextareaAutosize} control={control} label={'Answer'} name={'answer'} />
@@ -103,7 +107,10 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
           name={'answerImg'}
           onFileChange={handleAnswerFileChange}
         >
-          <ImageIcon /> Upload Image
+          <ImageIcon />
+          <Typography as={'span'} variant={'subtitle2'}>
+            {answerCover ? 'Change Image' : 'Upload Image'}
+          </Typography>
         </FormInputFileCover>
 
         <div className={s.buttonsBlock}>

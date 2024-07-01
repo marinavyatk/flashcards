@@ -19,7 +19,7 @@ export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupCompo
     const classNames = clsx(s.radioRoot, className)
     const generatedId = useId()
     const radioGroupItems = radioItems.map(item => {
-      const finalId = restProps.id ?? generatedId + item.restProps.value
+      const finalId = generatedId + item.restProps.value
 
       return (
         <div

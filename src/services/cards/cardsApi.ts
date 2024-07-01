@@ -110,6 +110,7 @@ export const {
   useCreateCardMutation,
   useDeleteCardMutation,
   useGetCardQuery,
+  useLazyRetrieveRandomCardQuery,
   useRetrieveRandomCardQuery,
   useSaveCardGradeMutation,
   useUpdateCardMutation,

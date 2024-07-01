@@ -98,9 +98,7 @@ export const QuestionPage = () => {
                       {cardData.answer}
                     </Typography>
                   </div>
-                  {cardData.questionImg && (
-                    <img alt={'Question picture'} src={cardData.questionImg} />
-                  )}
+                  {cardData.answerImg && <img alt={'Answer picture'} src={cardData.answerImg} />}
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography as={'span'} className={s.formHeader} variant={'subtitle1'}>
                       Rate yourself:

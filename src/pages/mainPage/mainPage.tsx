@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
@@ -15,6 +15,7 @@ import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
+import { useLazyRetrieveRandomCardQuery } from '@/services/cards/cardsApi'
 import { CreateDeckArgs, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
@@ -33,6 +34,7 @@ export const MainPage = () => {
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateDeck] = useUpdateDeckMutation()
   const { search: urlSearchParams } = useLocation()
+  const navigate = useNavigate()
 
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const {
@@ -61,6 +63,8 @@ export const MainPage = () => {
     name: search ?? undefined,
     orderBy: orderBy,
   })
+
+  const [getRandomCard] = useLazyRetrieveRandomCardQuery()
 
   const clearFilters = () => {
     searchParams.delete('search')
@@ -98,6 +102,14 @@ export const MainPage = () => {
 
   const handleGoToDeck = () => {
     localStorage.setItem('urlSearchParams', urlSearchParams)
+  }
+
+  const handleLearn = async (deckId: string) => {
+    const { data: randomCardData } = await getRandomCard({ deckId })
+
+    if (randomCardData) {
+      navigate(`/learn/${deckId}/${randomCardData?.id}`)
+    }
   }
 
   return (
@@ -162,6 +174,7 @@ export const MainPage = () => {
             onConfirmDelete={handleDeleteDeck}
             onEdit={handleEditDeck}
             onGoToDeck={handleGoToDeck}
+            onLearn={handleLearn}
             tableRowsData={data?.items || []}
             userId={userData?.id || ''}
           />

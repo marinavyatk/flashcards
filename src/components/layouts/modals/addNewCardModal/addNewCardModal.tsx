@@ -119,7 +119,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
               Cancel
             </Button>
           </Dialog.Close>
-          <Button>Add New Pack</Button>
+          <Button>Add New Card</Button>
         </div>
       </form>
     </Modal>

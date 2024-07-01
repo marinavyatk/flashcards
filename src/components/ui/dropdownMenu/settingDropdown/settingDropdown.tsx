@@ -22,11 +22,20 @@ export type SettingDropdownProps = {
   id: string
   onConfirmDelete: (id: string) => void
   onEdit: (id: string) => void
+  onLearn: (id: string) => void
 } & ComponentPropsWithoutRef<'div'>
 
 export const SettingDropdown = (props: SettingDropdownProps) => {
-  const { className, deletedElement, elementName, id, onConfirmDelete, onEdit, ...restProps } =
-    props
+  const {
+    className,
+    deletedElement,
+    elementName,
+    id,
+    onConfirmDelete,
+    onEdit,
+    onLearn,
+    ...restProps
+  } = props
 
   return (
     <DropdownMenuComponent
@@ -39,7 +48,7 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
       className={className}
       contentProps={{ alignOffset: -5 }}
     >
-      <DropdownItem className={s.item}>
+      <DropdownItem className={s.item} onClick={onLearn}>
         <PlayIcon />
         <Typography as={'span'} variant={'caption'}>
           Learn

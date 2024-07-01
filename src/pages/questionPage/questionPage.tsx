@@ -45,7 +45,7 @@ export const QuestionPage = () => {
     if (deckId && cardId && randomCardData) {
       saveGrade({ cardId: cardId, deckId: deckId, grade: Number(data.grade) })
       setShowAnswer(false)
-      navigate(`/learn/${deckId}/${randomCardData.id}`)
+      navigate(`/learn/${deckId}/${randomCardData.id}`, { replace: true })
       reset()
     }
   }

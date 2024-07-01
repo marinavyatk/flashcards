@@ -32,6 +32,7 @@ export const MainPage = () => {
   const [createDeck] = useCreateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateDeck] = useUpdateDeckMutation()
+  const { search: urlSearchParams } = useLocation()
 
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const {
@@ -87,7 +88,6 @@ export const MainPage = () => {
   }
 
   const handleAddNewDeck = (data: CreateDeckArgs) => {
-    console.log('handleAddNewDeck', data)
     createDeck(data)
     clearFilters()
   }
@@ -95,8 +95,10 @@ export const MainPage = () => {
   const handleEditDeck = (data: UpdateDeckArgs) => {
     updateDeck(data)
   }
-  // const { key , search} = useLocation()
-  // console.log(useLocation())
+
+  const handleGoToDeck = () => {
+    localStorage.setItem('urlSearchParams', urlSearchParams)
+  }
 
   return (
     <PageTemplate>
@@ -159,6 +161,7 @@ export const MainPage = () => {
           <TableBodyDecks
             onConfirmDelete={handleDeleteDeck}
             onEdit={handleEditDeck}
+            onGoToDeck={handleGoToDeck}
             tableRowsData={data?.items || []}
             userId={userData?.id || ''}
           />

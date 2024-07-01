@@ -49,19 +49,23 @@ export const TableHead = (props: TableHeadProps) => {
 export type TableBodyProps = {
   onConfirmDelete: (id: string) => void
   onEdit: (id: string) => void
+  onGoToDeck?: () => void
   tableRowsData: Deck[]
   userId: string
 }
 
 export const TableBodyDecks = (props: TableBodyProps) => {
-  const { onConfirmDelete, onEdit, tableRowsData, userId } = props
+  const { onConfirmDelete, onEdit, onGoToDeck, tableRowsData, userId } = props
   const tableRows = tableRowsData.map(item => {
     const isMyDeck = item.author.id === userId
+    const handleGoToDeck = () => {
+      onGoToDeck?.()
+    }
 
     return (
       <tr key={item.id}>
         <td>
-          <Link className={s.deckMainInfo} to={`/decks/${item.id}`}>
+          <Link className={s.deckMainInfo} onClick={handleGoToDeck} to={`/decks/${item.id}`}>
             {item.cover && <img alt={'Deck cover'} src={item.cover} />}
             {item.name}
           </Link>

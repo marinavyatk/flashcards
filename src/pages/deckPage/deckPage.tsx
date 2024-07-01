@@ -1,7 +1,8 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
+import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
 import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
@@ -66,8 +67,6 @@ export const DeckPage = () => {
   const isMyDeck = deckData?.userId === userData?.id
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
-    debugger
-    console.log('handleAddNewCard', deckId)
     createCard({ ...data, id: deckId ? deckId : '' })
   }
 
@@ -78,6 +77,16 @@ export const DeckPage = () => {
     updateDeck(data)
   }
 
+  const handleBackClick = () => {
+    const urlSearchParams = localStorage.getItem('urlSearchParams')
+
+    if (urlSearchParams) {
+      navigate(routes.main + urlSearchParams)
+    } else {
+      navigate(routes.main)
+    }
+  }
+
   if (!cards?.items.length) {
     return (
       <PageTemplate>
@@ -85,7 +94,7 @@ export const DeckPage = () => {
           <Typography
             as={'button'}
             className={s.backLink}
-            onClick={() => navigate(-1)}
+            onClick={handleBackClick}
             variant={'body2'}
           >
             <ArrowBackIcon /> Back to Decks List
@@ -113,7 +122,7 @@ export const DeckPage = () => {
         <Typography
           as={'button'}
           className={s.backLink}
-          onClick={() => navigate(-1)}
+          onClick={handleBackClick}
           variant={'body2'}
         >
           <ArrowBackIcon /> Back to Decks List

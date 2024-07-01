@@ -52,7 +52,7 @@ export const DeckPage = () => {
 
   const { data: userData } = useGetCurrentUserDataQuery()
   const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
-  const { data: cards } = useRetrieveCardsInDeckQuery({
+  const { data: cards, isLoading } = useRetrieveCardsInDeckQuery({
     currentPage: currentPage ? Number(currentPage) : undefined,
     id: deckId ? deckId : '',
     itemsPerPage: pageSize ? Number(pageSize) : 10,
@@ -85,6 +85,10 @@ export const DeckPage = () => {
     } else {
       navigate(routes.main)
     }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   if (!cards?.items.length) {

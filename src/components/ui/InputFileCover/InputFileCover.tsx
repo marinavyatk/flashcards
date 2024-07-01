@@ -1,5 +1,6 @@
-import { ChangeEvent, ComponentPropsWithoutRef, LegacyRef, forwardRef, useId } from 'react'
+import { ChangeEvent, ComponentPropsWithoutRef, LegacyRef, forwardRef, useId, useRef } from 'react'
 
+import { useCombinedRef } from '@/common/customHooks'
 import { Typography } from '@/components/ui/typography'
 import clsx from 'clsx'
 
@@ -23,6 +24,16 @@ export const InputFileCover = forwardRef(
         onFileChange?.(event.currentTarget?.files?.[0])
       }
     }
+    const inputFileRef = useRef()
+    const finalRef = useCombinedRef(inputFileRef, ref)
+
+    const clearInput = () => {
+      const dataTransfer = new DataTransfer()
+
+      if (inputFileRef.current) {
+        inputFileRef.current.files = dataTransfer.files
+      }
+    }
 
     return (
       <div className={classNames}>
@@ -32,7 +43,7 @@ export const InputFileCover = forwardRef(
           {...restProps}
           accept={'image/*'}
           onChange={handleChange}
-          ref={ref}
+          ref={finalRef}
         />
         <label htmlFor={id}>{children}</label>
         {errorMessage && (

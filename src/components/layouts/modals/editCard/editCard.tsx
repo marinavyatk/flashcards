@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
+import { handleImgError } from '@/common/commonFunctions'
 import {
   addNewCardFormValues,
   updateCardFormValues,
@@ -15,6 +16,7 @@ import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { useGetCardQuery } from '@/services/cards/cardsApi'
+import { Card } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -25,8 +27,20 @@ export type EditCardModalProps = {
   onFormSubmit: (data: updateCardFormValues) => void
   triggerText?: string
 }
-export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardModalProps) => {
+export const EditCardModal = ({ cardId, ...restProps }: EditCardModalProps) => {
   const { data: cardData } = useGetCardQuery({ cardId })
+
+  if (cardData) {
+    return <EditCardContent cardData={cardData} cardId={cardId} {...restProps} />
+  }
+}
+
+type EditCardContentProps = {
+  cardData: Card[]
+} & EditCardModalProps
+
+export const EditCardContent = (props: EditCardContentProps) => {
+  const { cardData, cardId, onFormSubmit, triggerText } = props
   const [questionCover, setQuestionCover] = useState<string>(cardData?.questionImg || '')
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
   const [open, setOpen] = useState(false)
@@ -55,7 +69,7 @@ export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardMod
       URL.revokeObjectURL(questionCover)
     }
     if (!newFile) {
-      setQuestionCover('')
+      setQuestionCover(null)
     } else {
       setQuestionCover(URL.createObjectURL(newFile))
     }
@@ -65,7 +79,7 @@ export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardMod
       URL.revokeObjectURL(answerCover)
     }
     if (!newFile) {
-      setAnswerCover('')
+      setAnswerCover(null)
     } else {
       setAnswerCover(URL.createObjectURL(newFile))
     }
@@ -101,7 +115,14 @@ export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardMod
           label={'Question'}
           name={'question'}
         />
-        {questionCover && <img alt={'Question Cover'} className={s.cover} src={questionCover} />}
+        {questionCover && (
+          <img
+            alt={'Question Cover'}
+            className={s.cover}
+            onError={() => handleImgError(setQuestionCover)}
+            src={questionCover}
+          />
+        )}
         <div className={s.coverControlBlock}>
           <Button
             className={s.removeCoverButton}
@@ -119,13 +140,20 @@ export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardMod
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
-              Change Image
+              {questionCover ? 'Change Image' : 'Upload Image'}
             </Typography>
           </FormInputFileCover>
         </div>
 
         <FormTextField as={TextareaAutosize} control={control} label={'Answer'} name={'answer'} />
-        {answerCover && <img alt={'Deck Cover'} className={s.cover} src={answerCover} />}
+        {answerCover && (
+          <img
+            alt={'Deck Cover'}
+            className={s.cover}
+            onError={() => handleImgError(setAnswerCover)}
+            src={answerCover}
+          />
+        )}
         <div className={s.coverControlBlock}>
           <Button
             className={s.removeCoverButton}
@@ -143,7 +171,7 @@ export const EditCardModal = ({ cardId, onFormSubmit, triggerText }: EditCardMod
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
-              Upload Image
+              {answerCover ? 'Change Image' : 'Upload Image'}
             </Typography>
           </FormInputFileCover>
         </div>

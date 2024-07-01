@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
+import { handleImgError } from '@/common/commonFunctions'
 import { updateDeckFormValues, updateDeckSchema } from '@/components/forms/formValidation'
 import { FormInputFileCover } from '@/components/ui/InputFileCover/formInputFileCover'
 import { Button } from '@/components/ui/button'
@@ -10,6 +11,7 @@ import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
+import { Deck } from '@/services/decks/decks.types'
 import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -21,16 +23,21 @@ export type EditDeckModalProps = {
   onFormSubmit: (data: updateDeckFormValues) => void
   triggerText?: string
 }
-export const EditDeckModal = ({ id, onFormSubmit, triggerText }: EditDeckModalProps) => {
-  const { data: deckData, isLoading } = useRetrieveDeckQuery({ id })
+export const EditDeckModal = ({ id, ...restProps }: EditDeckModalProps) => {
+  const { data: deckData } = useRetrieveDeckQuery({ id })
+
+  if (deckData) {
+    return <EditDeckContent deckData={deckData} id={id} {...restProps} />
+  }
+}
+
+type EditDeckContentProps = {
+  deckData: Deck
+} & EditDeckModalProps
+export const EditDeckContent = (props: EditDeckContentProps) => {
+  const { deckData, id, onFormSubmit, triggerText } = props
   const [cover, setCover] = useState<string>(deckData?.cover || '')
   const [open, setOpen] = useState(false)
-  //
-  // console.log('deckData', deckData)
-  // console.log('deckData?.cover', deckData?.cover)
-  // console.log('deckData?.name', deckData?.name)
-  // console.log('deckData?.isPrivate', deckData?.isPrivate)
-  // console.log('cover', cover)
   const {
     control,
     formState: { errors, isDirty },
@@ -72,10 +79,6 @@ export const EditDeckModal = ({ id, onFormSubmit, triggerText }: EditDeckModalPr
     setCover('')
   }
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>
-  // }
-
   return (
     <Modal
       modalHeader={'Edit Deck'}
@@ -88,7 +91,14 @@ export const EditDeckModal = ({ id, onFormSubmit, triggerText }: EditDeckModalPr
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextField control={control} label={'Name Pack'} name={'name'} />
-        {cover && <img alt={'Deck Cover'} className={s.cover} src={cover} />}
+        {cover && (
+          <img
+            alt={'Deck Cover'}
+            className={s.cover}
+            onError={() => handleImgError(setCover)}
+            src={cover}
+          />
+        )}
         <div className={s.coverControlBlock}>
           <Button
             className={s.removeCoverButton}

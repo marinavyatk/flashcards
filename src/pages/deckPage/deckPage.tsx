@@ -40,6 +40,8 @@ export const DeckPage = () => {
     orderBy,
     pageSize,
     search,
+    searchParams,
+    setSearchParams,
   } = useAppSearchParams()
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
 
@@ -68,6 +70,10 @@ export const DeckPage = () => {
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
     createCard({ ...data, id: deckId ? deckId : '' })
+    searchParams.delete('currentPage')
+    searchParams.delete('orderBy')
+    searchParams.delete('question')
+    setSearchParams(searchParams)
   }
 
   const handleDeleteCard = (cardId: string) => {
@@ -85,6 +91,9 @@ export const DeckPage = () => {
     } else {
       navigate(routes.main)
     }
+  }
+  const handleLearn = () => {
+    navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
   }
 
   if (isLoading) {
@@ -144,6 +153,7 @@ export const DeckPage = () => {
                   id={deckData?.id ?? ''}
                   onConfirmDelete={handleDeleteCard}
                   onEdit={handleEditDeck}
+                  onLearn={handleLearn}
                 />
               )}
             </div>

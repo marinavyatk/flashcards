@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
@@ -50,12 +51,13 @@ export type TableBodyProps = {
   onConfirmDelete: (id: string) => void
   onEdit: (id: string) => void
   onGoToDeck?: () => void
+  onLearn: (id: string) => void
   tableRowsData: Deck[]
   userId: string
 }
 
 export const TableBodyDecks = (props: TableBodyProps) => {
-  const { onConfirmDelete, onEdit, onGoToDeck, tableRowsData, userId } = props
+  const { onConfirmDelete, onEdit, onGoToDeck, onLearn, tableRowsData, userId } = props
   const tableRows = tableRowsData.map(item => {
     const isMyDeck = item.author.id === userId
     const handleGoToDeck = () => {
@@ -76,7 +78,7 @@ export const TableBodyDecks = (props: TableBodyProps) => {
         <td>
           <div className={s.actions}>
             <button>
-              <PlayIcon />
+              <PlayIcon onClick={() => onLearn(item.id)} />
             </button>
             {isMyDeck && <EditDeckModal id={item.id} onFormSubmit={onEdit} />}
             {isMyDeck && (

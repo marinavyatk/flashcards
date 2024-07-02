@@ -27,6 +27,13 @@
     align-self: flex-end;
     margin-bottom: 60px;
     text-decoration: none;
+    transition: all 0.4s;
+
+    &:hover {
+      transform: translateY(2px);
+      color: var(--color-accent-300);
+      transition: all 0.4s;
+    }
   }
 
   .footerCapture {
@@ -36,5 +43,13 @@
   .singUp {
     color: var(--color-accent-500);
     text-decoration: underline;
+    transition: all 0.4s;
+
+    &:hover {
+      transform: translateY(2px);
+      color: var(--color-accent-300);
+      letter-spacing: 1px;
+      transition: all 0.4s;
+    }
   }
 }

@@ -42,10 +42,12 @@
   display: block;
   padding: 6px 12px;
   outline: none;
+  transition: all 0.4s;
 
   &:hover {
     color: var(--color-accent-300);
     background-color: var(--color-accent-900);
+    transition: all 0.4s;
   }
 }
 

@@ -11,7 +11,7 @@ import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
-import { Deck } from '@/services/decks/decks.types'
+import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -20,7 +20,7 @@ import s from '../modals.module.scss'
 
 export type EditDeckModalProps = {
   id: string
-  onFormSubmit: (data: updateDeckFormValues) => void
+  onFormSubmit: (data: UpdateDeckArgs) => void
   triggerText?: string
 }
 export const EditDeckModal = ({ id, ...restProps }: EditDeckModalProps) => {

@@ -52,6 +52,19 @@
   align-items: center;
 
   margin-bottom: 33px;
+
+  transition: all 0.4s;
+
+  &:hover {
+    transform: translateY(2px);
+    color: var(--color-accent-300);
+    transition: all 0.4s;
+
+    svg {
+      fill: var(--color-accent-300);
+      transition: all 0.4s;
+    }
+  }
 }
 
 .deckCover {

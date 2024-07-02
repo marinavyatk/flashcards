@@ -69,10 +69,23 @@
 
     border-radius: 2px;
 
+    transition: transform 0.4s;
+
     svg {
       width: 8px;
       height: 8px;
       fill: var(--color-dark-300);
+      transition: fill 0.4s;
+    }
+
+    &:hover {
+      transform: translateY(2px);
+      transition: transform 0.4s;
+
+      svg {
+        fill: var(--color-accent-300);
+        transition: fill 0.4s;
+      }
     }
 
     &:focus-within {

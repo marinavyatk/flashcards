@@ -9,6 +9,17 @@
     background: var(--color-dark-500);
   }
 
+  tbody {
+    tr {
+      transition: background-color 0.4s;
+
+      &:hover {
+        background-color: var(--color-dark-700);
+        transition: background-color 0.4s;
+      }
+    }
+  }
+
   th,
   td {
     padding: 6px 24px;

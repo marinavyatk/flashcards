@@ -45,7 +45,6 @@ export const EditProfile = (props: EditProfileProps) => {
   const [editMode, setEditMode] = useState(false)
 
   const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('onFileChange')
     const attachedFile = event.currentTarget.files?.[0]
 
     onFormSubmit({ avatar: attachedFile })

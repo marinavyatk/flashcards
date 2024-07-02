@@ -11,6 +11,8 @@
     border: 1px solid var(--color-dark-300);
     border-radius: 2px;
 
+    transition: all 0.4s;
+
     .startElements {
       display: flex;
       flex-grow: 2;
@@ -52,6 +54,8 @@
     }
 
     .endButton {
+      cursor: pointer;
+
       display: flex;
       align-items: center;
       justify-content: center;
@@ -76,6 +80,7 @@
     &:hover:not(:has(:disabled)) {
       background: var(--color-dark-700);
       border-color: var(--color-dark-100);
+      transition: all 0.4s;
     }
 
     &:focus-within:not(:has(:disabled)) {

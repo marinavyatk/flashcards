@@ -17,6 +17,8 @@
   border-right: 1px solid transparent;
   border-bottom: 1px solid var(--color-dark-300);
   border-left: 1px solid var(--color-dark-300);
+
+  transition: all 0.4s;
 }
 
 .toggleItem:first-child {
@@ -30,9 +32,12 @@
 
 .toggleItem:hover {
   color: var(--color-light-900);
+
   background-color: var(--color-dark-300);
   border-color: var(--color-dark-100);
   border-right: 1px solid var(--color-dark-100);
+
+  transition: all 0.4s;
 }
 
 .toggleItem[data-disabled] {

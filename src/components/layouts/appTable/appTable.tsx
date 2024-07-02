@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
@@ -9,7 +8,7 @@ import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteMod
 import { EditCardModal } from '@/components/layouts/modals/editCard/editCard'
 import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
 import { SortElement } from '@/components/ui/sortElement/sortElement'
-import { Card } from '@/services/cards/cardsTypes'
+import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
@@ -49,7 +48,7 @@ export const TableHead = (props: TableHeadProps) => {
 
 export type TableBodyProps = {
   onConfirmDelete: (id: string) => void
-  onEdit: (id: string) => void
+  onEdit: (data: UpdateDeckArgs) => void
   onGoToDeck?: () => void
   onLearn: (id: string) => void
   tableRowsData: Deck[]
@@ -69,7 +68,7 @@ export const TableBodyDecks = (props: TableBodyProps) => {
         <td>
           <Link className={s.deckMainInfo} onClick={handleGoToDeck} to={`/decks/${item.id}`}>
             {item.cover && <img alt={'Deck cover'} src={item.cover} />}
-            {item.name}
+            <span className={s.deckName}>{item.name}</span>
           </Link>
         </td>
         <td>{item.cardsCount}</td>
@@ -100,7 +99,7 @@ export const TableBodyDecks = (props: TableBodyProps) => {
 export type TableBodyCardsProps = {
   isMyDeck: boolean
   onConfirmDelete: (id: string) => void
-  onEditCard: (data: UpdateDeckArgs) => void
+  onEditCard: (data: UpdateCardArg) => void
   tableRowsData: Card[]
 }
 
@@ -141,7 +140,6 @@ export const TableBodyCards = (props: TableBodyCardsProps) => {
           <td>
             <div className={s.actions}>
               <EditCardModal cardId={item.id} onFormSubmit={onEditCard} />
-
               <ConfirmDeleteModal
                 deletedElement={'Card'}
                 onConfirm={() => onConfirmDelete(item.id)}

@@ -19,6 +19,8 @@
 
   border-radius: 50%;
 
+  transition: background-color 0.4s;
+
   &:focus-within {
     background-color: var(--color-dark-700);
     outline: none;
@@ -26,6 +28,7 @@
 
   &:has(.radioSign:hover) {
     background-color: var(--color-dark-500);
+    transition: background-color 0.4s;
   }
 
   &:has(.radioSign:active) {

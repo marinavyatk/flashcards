@@ -16,5 +16,11 @@
   .logo {
     width: 157px;
     height: 36px;
+    transition: transform 0.4s;
+
+    &:hover {
+      transform: translateX(10px);
+      transition: transform 0.4s;
+    }
   }
 }

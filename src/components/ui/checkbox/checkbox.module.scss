@@ -10,9 +10,15 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--color-light-100);
+
+  label {
+    cursor: pointer;
+  }
 }
 
 .checkboxRoot {
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,6 +29,8 @@
   background-color: transparent;
   border: none;
   border-radius: 50%;
+
+  transition: background-color 0.4s;
 
   .checkboxCheckedIcon,
   .CheckboxUncheckedIcon {
@@ -42,6 +50,7 @@
 
   &:hover {
     background-color: var(--color-dark-500);
+    transition: background-color 0.4s;
   }
 
   &:focus-visible,

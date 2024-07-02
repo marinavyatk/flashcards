@@ -16,7 +16,7 @@ import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { useGetCardQuery } from '@/services/cards/cardsApi'
-import { Card } from '@/services/cards/cardsTypes'
+import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -24,7 +24,7 @@ import s from '../modals.module.scss'
 
 export type EditCardModalProps = {
   cardId: string
-  onFormSubmit: (data: updateCardFormValues) => void
+  onFormSubmit: (data: UpdateCardArg) => void
   triggerText?: string
 }
 export const EditCardModal = ({ cardId, ...restProps }: EditCardModalProps) => {

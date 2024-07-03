@@ -13,7 +13,7 @@ import DeleteIcon from '@/assets/svg/deleteIcon.svg?react'
 import HidePasswordIcon from '@/assets/svg/hidePasswordIcon.svg?react'
 import SearchIcon from '@/assets/svg/searchIcon.svg?react'
 import ShowPasswordIcon from '@/assets/svg/showPasswordIcon.svg?react'
-import { useCombinedRef } from '@/common/customHooks'
+import { useCombinedRef } from '@/common/customHooks/useCombinedRef'
 import { Typography } from '@/components/ui/typography'
 import clsx from 'clsx'
 

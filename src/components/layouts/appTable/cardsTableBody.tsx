@@ -1,7 +1,7 @@
 import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
-import { useModalStateHandler } from '@/common/customHooks'
+import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditCardModal } from '@/components/layouts/modals/editCard/editCard'
 import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'

@@ -4,8 +4,8 @@ import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
-  useModalStateHandler,
-} from '@/common/customHooks'
+} from '@/common/customHooks/searchParamsHooks'
+import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
 import { addNewCardFormValues } from '@/components/forms/formValidation'

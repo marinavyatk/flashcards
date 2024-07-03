@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form'
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleImgError } from '@/common/commonFunctions'
 import { updateDeckFormValues, updateDeckSchema } from '@/components/forms/formValidation'
-import { FormInputFileCover } from '@/components/ui/InputFileCover/formInputFileCover'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
+import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
@@ -115,12 +115,7 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
           >
             Remove Image
           </Button>
-          <FormInputFileCover
-            className={s.coverInput}
-            control={control}
-            name={'cover'}
-            onFileChange={handleFileChange}
-          >
+          <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
               {cover ? 'Change Image' : 'Upload Image'}

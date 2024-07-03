@@ -2,7 +2,10 @@ import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
+import {
+  useAppSearchParams,
+  useDebouncedInputSearchValue,
+} from '@/common/customHooks/searchParamsHooks'
 import { decksData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'

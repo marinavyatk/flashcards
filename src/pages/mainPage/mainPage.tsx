@@ -5,7 +5,8 @@ import BinIcon from '@/assets/svg/binIcon.svg?react'
 import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
 import { decksData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
-import { TableBodyDecks, TableHead } from '@/components/layouts/appTable/appTable'
+import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
+import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
 import { Button } from '@/components/ui/button'
 import { SliderComponent } from '@/components/ui/slider'
@@ -170,7 +171,7 @@ export const MainPage = () => {
             </tr>
           }
         >
-          <TableBodyDecks
+          <DecksTableBody
             onConfirmDelete={handleDeleteDeck}
             onEdit={handleEditDeck}
             onGoToDeck={handleGoToDeck}

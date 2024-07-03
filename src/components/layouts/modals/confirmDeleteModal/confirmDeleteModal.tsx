@@ -1,3 +1,5 @@
+import { ComponentPropsWithoutRef } from 'react'
+
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
@@ -11,22 +13,40 @@ export type DeletedElement = 'Card' | 'Deck'
 export type AddNewDeckModalProps = {
   deletedElement: DeletedElement
   elementName?: string
+  needShowTrigger?: boolean
+  onClose?: boolean
   onConfirm: () => void
-  triggerText?: string
+  open?: boolean
+  triggerProps?: ComponentPropsWithoutRef<'button'>
 }
-export const ConfirmDeleteModal = ({
-  deletedElement,
-  elementName,
-  onConfirm,
-  triggerText,
-}: AddNewDeckModalProps) => {
+export const ConfirmDeleteModal = (props: AddNewDeckModalProps) => {
+  const {
+    deletedElement,
+    elementName,
+    needShowTrigger = true,
+    onClose,
+    onConfirm,
+    open,
+    triggerProps,
+  } = props
+
   return (
     <Modal
-      modalHeader={`Add New ${deletedElement}`}
+      modalHeader={`Delete ${deletedElement}`}
+      rootProps={{
+        onOpenChange: callbackValue => {
+          if (!callbackValue) {
+            onClose()
+          }
+        },
+        open: open,
+      }}
       trigger={
-        <button className={s.triggerButton}>
-          <BinIcon /> {triggerText && triggerText}
-        </button>
+        needShowTrigger && (
+          <button className={s.triggerButton} {...triggerProps}>
+            <BinIcon />
+          </button>
+        )
       }
     >
       <div className={s.modalContent}>

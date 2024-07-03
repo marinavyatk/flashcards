@@ -69,7 +69,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
         }),
       }),
       retrieveDeck: builder.query<Deck, RetrieveDeckArgs>({
-        providesTags: ['Cards'],
+        providesTags: ['Cards', 'Decks'],
         query: args => ({
           method: 'GET',
           url: `/v1/decks/${args.id}`,
@@ -79,11 +79,12 @@ export const decksApi = flashcardsApi.injectEndpoints({
         invalidatesTags: ['Decks'],
         query: ({ id, ...body }) => {
           const { cover, isPrivate, name } = body
+
+          console.log('body', body)
           const formData = new FormData()
 
-          if (cover) {
-            formData.append('cover', cover)
-          }
+          formData.append('cover', cover)
+
           if (name) {
             formData.append('name', name)
           }

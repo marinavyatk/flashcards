@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import EditIcon from '@/assets/svg/editIcon.svg?react'
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleImgError } from '@/common/commonFunctions'
 import { updateDeckFormValues, updateDeckSchema } from '@/components/forms/formValidation'
@@ -20,8 +19,10 @@ import s from '../modals.module.scss'
 
 export type EditDeckModalProps = {
   id: string
+  onClose?: boolean
   onFormSubmit: (data: UpdateDeckArgs) => void
-  triggerText?: string
+  open?: boolean
+  trigger?: ReactNode
 }
 export const EditDeckModal = ({ id, ...restProps }: EditDeckModalProps) => {
   const { data: deckData } = useRetrieveDeckQuery({ id })
@@ -35,14 +36,22 @@ type EditDeckContentProps = {
   deckData: Deck
 } & EditDeckModalProps
 export const EditDeckContent = (props: EditDeckContentProps) => {
-  const { deckData, id, onFormSubmit, triggerText } = props
+  const { deckData, id, onClose, onFormSubmit, open, trigger } = props
   const [cover, setCover] = useState<string>(deckData?.cover || '')
-  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setValue('cover', deckData?.cover)
+    setCover(deckData?.cover)
+    setValue('isPrivate', deckData?.isPrivate ?? true)
+    setValue('name', deckData?.name ?? '')
+  }, [deckData])
+
   const {
     control,
-    formState: { errors, isDirty },
+    formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm<updateDeckFormValues>({
     defaultValues: {
       cover: deckData?.cover,
@@ -67,27 +76,35 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
     }
   }
   const handleFormSubmit = (data: updateDeckFormValues) => {
-    if (isDirty) {
-      onFormSubmit({ id, ...data })
+    const editedData = data
+
+    if (!cover) {
+      editedData.cover = ''
     }
+
+    onFormSubmit({ ...editedData, id })
     reset()
     setCover('')
-    setOpen(false)
+    onClose()
   }
   const handleCancel = () => {
     reset()
     setCover('')
+    onClose()
   }
 
   return (
     <Modal
       modalHeader={'Edit Deck'}
-      rootProps={{ onOpenChange: setOpen, open: open }}
-      trigger={
-        <button className={s.triggerButton}>
-          <EditIcon /> {triggerText && triggerText}
-        </button>
-      }
+      rootProps={{
+        onOpenChange: callbackValue => {
+          if (!callbackValue) {
+            onClose()
+          }
+        },
+        open: open,
+      }}
+      trigger={trigger}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextField control={control} label={'Name Pack'} name={'name'} />
@@ -117,7 +134,7 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
-              Change Image
+              {cover ? 'Change Image' : 'Upload Image'}
             </Typography>
           </FormInputFileCover>
         </div>

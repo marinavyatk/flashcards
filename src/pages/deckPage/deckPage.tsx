@@ -1,13 +1,20 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
-import { useAppSearchParams, useDebouncedInputSearchValue } from '@/common/customHooks'
+import {
+  useAppSearchParams,
+  useDebouncedInputSearchValue,
+  useModalStateHandler,
+} from '@/common/customHooks'
 import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
 import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
-import { TableBodyCards, TableHead } from '@/components/layouts/appTable/appTable'
+import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
+import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
+import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
 import { Table } from '@/components/ui/table'
@@ -23,6 +30,7 @@ import {
 } from '@/services/cards/cardsApi'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
+  useDeleteDeckMutation,
   useRetrieveCardsInDeckQuery,
   useRetrieveDeckQuery,
   useUpdateDeckMutation,
@@ -47,10 +55,16 @@ export const DeckPage = () => {
 
   const navigate = useNavigate()
 
+  const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
+    delete: false,
+    edit: false,
+  })
+
   const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
   const [updateDeck] = useUpdateDeckMutation()
   const [updateCard] = useUpdateCardMutation()
+  const [deleteDeck] = useDeleteDeckMutation()
 
   const { data: userData } = useGetCurrentUserDataQuery()
   const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
@@ -76,8 +90,8 @@ export const DeckPage = () => {
     setSearchParams(searchParams)
   }
 
-  const handleDeleteCard = (cardId: string) => {
-    deleteCard({ cardId })
+  const handleDeleteDeck = () => {
+    deleteDeck({ id: deckId ? deckId : '' })
   }
   const handleEditDeck = (data: UpdateDeckArgs) => {
     updateDeck(data)
@@ -131,6 +145,19 @@ export const DeckPage = () => {
 
   return (
     <PageTemplate>
+      <EditDeckModal
+        id={deckData.id}
+        onClose={() => toggleModalHandler('edit', false)}
+        onFormSubmit={handleEditDeck}
+        open={modalState?.edit}
+      />
+      <ConfirmDeleteModal
+        deletedElement={'Deck'}
+        needShowTrigger={false}
+        onClose={() => toggleModalHandler('delete', false)}
+        onConfirm={handleDeleteDeck}
+        open={modalState?.delete}
+      />
       <div className={s.deckPage}>
         <Typography
           as={'button'}
@@ -151,8 +178,8 @@ export const DeckPage = () => {
                   deletedElement={'Deck'}
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
-                  onConfirmDelete={handleDeleteCard}
-                  onEdit={handleEditDeck}
+                  onConfirmDelete={() => toggleModalHandler('delete', true)}
+                  onEdit={() => toggleModalHandler('edit', true)}
                   onLearn={handleLearn}
                 />
               )}
@@ -182,9 +209,9 @@ export const DeckPage = () => {
               </tr>
             }
           >
-            <TableBodyCards
+            <CardsTableBody
               isMyDeck={isMyDeck}
-              onConfirmDelete={handleDeleteCard}
+              onConfirmDelete={deleteCard}
               onEditCard={updateCard}
               tableRowsData={cards.items}
             />

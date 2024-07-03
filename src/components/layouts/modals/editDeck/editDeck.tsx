@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
@@ -39,19 +39,10 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
   const { deckData, id, onClose, onFormSubmit, open, trigger } = props
   const [cover, setCover] = useState<string>(deckData?.cover || '')
 
-  useEffect(() => {
-    setValue('cover', deckData?.cover)
-    setCover(deckData?.cover)
-    setValue('isPrivate', deckData?.isPrivate ?? true)
-    setValue('name', deckData?.name ?? '')
-  }, [deckData])
-
   const {
     control,
     formState: { errors },
     handleSubmit,
-    reset,
-    setValue,
   } = useForm<updateDeckFormValues>({
     defaultValues: {
       cover: deckData?.cover,
@@ -83,12 +74,10 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
     }
 
     onFormSubmit({ ...editedData, id })
-    reset()
     setCover('')
     onClose()
   }
   const handleCancel = () => {
-    reset()
     setCover('')
     onClose()
   }

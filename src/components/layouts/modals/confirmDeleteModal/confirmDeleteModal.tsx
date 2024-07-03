@@ -14,7 +14,7 @@ export type AddNewDeckModalProps = {
   deletedElement: DeletedElement
   elementName?: string
   needShowTrigger?: boolean
-  onClose?: boolean
+  onClose?: () => void
   onConfirm: () => void
   open?: boolean
   triggerProps?: ComponentPropsWithoutRef<'button'>
@@ -36,7 +36,7 @@ export const ConfirmDeleteModal = (props: AddNewDeckModalProps) => {
       rootProps={{
         onOpenChange: callbackValue => {
           if (!callbackValue) {
-            onClose()
+            onClose?.()
           }
         },
         open: open,

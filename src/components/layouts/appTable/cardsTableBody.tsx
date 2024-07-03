@@ -34,6 +34,8 @@ const CardsTableRow = (props: CardsTableRowProps) => {
     return rating
   }
 
+  console.log(modalState.edit)
+
   return (
     <tr>
       <td>
@@ -63,12 +65,9 @@ const CardsTableRow = (props: CardsTableRowProps) => {
             />
             <ConfirmDeleteModal
               deletedElement={'Card'}
-              onClose={() => toggleModalHandler('delete', false)}
               onConfirm={() => {
                 onConfirmDelete({ cardId: item.id })
               }}
-              open={modalState.delete}
-              triggerProps={{ onClick: () => toggleModalHandler('delete', true) }}
             />
           </div>
         </td>

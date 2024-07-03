@@ -1,16 +1,8 @@
-.inputFileWithPreview {
+.inputFileCover {
   position: relative;
   width: 100%;
 
-  input {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-  }
-
-  label {
-    cursor: pointer;
-
+  .labelButton {
     display: inline-flex;
     gap: 10px;
     align-items: center;
@@ -25,22 +17,16 @@
     border-radius: 4px;
     box-shadow: 0 2px 10px 0 rgb(109 109 109 / 25%);
 
+    transition: background-color 0.4s;
+
     svg {
       width: 16px;
       height: 16px;
     }
-  }
 
-  .errorMessage {
-    position: absolute;
-    right: 0;
-    left: 0;
-
-    color: var(--color-danger-300);
-    text-align: center;
-  }
-
-  input:focus-visible + label {
-    outline: -webkit-focus-ring-color auto 5px;
+    &:hover {
+      background-color: var(--color-dark-100);
+      transition: background-color 0.4s;
+    }
   }
 }

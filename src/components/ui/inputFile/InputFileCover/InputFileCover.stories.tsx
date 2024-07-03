@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { InputFileCover } from '@/components/ui/InputFileCover/InputFileCover'
+import { InputFileCover } from '@/components/ui/inputFile/InputFileCover/InputFileCover'
 
 const meta = {
   component: InputFileCover,
@@ -19,15 +19,5 @@ export const Primary: Story = {
         <ImageIcon /> Upload Image
       </>
     ),
-  },
-}
-export const WithError: Story = {
-  args: {
-    children: (
-      <>
-        <ImageIcon /> Upload Image
-      </>
-    ),
-    errorMessage: 'Something wrong',
   },
 }

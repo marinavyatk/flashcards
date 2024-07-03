@@ -10,8 +10,8 @@ import {
   updateCardFormValues,
   updateCardSchema,
 } from '@/components/forms/formValidation'
-import { FormInputFileCover } from '@/components/ui/InputFileCover/formInputFileCover'
 import { Button } from '@/components/ui/button'
+import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'

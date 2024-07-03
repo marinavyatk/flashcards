@@ -1,15 +1,14 @@
 import { ComponentPropsWithoutRef } from 'react'
 
+import BinIcon from '@/assets/svg/binIcon.svg?react'
+import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import SettingIcon from '@/assets/svg/settingIcon.svg?react'
-import {
-  ConfirmDeleteModal,
-  DeletedElement,
-} from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { DeletedElement } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import {
   DropdownItem,
   DropdownMenuComponent,
+  DropdownMenuComponentProps,
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
 import { Typography } from '@/components/ui/typography'
@@ -23,6 +22,7 @@ export type SettingDropdownProps = {
   onConfirmDelete: (id: string) => void
   onEdit: (id: string) => void
   onLearn: (id: string) => void
+  otherDropDownProps?: DropdownMenuComponentProps
 } & ComponentPropsWithoutRef<'div'>
 
 export const SettingDropdown = (props: SettingDropdownProps) => {
@@ -34,6 +34,9 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
     onConfirmDelete,
     onEdit,
     onLearn,
+    open,
+    otherDropDownProps,
+    setOpen,
     ...restProps
   } = props
 
@@ -44,29 +47,21 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
           <SettingIcon />
         </span>
       }
+      {...otherDropDownProps}
       {...restProps}
       className={className}
       contentProps={{ alignOffset: -5 }}
     >
       <DropdownItem className={s.item} onClick={onLearn}>
-        <PlayIcon />
-        <Typography as={'span'} variant={'caption'}>
-          Learn
-        </Typography>
+        <PlayIcon /> Learn
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.item}>
-        <EditDeckModal id={id} onFormSubmit={() => onEdit(id)} triggerText={'Edit'} />
+      <DropdownItem className={s.item} onClick={onEdit}>
+        <EditIcon /> Edit
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.item}>
-        <ConfirmDeleteModal
-          deletedElement={deletedElement}
-          elementName={elementName}
-          onConfirm={() => onConfirmDelete(id)}
-          triggerText={'Delete'}
-        />
-        <Typography as={'span'} variant={'caption'}></Typography>
+      <DropdownItem className={s.item} onClick={onConfirmDelete}>
+        <BinIcon /> Delete
       </DropdownItem>
     </DropdownMenuComponent>
   )

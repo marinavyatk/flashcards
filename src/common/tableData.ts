@@ -1,4 +1,4 @@
-import { Cell } from '@/components/layouts/appTable/appTable'
+import { Cell } from '@/components/layouts/appTable/cardsTableBody'
 
 export const decksData: Cell[] = [
   {

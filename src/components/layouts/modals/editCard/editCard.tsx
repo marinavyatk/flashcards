@@ -25,7 +25,6 @@ import s from '../modals.module.scss'
 export type EditCardModalProps = {
   cardId: string
   onFormSubmit: (data: UpdateCardArg) => void
-  triggerText?: string
 }
 export const EditCardModal = ({ cardId, ...restProps }: EditCardModalProps) => {
   const { data: cardData } = useGetCardQuery({ cardId })
@@ -40,7 +39,7 @@ type EditCardContentProps = {
 } & EditCardModalProps
 
 export const EditCardContent = (props: EditCardContentProps) => {
-  const { cardData, cardId, onFormSubmit, triggerText } = props
+  const { cardData, cardId, onFormSubmit } = props
   const [questionCover, setQuestionCover] = useState<string>(cardData?.questionImg || '')
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
   const [open, setOpen] = useState(false)
@@ -48,7 +47,6 @@ export const EditCardContent = (props: EditCardContentProps) => {
     control,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm<updateCardFormValues>({
     defaultValues: {
       answer: cardData?.answer,
@@ -87,13 +85,11 @@ export const EditCardContent = (props: EditCardContentProps) => {
 
   const handleFormSubmit = (data: addNewCardFormValues) => {
     onFormSubmit({ cardId, ...data })
-    reset()
     setQuestionCover('')
     setAnswerCover('')
     setOpen(false)
   }
   const handleCancel = () => {
-    reset()
     setQuestionCover('')
     setAnswerCover('')
   }
@@ -104,7 +100,7 @@ export const EditCardContent = (props: EditCardContentProps) => {
       rootProps={{ onOpenChange: setOpen, open: open }}
       trigger={
         <button className={s.triggerButton}>
-          <EditIcon /> {triggerText && triggerText}
+          <EditIcon />
         </button>
       }
     >

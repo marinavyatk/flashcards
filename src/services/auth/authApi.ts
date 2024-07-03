@@ -22,6 +22,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       getCurrentUserData: builder.query<UserData, void>({
+        keepUnusedDataFor: 0,
         providesTags: ['UserData'],
         query: () => ({
           method: 'GET',
@@ -74,6 +75,17 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       signOut: builder.mutation<void, void>({
         invalidatesTags: ['UserData'],
+
+        async onQueryStarted(id, { dispatch, queryFulfilled }) {
+          try {
+            const { data } = await queryFulfilled
+
+            dispatch(flashcardsApi.util.resetApiState())
+            localStorage.clear()
+          } catch (err) {
+            console.log(err)
+          }
+        },
         query: () => ({
           method: 'POST',
           url: '/v2/auth/logout',

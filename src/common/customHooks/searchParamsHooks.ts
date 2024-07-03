@@ -1,41 +1,7 @@
-import { MutableRefObject, RefCallback, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-type Ref<T> = MutableRefObject<T> | RefCallback<T> | null | undefined
-
-export function useCombinedRef<T>(...refs: Ref<T>[]) {
-  return useCallback(
-    (element: T) => {
-      refs.forEach(ref => {
-        if (!ref) {
-          return
-        }
-        if (typeof ref === 'function') {
-          ref(element)
-        } else {
-          ref.current = element
-        }
-      })
-    },
-    [refs]
-  )
-}
-
-export const useDebounce = <T>(value: T, delay: number) => {
-  const [debounceValue, setDebounceValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebounceValue(value)
-    }, delay)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value])
-
-  return debounceValue
-}
+import { useDebounce } from '@/common/customHooks/useDebounce'
 
 export const useAppSearchParams = (args: { max: number; min: number } | void) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -92,6 +58,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     }
     setSearchParams(searchParams)
   }
+
   const handlePageSizeChange = (value: string) => {
     if (value !== '10') {
       searchParams.set('pageSize', value)
@@ -144,14 +111,4 @@ export const useDebouncedInputSearchValue = () => {
   }, [debouncedInputValue])
 
   return { handleSearchChange, inputValue }
-}
-
-export const useModalStateHandler = <T>(defaultState: Record<T, boolean>) => {
-  const [modalState, setModalState] = useState<Record<T, boolean>>(defaultState)
-
-  const toggleModalHandler = (modalType: T, value: boolean) => {
-    setModalState(prev => ({ ...prev, [modalType]: value }))
-  }
-
-  return { modalState, toggleModalHandler }
 }

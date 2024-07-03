@@ -7,6 +7,7 @@ import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
 import { EditProfileFormValues, editProfileSchema } from '@/components/forms/formValidation'
 import { Card } from '@/components/ui/card'
 import { InputFile } from '@/components/ui/inputFile'
+import { InputFileUserPhoto } from '@/components/ui/inputFile/inputFileUserPhoto'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { UpdateUserData } from '@/services/auth/authApiTypes'
@@ -76,7 +77,9 @@ export const EditProfile = (props: EditProfileProps) => {
           ) : (
             <ProfilePhotoDefault />
           )}
-          {!editMode && <InputFile className={s.file} fileProps={{ onChange: onFileChange }} />}
+          {!editMode && (
+            <InputFileUserPhoto containerProps={{ className: s.file }} onChange={onFileChange} />
+          )}
         </div>
         {editMode ? (
           <>

@@ -19,7 +19,7 @@ import s from '../modals.module.scss'
 
 export type EditDeckModalProps = {
   id: string
-  onClose?: boolean
+  onClose?: () => void
   onFormSubmit: (data: UpdateDeckArgs) => void
   open?: boolean
   trigger?: ReactNode
@@ -74,12 +74,10 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
     }
 
     onFormSubmit({ ...editedData, id })
-    setCover('')
-    onClose()
+    onClose?.()
   }
   const handleCancel = () => {
-    setCover('')
-    onClose()
+    onClose?.()
   }
 
   return (
@@ -88,7 +86,7 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
       rootProps={{
         onOpenChange: callbackValue => {
           if (!callbackValue) {
-            onClose()
+            onClose?.()
           }
         },
         open: open,
@@ -106,15 +104,17 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
           />
         )}
         <div className={s.coverControlBlock}>
-          <Button
-            className={s.removeCoverButton}
-            fullWidth
-            onClick={() => handleFileChange(undefined)}
-            type={'button'}
-            variant={'secondary'}
-          >
-            Remove Image
-          </Button>
+          {cover && (
+            <Button
+              className={s.removeCoverButton}
+              fullWidth
+              onClick={() => handleFileChange(undefined)}
+              type={'button'}
+              variant={'secondary'}
+            >
+              Remove Image
+            </Button>
+          )}
           <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>

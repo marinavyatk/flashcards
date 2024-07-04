@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 
-import EditIcon from '@/assets/svg/editIcon.svg?react'
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleImgError } from '@/common/commonFunctions'
 import {
@@ -24,7 +23,10 @@ import s from '../modals.module.scss'
 
 export type EditCardModalProps = {
   cardId: string
+  onClose?: () => void
   onFormSubmit: (data: UpdateCardArg) => void
+  open?: boolean
+  trigger?: ReactNode
 }
 export const EditCardModal = ({ cardId, ...restProps }: EditCardModalProps) => {
   const { data: cardData } = useGetCardQuery({ cardId })
@@ -39,14 +41,14 @@ type EditCardContentProps = {
 } & EditCardModalProps
 
 export const EditCardContent = (props: EditCardContentProps) => {
-  const { cardData, cardId, onFormSubmit } = props
+  const { cardData, cardId, onClose, onFormSubmit, open, trigger } = props
   const [questionCover, setQuestionCover] = useState<string>(cardData?.questionImg || '')
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
-  const [open, setOpen] = useState(false)
   const {
     control,
-    formState: { errors },
+    formState: { dirtyFields },
     handleSubmit,
+    setValue,
   } = useForm<updateCardFormValues>({
     defaultValues: {
       answer: cardData?.answer,
@@ -60,49 +62,59 @@ export const EditCardContent = (props: EditCardContentProps) => {
     resolver: zodResolver(updateCardSchema),
   })
 
-  console.log('UpdateCardModalErrors', errors)
-
-  const handleQuestionFileChange = (newFile: File | undefined) => {
-    if (questionCover) {
-      URL.revokeObjectURL(questionCover)
+  const handleFileChange = (
+    newFile: File | undefined,
+    cover: string,
+    setCover: (cover: string) => void,
+    fieldName: string
+  ) => {
+    if (cover) {
+      URL.revokeObjectURL(cover)
     }
     if (!newFile) {
-      setQuestionCover(null)
+      setCover('')
+      setValue(fieldName, undefined, { shouldDirty: true })
     } else {
-      setQuestionCover(URL.createObjectURL(newFile))
-    }
-  }
-  const handleAnswerFileChange = (newFile: File | undefined) => {
-    if (answerCover) {
-      URL.revokeObjectURL(answerCover)
-    }
-    if (!newFile) {
-      setAnswerCover(null)
-    } else {
-      setAnswerCover(URL.createObjectURL(newFile))
+      setCover(URL.createObjectURL(newFile))
     }
   }
 
   const handleFormSubmit = (data: addNewCardFormValues) => {
-    onFormSubmit({ cardId, ...data })
-    setQuestionCover('')
-    setAnswerCover('')
-    setOpen(false)
+    const updatedKeys = Object.keys(dirtyFields) as keyof (typeof dirtyFields)[]
+    const dataKeys = Object.keys(data)
+    const preparedData = {}
+
+    dataKeys.forEach(key => {
+      if (!updatedKeys.includes(key)) {
+        return
+      }
+      if (data[key] === undefined) {
+        preparedData[key] = ''
+
+        return
+      }
+      preparedData[key] = data[key]
+    })
+    onFormSubmit({ cardId, ...preparedData })
+    onClose?.()
   }
+
   const handleCancel = () => {
-    setQuestionCover('')
-    setAnswerCover('')
+    onClose?.()
   }
 
   return (
     <Modal
       modalHeader={'Edit Card'}
-      rootProps={{ onOpenChange: setOpen, open: open }}
-      trigger={
-        <button className={s.triggerButton}>
-          <EditIcon />
-        </button>
-      }
+      rootProps={{
+        onOpenChange: callbackValue => {
+          if (!callbackValue) {
+            onClose?.()
+          }
+        },
+        open: open,
+      }}
+      trigger={trigger}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextField
@@ -120,19 +132,25 @@ export const EditCardContent = (props: EditCardContentProps) => {
           />
         )}
         <div className={s.coverControlBlock}>
-          <Button
-            className={s.removeCoverButton}
-            fullWidth
-            onClick={() => handleQuestionFileChange(undefined)}
-            type={'button'}
-            variant={'secondary'}
-          >
-            Remove Image
-          </Button>
+          {questionCover && (
+            <Button
+              className={s.removeCoverButton}
+              fullWidth
+              onClick={() =>
+                handleFileChange(undefined, questionCover, setQuestionCover, 'questionImg')
+              }
+              type={'button'}
+              variant={'secondary'}
+            >
+              Remove Image
+            </Button>
+          )}
           <FormInputFileCover
             control={control}
             name={'questionImg'}
-            onFileChange={handleQuestionFileChange}
+            onFileChange={newFile =>
+              handleFileChange(newFile, questionCover, setQuestionCover, 'questionImg')
+            }
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
@@ -151,19 +169,23 @@ export const EditCardContent = (props: EditCardContentProps) => {
           />
         )}
         <div className={s.coverControlBlock}>
-          <Button
-            className={s.removeCoverButton}
-            fullWidth
-            onClick={() => handleAnswerFileChange(undefined)}
-            type={'button'}
-            variant={'secondary'}
-          >
-            Remove Image
-          </Button>
+          {answerCover && (
+            <Button
+              className={s.removeCoverButton}
+              fullWidth
+              onClick={() => handleFileChange(undefined, answerCover, setAnswerCover, 'answerImg')}
+              type={'button'}
+              variant={'secondary'}
+            >
+              Remove Image
+            </Button>
+          )}
           <FormInputFileCover
             control={control}
             name={'answerImg'}
-            onFileChange={handleAnswerFileChange}
+            onFileChange={newFile =>
+              handleFileChange(newFile, answerCover, setAnswerCover, 'answerImg')
+            }
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
@@ -171,7 +193,6 @@ export const EditCardContent = (props: EditCardContentProps) => {
             </Typography>
           </FormInputFileCover>
         </div>
-
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
             <Button onClick={handleCancel} type={'button'} variant={'secondary'}>

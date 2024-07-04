@@ -10,16 +10,12 @@ import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
 
-export type DecksTableBodyProps = {
-  onConfirmDelete: (id: string) => void
-  onEdit: (data: UpdateDeckArgs) => void
-  onGoToDeck?: () => void
-  onLearn: (id: string) => void
-  tableRowsData: Deck[]
-  userId: string
-}
+type DecksTableRowProps = {
+  item: Deck
+} & Omit<DecksTableBodyProps, 'tableRowsData'>
 
-const DecksTableRow = ({ item, onConfirmDelete, onEdit, onGoToDeck, onLearn, userId }) => {
+const DecksTableRow = (props: DecksTableRowProps) => {
+  const { item, onConfirmDelete, onEdit, onGoToDeck, onLearn, userId } = props
   const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
     delete: false,
     edit: false,
@@ -46,17 +42,19 @@ const DecksTableRow = ({ item, onConfirmDelete, onEdit, onGoToDeck, onLearn, use
             <PlayIcon onClick={() => onLearn(item.id)} />
           </button>
           {isMyDeck && (
-            <EditDeckModal
-              id={item.id}
-              onClose={() => toggleModalHandler('edit', false)}
-              onFormSubmit={onEdit}
-              open={modalState.edit}
-              trigger={
-                <button onClick={() => toggleModalHandler('edit', true)}>
-                  <EditIcon />
-                </button>
-              }
-            />
+            <>
+              <button onClick={() => toggleModalHandler('edit', true)}>
+                <EditIcon />
+              </button>
+              {modalState.edit && (
+                <EditDeckModal
+                  id={item.id}
+                  onClose={() => toggleModalHandler('edit', false)}
+                  onFormSubmit={onEdit}
+                  open={modalState.edit}
+                />
+              )}
+            </>
           )}
           {isMyDeck && (
             <ConfirmDeleteModal
@@ -72,6 +70,15 @@ const DecksTableRow = ({ item, onConfirmDelete, onEdit, onGoToDeck, onLearn, use
       </td>
     </tr>
   )
+}
+
+export type DecksTableBodyProps = {
+  onConfirmDelete: (id: string) => void
+  onEdit: (data: UpdateDeckArgs) => void
+  onGoToDeck?: () => void
+  onLearn: (id: string) => void
+  tableRowsData: Deck[]
+  userId: string
 }
 
 export const DecksTableBody = (props: DecksTableBodyProps) => {

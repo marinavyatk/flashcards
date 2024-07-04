@@ -1,3 +1,4 @@
+import EditIcon from '@/assets/svg/editIcon.svg?react'
 import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
@@ -17,6 +18,15 @@ export type CardsTableBodyProps = {
 
 export type CardsTableRowProps = { item: Card } & Omit<CardsTableBodyProps, 'tableRowsData'>
 
+export const CardsTableBody = (props: CardsTableBodyProps) => {
+  const { tableRowsData, ...restProps } = props
+  const tableRows = tableRowsData.map(item => {
+    return <CardsTableRow item={item} key={item.id} {...restProps} />
+  })
+
+  return <>{tableRows}</>
+}
+
 const CardsTableRow = (props: CardsTableRowProps) => {
   const { isMyDeck, item, onConfirmDelete, onEditCard } = props
   const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
@@ -33,8 +43,6 @@ const CardsTableRow = (props: CardsTableRowProps) => {
 
     return rating
   }
-
-  console.log(modalState.edit)
 
   return (
     <tr>
@@ -57,12 +65,17 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <EditCardModal
-              cardId={item.id}
-              onClose={() => toggleModalHandler('edit', false)}
-              onFormSubmit={onEditCard}
-              open={modalState.edit}
-            />
+            <button onClick={() => toggleModalHandler('edit', true)}>
+              <EditIcon />
+            </button>
+            {modalState.edit && (
+              <EditCardModal
+                cardId={item.id}
+                onClose={() => toggleModalHandler('edit', false)}
+                onFormSubmit={onEditCard}
+                open={modalState.edit}
+              />
+            )}
             <ConfirmDeleteModal
               deletedElement={'Card'}
               onConfirm={() => {
@@ -74,13 +87,4 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       )}
     </tr>
   )
-}
-
-export const CardsTableBody = (props: CardsTableBodyProps) => {
-  const { tableRowsData, ...restProps } = props
-  const tableRows = tableRowsData.map(item => {
-    return <CardsTableRow item={item} key={item.id} {...restProps} />
-  })
-
-  return <>{tableRows}</>
 }

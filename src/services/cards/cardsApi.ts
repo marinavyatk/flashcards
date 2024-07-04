@@ -76,22 +76,22 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         query: ({ cardId, ...args }) => {
           const formData = new FormData()
 
-          if (args.answer) {
+          if (args.answer !== undefined) {
             formData.append('answer', args.answer)
           }
-          if (args.question) {
+          if (args.question !== undefined) {
             formData.append('question', args.question)
           }
-          if (args.answerImg) {
+          if (args.answerImg !== undefined) {
             formData.append('answerImg', args.answerImg)
           }
-          if (args.questionImg) {
+          if (args.questionImg !== undefined) {
             formData.append('questionImg', args.questionImg)
           }
-          if (args.answerVideo) {
+          if (args.answerVideo !== undefined) {
             formData.append('answerVideo', args.answerVideo)
           }
-          if (args.questionVideo) {
+          if (args.questionVideo !== undefined) {
             formData.append('questionVideo', args.questionVideo)
           }
 

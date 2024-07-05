@@ -1,10 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { useForm } from 'react-hook-form'
 
-import {
-  CreateNewPasswordFormValues,
-  createNewPasswordSchema,
-} from '@/components/forms/formValidation'
+import { CreateNewPasswordFormValues, createNewPasswordSchema } from '@/common/formValidation'
 import { Card } from '@/components/ui/card'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'

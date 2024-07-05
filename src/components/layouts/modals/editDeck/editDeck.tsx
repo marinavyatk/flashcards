@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleImgError } from '@/common/commonFunctions'
-import { updateDeckFormValues, updateDeckSchema } from '@/components/forms/formValidation'
+import { updateDeckFormValues, updateDeckSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'

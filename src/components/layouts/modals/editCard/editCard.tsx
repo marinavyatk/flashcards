@@ -8,7 +8,7 @@ import {
   addNewCardFormValues,
   updateCardFormValues,
   updateCardSchema,
-} from '@/components/forms/formValidation'
+} from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'

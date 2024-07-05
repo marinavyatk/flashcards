@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { addNewDeckFromValues, addNewDeckSchema } from '@/components/forms/formValidation'
+import { addNewDeckFromValues, addNewDeckSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
 import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
+import { Typography } from '@/components/ui/typography'
 import { CreateDeckArgs } from '@/services/decks/decks.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -68,10 +69,12 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
         <FormTextField control={control} label={'Name Pack'} name={'name'} />
         {cover && <img alt={'Deck Cover'} className={s.cover} src={cover} />}
         <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
-          <ImageIcon /> Upload Image
+          <ImageIcon />
+          <Typography as={'span'} variant={'subtitle2'}>
+            Upload Image
+          </Typography>
         </FormInputFileCover>
         <FormCheckbox control={control} label={'Private pack'} name={'isPrivate'} />
-
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
             <Button onClick={handleCancel} type={'button'} variant={'secondary'}>

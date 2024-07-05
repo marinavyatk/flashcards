@@ -6,21 +6,21 @@ import {
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
+import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
-import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
@@ -86,13 +86,11 @@ export const DeckPage = () => {
     createCard({ ...data, id: deckId ? deckId : '' })
     searchParams.delete('currentPage')
     searchParams.delete('orderBy')
-    searchParams.delete('question')
+    searchParams.delete('search')
+    handleSearchChange('')
     setSearchParams(searchParams)
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-  }
   const handleEditDeck = (data: UpdateDeckArgs) => {
     updateDeck(data)
   }
@@ -106,6 +104,12 @@ export const DeckPage = () => {
       navigate(routes.main)
     }
   }
+
+  const handleDeleteDeck = () => {
+    deleteDeck({ id: deckId ? deckId : '' })
+    handleBackClick()
+  }
+
   const handleLearn = () => {
     navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
   }

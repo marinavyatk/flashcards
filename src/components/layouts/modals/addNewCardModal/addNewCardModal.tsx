@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { addNewCardFormValues, addNewCardSchema } from '@/components/forms/formValidation'
+import { addNewCardFormValues, addNewCardSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormInputFileCover } from '@/components/ui/inputFile/InputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'

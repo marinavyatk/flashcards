@@ -13,8 +13,8 @@ import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
 import { SignUpPage } from '@/pages/formPages/signUpPage'
+import { LearnPage } from '@/pages/learnPage/learnPage'
 import { MainPage } from '@/pages/mainPage/mainPage'
-import { QuestionPage } from '@/pages/questionPage/questionPage'
 
 export const routes = {
   checkEmail: '/check-email',
@@ -66,7 +66,7 @@ const privateRoutes: RouteObject[] = [
     path: routes.editProfile,
   },
   {
-    element: <QuestionPage />,
+    element: <LearnPage />,
     path: routes.learn,
   },
 ]
@@ -84,6 +84,7 @@ function PrivateRoutes() {
 
   return isAuthenticated ? <Outlet /> : <Navigate to={routes.signIn} />
 }
+
 export function Router() {
   return <RouterProvider router={router} />
 }

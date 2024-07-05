@@ -3,7 +3,7 @@ import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
 import {
   InputFileCover,
   InputFileCoverProps,
-} from '@/components/ui/inputFile/InputFileCover/InputFileCover'
+} from '@/components/ui/inputFile/inputFileCover/inputFileCover'
 
 export type FormInputFileCoverProps<T extends FieldValues> = Omit<
   InputFileCoverProps,

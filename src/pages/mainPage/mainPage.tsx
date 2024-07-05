@@ -168,28 +168,36 @@ export const MainPage = () => {
             <BinIcon /> Clear Filter
           </Button>
         </div>
-        <Table
-          className={s.table}
-          thead={
-            <tr>
-              <TableHead
-                cellsData={decksData}
-                changeSort={handleOrderByChange}
-                currentOrderBy={orderBy}
-                defaultValue={'updated-desc'}
-              />
-            </tr>
-          }
-        >
-          <DecksTableBody
-            onConfirmDelete={handleDeleteDeck}
-            onEdit={handleEditDeck}
-            onGoToDeck={handleGoToDeck}
-            onLearn={handleLearn}
-            tableRowsData={data?.items || []}
-            userId={userData?.id || ''}
-          />
-        </Table>
+
+        {data?.items.length ? (
+          <Table
+            className={s.table}
+            thead={
+              <tr>
+                <TableHead
+                  cellsData={decksData}
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'updated-desc'}
+                />
+              </tr>
+            }
+          >
+            <DecksTableBody
+              onConfirmDelete={handleDeleteDeck}
+              onEdit={handleEditDeck}
+              onGoToDeck={handleGoToDeck}
+              onLearn={handleLearn}
+              tableRowsData={data?.items || []}
+              userId={userData?.id || ''}
+            />
+          </Table>
+        ) : (
+          <Typography className={s.noMatchingCaption} variant={'body1'}>
+            No matching results. Change the search terms and try again
+          </Typography>
+        )}
+
         <AppPagination
           className={s.pagination}
           paginationProps={{

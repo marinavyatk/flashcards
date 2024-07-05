@@ -20,6 +20,12 @@
       align-items: center;
     }
   }
+
+  .noMatchingCaption {
+    margin-top: 100px;
+    color: var(--color-dark-100);
+    text-align: center;
+  }
 }
 
 .noCardsContainer {

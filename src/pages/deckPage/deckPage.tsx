@@ -118,7 +118,7 @@ export const DeckPage = () => {
     return <div>Loading...</div>
   }
 
-  if (!cards?.items.length) {
+  if (deckData?.cardsCount === 0) {
     return (
       <PageTemplate>
         <div className={s.noCardsContainer}>
@@ -200,26 +200,33 @@ export const DeckPage = () => {
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
           <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
-          <Table
-            thead={
-              <tr>
-                <TableHead
-                  cellsData={deckTableData}
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'updated-desc'}
-                />
-                {isMyDeck && <th></th>}
-              </tr>
-            }
-          >
-            <CardsTableBody
-              isMyDeck={isMyDeck}
-              onConfirmDelete={deleteCard}
-              onEditCard={updateCard}
-              tableRowsData={cards.items}
-            />
-          </Table>
+
+          {cards.items.length ? (
+            <Table
+              thead={
+                <tr>
+                  <TableHead
+                    cellsData={deckTableData}
+                    changeSort={handleOrderByChange}
+                    currentOrderBy={orderBy}
+                    defaultValue={'updated-desc'}
+                  />
+                  {isMyDeck && <th></th>}
+                </tr>
+              }
+            >
+              <CardsTableBody
+                isMyDeck={isMyDeck}
+                onConfirmDelete={deleteCard}
+                onEditCard={updateCard}
+                tableRowsData={cards.items}
+              />
+            </Table>
+          ) : (
+            <Typography className={s.noMatchingCaption} variant={'body1'}>
+              No matching results. Change the search terms and try again
+            </Typography>
+          )}
           <AppPagination
             paginationProps={{
               currentPage: cards?.pagination.currentPage || 1,

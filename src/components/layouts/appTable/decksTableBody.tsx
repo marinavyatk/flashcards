@@ -38,9 +38,11 @@ const DecksTableRow = (props: DecksTableRowProps) => {
       <td>{item.author.name}</td>
       <td>
         <div className={s.actions}>
-          <button>
-            <PlayIcon onClick={() => onLearn(item.id)} />
-          </button>
+          {item.cardsCount > 0 && (
+            <button>
+              <PlayIcon onClick={() => onLearn(item.id)} />
+            </button>
+          )}
           {isMyDeck && (
             <>
               <button onClick={() => toggleModalHandler('edit', true)}>

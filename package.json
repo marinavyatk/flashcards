@@ -36,7 +36,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@it-incubator/eslint-config": "^1.0.1",
+    "@it-incubator/eslint-config": "^1.0.2",
     "@it-incubator/prettier-config": "^0.1.2",
     "@it-incubator/stylelint-config": "^0.1.5",
     "@storybook/addon-essentials": "7.6.4",

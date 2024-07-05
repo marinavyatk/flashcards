@@ -5,13 +5,13 @@ import { formatDate } from '@/common/commonFunctions'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditCardModal } from '@/components/layouts/modals/editCardModal/editCardModal'
-import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
+import { Card, DeleteCard, UpdateCardArg } from '@/services/cards/cardsTypes'
 
 import s from './appTable.module.scss'
 
 export type CardsTableBodyProps = {
   isMyDeck: boolean
-  onConfirmDelete: (id: string) => void
+  onConfirmDelete: (data: DeleteCard) => void
   onEditCard: (data: UpdateCardArg) => void
   tableRowsData: Card[]
 }

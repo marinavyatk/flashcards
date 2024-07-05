@@ -130,10 +130,16 @@ export const DeckPage = () => {
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
           <div className={s.noCardMessage}>
-            <Typography variant={'body1'}>
-              This pack is empty. Click add new card to fill this pack
-            </Typography>
-            <AddNewCardModal onFormSubmit={handleAddNewCard} />
+            {isMyDeck ? (
+              <>
+                <Typography variant={'body1'}>
+                  This pack is empty. Click add new card to fill this pack
+                </Typography>
+                <AddNewCardModal onFormSubmit={handleAddNewCard} />
+              </>
+            ) : (
+              <Typography variant={'body1'}>This pack is empty.</Typography>
+            )}
           </div>
         </div>
       </PageTemplate>
@@ -143,7 +149,7 @@ export const DeckPage = () => {
   return (
     <PageTemplate>
       <EditDeckModal
-        id={deckData.id}
+        id={deckData?.id || ''}
         onClose={() => toggleModalHandler('edit', false)}
         onFormSubmit={handleEditDeck}
         open={modalState?.edit}
@@ -187,7 +193,7 @@ export const DeckPage = () => {
           )}
           <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
 
-          {cards.items.length ? (
+          {cards?.items.length ? (
             <Table
               thead={
                 <tr>
@@ -217,7 +223,7 @@ export const DeckPage = () => {
             paginationProps={{
               currentPage: cards?.pagination.currentPage || 1,
               onPageChange: handleCurrentPageChange,
-              totalCount: cards.pagination.totalItems,
+              totalCount: cards?.pagination.totalItems || 1,
             }}
             selectProps={{
               rootProps: {

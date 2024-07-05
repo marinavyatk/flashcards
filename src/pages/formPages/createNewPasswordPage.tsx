@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
+import { CreateNewPasswordFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { CreateNewPassword } from '@/components/forms/createNewPassword/createNewPassword'
-import { CreateNewPasswordFormValues } from '@/components/forms/formValidation'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { useResetPasswordMutation } from '@/services/auth/authApi'
 
 export const CreateNewPasswordPage = () => {

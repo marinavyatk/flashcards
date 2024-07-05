@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 
 import PageNotFoundImg from '@/assets/svg/404.svg?react'
 import { routes } from '@/common/router'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 
 import s from './404.module.scss'
 

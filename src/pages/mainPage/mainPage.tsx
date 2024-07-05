@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
+import { selectMinValue } from '@/common/constants'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
@@ -11,13 +12,13 @@ import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
-import { SliderComponent } from '@/components/ui/slider'
+import { Slider } from '@/components/ui/slider'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import { useLazyRetrieveRandomCardQuery } from '@/services/cards/cardsApi'
 import { CreateDeckArgs, UpdateDeckArgs } from '@/services/decks/decks.types'
@@ -72,6 +73,7 @@ export const MainPage = () => {
 
   const clearFilters = () => {
     searchParams.delete('search')
+    handleSearchChange('')
     searchParams.delete('minCardsCount')
     searchParams.delete('maxCardsCount')
     searchParams.delete('deckOwnership')
@@ -97,7 +99,12 @@ export const MainPage = () => {
 
   const handleAddNewDeck = (data: CreateDeckArgs) => {
     createDeck(data)
-    clearFilters()
+    searchParams.delete('search')
+    searchParams.delete('minCardsCount')
+    searchParams.delete('maxCardsCount')
+    searchParams.delete('orderBy')
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
   }
 
   const handleEditDeck = (data: UpdateDeckArgs) => {
@@ -147,7 +154,7 @@ export const MainPage = () => {
             <Typography as={'span'} variant={'body2'}>
               Number of cards
             </Typography>
-            <SliderComponent
+            <Slider
               rootProps={{
                 defaultValue: cardsNumbersFromSearchParams,
                 max: minMaxData ? minMaxData.max : undefined,
@@ -161,28 +168,36 @@ export const MainPage = () => {
             <BinIcon /> Clear Filter
           </Button>
         </div>
-        <Table
-          className={s.table}
-          thead={
-            <tr>
-              <TableHead
-                cellsData={decksData}
-                changeSort={handleOrderByChange}
-                currentOrderBy={orderBy}
-                defaultValue={'updated-desc'}
-              />
-            </tr>
-          }
-        >
-          <DecksTableBody
-            onConfirmDelete={handleDeleteDeck}
-            onEdit={handleEditDeck}
-            onGoToDeck={handleGoToDeck}
-            onLearn={handleLearn}
-            tableRowsData={data?.items || []}
-            userId={userData?.id || ''}
-          />
-        </Table>
+
+        {data?.items.length ? (
+          <Table
+            className={s.table}
+            thead={
+              <tr>
+                <TableHead
+                  cellsData={decksData}
+                  changeSort={handleOrderByChange}
+                  currentOrderBy={orderBy}
+                  defaultValue={'updated-desc'}
+                />
+              </tr>
+            }
+          >
+            <DecksTableBody
+              onConfirmDelete={handleDeleteDeck}
+              onEdit={handleEditDeck}
+              onGoToDeck={handleGoToDeck}
+              onLearn={handleLearn}
+              tableRowsData={data?.items || []}
+              userId={userData?.id || ''}
+            />
+          </Table>
+        ) : (
+          <Typography className={s.noMatchingCaption} variant={'body1'}>
+            No matching results. Change the search terms and try again
+          </Typography>
+        )}
+
         <AppPagination
           className={s.pagination}
           paginationProps={{
@@ -193,7 +208,7 @@ export const MainPage = () => {
           selectProps={{
             rootProps: {
               onValueChange: handlePageSizeChange,
-              value: pageSize ? pageSize : undefined,
+              value: pageSize ? pageSize : String(selectMinValue),
             },
           }}
         />

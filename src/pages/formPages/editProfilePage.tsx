@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { routes } from '@/common/router'
 import { EditProfile } from '@/components/forms/editProfile'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import {
   useGetCurrentUserDataQuery,
   useSignOutMutation,
@@ -28,7 +28,6 @@ export const EditProfilePage = () => {
     }
   }
   const onSubmit = async (data: UpdateUserData) => {
-    console.log('onSubmit')
     try {
       await updateUserData(data).unwrap()
     } catch (error: any) {

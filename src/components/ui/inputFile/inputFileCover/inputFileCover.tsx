@@ -3,7 +3,7 @@ import { ChangeEvent, forwardRef } from 'react'
 import { InputFile, InputFileProps } from '@/components/ui/inputFile'
 import clsx from 'clsx'
 
-import s from './InputFileCover.module.scss'
+import s from './inputFileCover.module.scss'
 
 export type InputFileCoverProps = {
   onChange?: (file: File | undefined) => void

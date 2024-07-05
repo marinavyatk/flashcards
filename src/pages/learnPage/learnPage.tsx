@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
-import { saveGradeFormValues, saveGradeSchema } from '@/components/forms/formValidation'
+import { saveGradeFormValues, saveGradeSchema } from '@/common/formValidation'
+import { BackLink } from '@/components/layouts/backLink/backLink'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { FormRadioGroup } from '@/components/ui/radioGroup/formRadioGroup'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import {
   useGetCardQuery,
   useRetrieveRandomCardQuery,
@@ -17,9 +17,9 @@ import {
 import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import s from './questionPage.module.scss'
+import s from './learnPage.module.scss'
 
-export const QuestionPage = () => {
+export const LearnPage = () => {
   const [showAnswer, setShowAnswer] = useState(false)
   const navigate = useNavigate()
   const { cardId } = useParams()
@@ -57,14 +57,7 @@ export const QuestionPage = () => {
   return (
     <PageTemplate>
       <div className={s.questionPage}>
-        <Typography
-          as={'button'}
-          className={s.backLink}
-          onClick={() => navigate(-1)}
-          variant={'body2'}
-        >
-          <ArrowBackIcon /> Back to Cards List
-        </Typography>
+        <BackLink onClick={() => navigate(-1)}>Back to Cards List</BackLink>
         <div className={s.cardContainer}>
           <Card className={s.questionCard}>
             <Typography as={'h1'} className={s.deckTitle} variant={'large'}>

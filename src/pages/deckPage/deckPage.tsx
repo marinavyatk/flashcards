@@ -1,26 +1,26 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
+import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
-import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { BackLink } from '@/components/layouts/backLink/backLink'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
@@ -86,13 +86,11 @@ export const DeckPage = () => {
     createCard({ ...data, id: deckId ? deckId : '' })
     searchParams.delete('currentPage')
     searchParams.delete('orderBy')
-    searchParams.delete('question')
+    searchParams.delete('search')
+    handleSearchChange('')
     setSearchParams(searchParams)
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-  }
   const handleEditDeck = (data: UpdateDeckArgs) => {
     updateDeck(data)
   }
@@ -106,6 +104,12 @@ export const DeckPage = () => {
       navigate(routes.main)
     }
   }
+
+  const handleDeleteDeck = () => {
+    deleteDeck({ id: deckId ? deckId : '' })
+    handleBackClick()
+  }
+
   const handleLearn = () => {
     navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
   }
@@ -114,18 +118,11 @@ export const DeckPage = () => {
     return <div>Loading...</div>
   }
 
-  if (!cards?.items.length) {
+  if (deckData?.cardsCount === 0) {
     return (
       <PageTemplate>
         <div className={s.noCardsContainer}>
-          <Typography
-            as={'button'}
-            className={s.backLink}
-            onClick={handleBackClick}
-            variant={'body2'}
-          >
-            <ArrowBackIcon /> Back to Decks List
-          </Typography>
+          <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
@@ -159,14 +156,7 @@ export const DeckPage = () => {
         open={modalState?.delete}
       />
       <div className={s.deckPage}>
-        <Typography
-          as={'button'}
-          className={s.backLink}
-          onClick={handleBackClick}
-          variant={'body2'}
-        >
-          <ArrowBackIcon /> Back to Decks List
-        </Typography>
+        <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
           <div className={s.actions}>
             <div className={s.deckNameWithOptions}>
@@ -196,26 +186,33 @@ export const DeckPage = () => {
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
           <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
-          <Table
-            thead={
-              <tr>
-                <TableHead
-                  cellsData={deckTableData}
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'updated-desc'}
-                />
-                {isMyDeck && <th></th>}
-              </tr>
-            }
-          >
-            <CardsTableBody
-              isMyDeck={isMyDeck}
-              onConfirmDelete={deleteCard}
-              onEditCard={updateCard}
-              tableRowsData={cards.items}
-            />
-          </Table>
+
+          {cards.items.length ? (
+            <Table
+              thead={
+                <tr>
+                  <TableHead
+                    cellsData={deckTableData}
+                    changeSort={handleOrderByChange}
+                    currentOrderBy={orderBy}
+                    defaultValue={'updated-desc'}
+                  />
+                  {isMyDeck && <th></th>}
+                </tr>
+              }
+            >
+              <CardsTableBody
+                isMyDeck={isMyDeck}
+                onConfirmDelete={deleteCard}
+                onEditCard={updateCard}
+                tableRowsData={cards.items}
+              />
+            </Table>
+          ) : (
+            <Typography className={s.noMatchingCaption} variant={'body1'}>
+              No matching results. Change the search terms and try again
+            </Typography>
+          )}
           <AppPagination
             paginationProps={{
               currentPage: cards?.pagination.currentPage || 1,

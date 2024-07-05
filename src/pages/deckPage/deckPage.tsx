@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
@@ -12,9 +11,10 @@ import { deckTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { BackLink } from '@/components/layouts/backLink/backLink'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
@@ -122,14 +122,7 @@ export const DeckPage = () => {
     return (
       <PageTemplate>
         <div className={s.noCardsContainer}>
-          <Typography
-            as={'button'}
-            className={s.backLink}
-            onClick={handleBackClick}
-            variant={'body2'}
-          >
-            <ArrowBackIcon /> Back to Decks List
-          </Typography>
+          <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
@@ -163,14 +156,7 @@ export const DeckPage = () => {
         open={modalState?.delete}
       />
       <div className={s.deckPage}>
-        <Typography
-          as={'button'}
-          className={s.backLink}
-          onClick={handleBackClick}
-          variant={'body2'}
-        >
-          <ArrowBackIcon /> Back to Decks List
-        </Typography>
+        <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
           <div className={s.actions}>
             <div className={s.deckNameWithOptions}>

@@ -14,7 +14,7 @@ import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
-import { SliderComponent } from '@/components/ui/slider'
+import { Slider } from '@/components/ui/slider'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
@@ -154,7 +154,7 @@ export const MainPage = () => {
             <Typography as={'span'} variant={'body2'}>
               Number of cards
             </Typography>
-            <SliderComponent
+            <Slider
               rootProps={{
                 defaultValue: cardsNumbersFromSearchParams,
                 max: minMaxData ? minMaxData.max : undefined,

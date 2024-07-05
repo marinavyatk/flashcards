@@ -15,6 +15,7 @@ import { SignInPage } from '@/pages/formPages/signInPage'
 import { SignUpPage } from '@/pages/formPages/signUpPage'
 import { LearnPage } from '@/pages/learnPage/learnPage'
 import { MainPage } from '@/pages/mainPage/mainPage'
+import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 
 export const routes = {
   checkEmail: '/check-email',
@@ -80,9 +81,17 @@ export const router = createBrowserRouter([
 ])
 
 function PrivateRoutes() {
-  const isAuthenticated = true
+  const { data: userData, isLoading } = useGetCurrentUserDataQuery()
 
-  return isAuthenticated ? <Outlet /> : <Navigate to={routes.signIn} />
+  if (isLoading) {
+    return <div>...Loading...</div>
+  }
+
+  if (userData) {
+    const isAuthenticated = !!userData
+
+    return isAuthenticated ? <Outlet /> : <Navigate to={routes.signIn} />
+  }
 }
 
 export function Router() {

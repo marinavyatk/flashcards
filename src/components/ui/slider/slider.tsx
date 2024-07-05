@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useEffect, useRef } from 'react'
+import { ComponentPropsWithoutRef, PointerEvent, useEffect, useRef } from 'react'
 
 import * as RadixSlider from '@radix-ui/react-slider'
 import { SliderProps as RadixSliderProps } from '@radix-ui/react-slider'
@@ -32,6 +32,12 @@ export const Slider = ({ className, rootProps, ...restProps }: SliderProps) => {
       <RadixSlider.Root
         {...rootProps}
         className={s.sliderRoot}
+        onLostPointerCapture={(event: PointerEvent) => {
+          const target = event.target as HTMLSpanElement
+          const value = Number(target.ariaValueNow)
+
+          rootProps.onValueCommit?.([value, value])
+        }}
         onValueChange={value => {
           rootProps.onValueChange?.(value)
 
@@ -40,7 +46,6 @@ export const Slider = ({ className, rootProps, ...restProps }: SliderProps) => {
             maxValueRef.current.innerText = `${value[1]}`
           }
         }}
-        value={rootProps.value}
       >
         <RadixSlider.Track className={s.sliderTrack}>
           <RadixSlider.Range className={s.sliderRange} />

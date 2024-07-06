@@ -1,26 +1,27 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
+import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { deckTableData } from '@/common/tableData'
-import { addNewCardFormValues } from '@/components/forms/formValidation'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { BackLink } from '@/components/layouts/backLink/backLink'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { EditCardModal } from '@/components/layouts/modals/editCardModal/editCardModal'
+import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
+import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { PageTemplate } from '@/pages/PageTemplate/pageTemplate'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
@@ -55,9 +56,13 @@ export const DeckPage = () => {
 
   const navigate = useNavigate()
 
-  const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
-    delete: false,
-    edit: false,
+  const { modalState, toggleModalHandler } = useModalStateHandler<
+    'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
+  >({
+    deleteCard: { cardId: '', open: false },
+    deleteDeck: false,
+    editCard: { cardId: '', open: false },
+    editDeck: false,
   })
 
   const [createCard] = useCreateCardMutation()
@@ -86,13 +91,11 @@ export const DeckPage = () => {
     createCard({ ...data, id: deckId ? deckId : '' })
     searchParams.delete('currentPage')
     searchParams.delete('orderBy')
-    searchParams.delete('question')
+    searchParams.delete('search')
+    handleSearchChange('')
     setSearchParams(searchParams)
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-  }
   const handleEditDeck = (data: UpdateDeckArgs) => {
     updateDeck(data)
   }
@@ -106,26 +109,36 @@ export const DeckPage = () => {
       navigate(routes.main)
     }
   }
+
+  const handleDeleteDeck = () => {
+    deleteDeck({ id: deckId ? deckId : '' })
+    handleBackClick()
+  }
+
   const handleLearn = () => {
     navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
+  }
+
+  const handleDeleteCard = () => {
+    deleteCard({ cardId: modalState.deleteCard.cardId })
+  }
+
+  const handleEditCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('editCard', { cardId: cardId, open: true })
+  }
+  const handleDeleteCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('deleteCard', { cardId: cardId, open: true })
   }
 
   if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!cards?.items.length) {
+  if (deckData?.cardsCount === 0) {
     return (
       <PageTemplate>
         <div className={s.noCardsContainer}>
-          <Typography
-            as={'button'}
-            className={s.backLink}
-            onClick={handleBackClick}
-            variant={'body2'}
-          >
-            <ArrowBackIcon /> Back to Decks List
-          </Typography>
+          <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
@@ -133,40 +146,27 @@ export const DeckPage = () => {
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
           <div className={s.noCardMessage}>
-            <Typography variant={'body1'}>
-              This pack is empty. Click add new card to fill this pack
-            </Typography>
-            <AddNewCardModal onFormSubmit={handleAddNewCard} />
+            {isMyDeck ? (
+              <>
+                <Typography variant={'body1'}>
+                  This pack is empty. Click add new card to fill this pack
+                </Typography>
+                <AddNewCardModal onFormSubmit={handleAddNewCard} />
+              </>
+            ) : (
+              <Typography variant={'body1'}>This pack is empty.</Typography>
+            )}
           </div>
         </div>
       </PageTemplate>
     )
   }
+  console.log('modalState', modalState)
 
   return (
     <PageTemplate>
-      <EditDeckModal
-        id={deckData.id}
-        onClose={() => toggleModalHandler('edit', false)}
-        onFormSubmit={handleEditDeck}
-        open={modalState?.edit}
-      />
-      <ConfirmDeleteModal
-        deletedElement={'Deck'}
-        needShowTrigger={false}
-        onClose={() => toggleModalHandler('delete', false)}
-        onConfirm={handleDeleteDeck}
-        open={modalState?.delete}
-      />
       <div className={s.deckPage}>
-        <Typography
-          as={'button'}
-          className={s.backLink}
-          onClick={handleBackClick}
-          variant={'body2'}
-        >
-          <ArrowBackIcon /> Back to Decks List
-        </Typography>
+        <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
           <div className={s.actions}>
             <div className={s.deckNameWithOptions}>
@@ -178,8 +178,8 @@ export const DeckPage = () => {
                   deletedElement={'Deck'}
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
-                  onConfirmDelete={() => toggleModalHandler('delete', true)}
-                  onEdit={() => toggleModalHandler('edit', true)}
+                  onConfirmDelete={() => toggleModalHandler('deleteDeck', true)}
+                  onEdit={() => toggleModalHandler('editDeck', true)}
                   onLearn={handleLearn}
                 />
               )}
@@ -196,31 +196,38 @@ export const DeckPage = () => {
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
           <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
-          <Table
-            thead={
-              <tr>
-                <TableHead
-                  cellsData={deckTableData}
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={'updated-desc'}
-                />
-                {isMyDeck && <th></th>}
-              </tr>
-            }
-          >
-            <CardsTableBody
-              isMyDeck={isMyDeck}
-              onConfirmDelete={deleteCard}
-              onEditCard={updateCard}
-              tableRowsData={cards.items}
-            />
-          </Table>
+
+          {cards?.items.length ? (
+            <Table
+              thead={
+                <tr>
+                  <TableHead
+                    cellsData={deckTableData}
+                    changeSort={handleOrderByChange}
+                    currentOrderBy={orderBy}
+                    defaultValue={'updated-desc'}
+                  />
+                  {isMyDeck && <th></th>}
+                </tr>
+              }
+            >
+              <CardsTableBody
+                isMyDeck={isMyDeck}
+                onDeleteCardTriggerClick={handleDeleteCardTriggerClick}
+                onEditCardTriggerClick={handleEditCardTriggerClick}
+                tableRowsData={cards.items}
+              />
+            </Table>
+          ) : (
+            <Typography className={s.noMatchingCaption} variant={'body1'}>
+              No matching results. Change the search terms and try again
+            </Typography>
+          )}
           <AppPagination
             paginationProps={{
               currentPage: cards?.pagination.currentPage || 1,
               onPageChange: handleCurrentPageChange,
-              totalCount: cards.pagination.totalItems,
+              totalCount: cards?.pagination.totalItems || 1,
             }}
             selectProps={{
               rootProps: {
@@ -231,6 +238,38 @@ export const DeckPage = () => {
           />
         </div>
       </div>
+
+      <ConfirmDeleteModal
+        deletedElement={'Deck'}
+        needShowTrigger={false}
+        onClose={() => toggleModalHandler('deleteDeck', false)}
+        onConfirm={handleDeleteDeck}
+        open={modalState?.deleteDeck}
+      />
+      <ConfirmDeleteModal
+        deletedElement={'Card'}
+        needShowTrigger={false}
+        onClose={() => toggleModalHandler('deleteCard', false)}
+        onConfirm={handleDeleteCard}
+        open={modalState.deleteCard.open}
+      />
+
+      {modalState.editDeck && (
+        <EditDeckModal
+          id={deckData?.id || ''}
+          onClose={() => toggleModalHandler('editDeck', false)}
+          onFormSubmit={handleEditDeck}
+          open={modalState?.editDeck}
+        />
+      )}
+      {modalState.editCard.open && (
+        <EditCardModal
+          cardId={modalState.editCard.cardId}
+          onClose={() => toggleModalHandler('editCard', false)}
+          onFormSubmit={updateCard}
+          open={modalState.editCard.open}
+        />
+      )}
     </PageTemplate>
   )
 }

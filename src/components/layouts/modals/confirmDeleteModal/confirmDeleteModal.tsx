@@ -10,7 +10,7 @@ import s from '../modals.module.scss'
 
 export type DeletedElement = 'Card' | 'Deck'
 
-export type AddNewDeckModalProps = {
+export type ConfirmDeleteModalProps = {
   deletedElement: DeletedElement
   elementName?: string
   needShowTrigger?: boolean
@@ -19,7 +19,7 @@ export type AddNewDeckModalProps = {
   open?: boolean
   triggerProps?: ComponentPropsWithoutRef<'button'>
 }
-export const ConfirmDeleteModal = (props: AddNewDeckModalProps) => {
+export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps) => {
   const {
     deletedElement,
     elementName,

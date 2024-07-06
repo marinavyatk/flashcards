@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ForgotPasswordFormValues } from '@/components/forms/formValidation'
+import { ForgotPasswordFormValues } from '@/common/formValidation'
 
 import { ForgotPassword } from './'
 

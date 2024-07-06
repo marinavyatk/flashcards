@@ -5,7 +5,7 @@ import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeck/editDeck'
+import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
 import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
@@ -38,9 +38,11 @@ const DecksTableRow = (props: DecksTableRowProps) => {
       <td>{item.author.name}</td>
       <td>
         <div className={s.actions}>
-          <button>
-            <PlayIcon onClick={() => onLearn(item.id)} />
-          </button>
+          {item.cardsCount > 0 && (
+            <button>
+              <PlayIcon onClick={() => onLearn(item.id)} />
+            </button>
+          )}
           {isMyDeck && (
             <>
               <button onClick={() => toggleModalHandler('edit', true)}>

@@ -20,6 +20,12 @@
       align-items: center;
     }
   }
+
+  .noMatchingCaption {
+    margin-top: 100px;
+    color: var(--color-dark-100);
+    text-align: center;
+  }
 }
 
 .noCardsContainer {
@@ -38,31 +44,6 @@
 
     p {
       color: var(--color-dark-100);
-    }
-  }
-}
-
-.backLink {
-  all: unset;
-
-  cursor: pointer;
-
-  display: flex;
-  gap: 10px;
-  align-items: center;
-
-  margin-bottom: 33px;
-
-  transition: all 0.4s;
-
-  &:hover {
-    transform: translateY(2px);
-    color: var(--color-accent-300);
-    transition: all 0.4s;
-
-    svg {
-      fill: var(--color-accent-300);
-      transition: all 0.4s;
     }
   }
 }

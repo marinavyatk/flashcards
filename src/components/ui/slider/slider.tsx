@@ -1,16 +1,16 @@
-import { ComponentPropsWithoutRef, useEffect, useRef } from 'react'
+import { ComponentPropsWithoutRef, PointerEvent, useEffect, useRef } from 'react'
 
-import * as Slider from '@radix-ui/react-slider'
-import { SliderProps } from '@radix-ui/react-slider'
+import * as RadixSlider from '@radix-ui/react-slider'
+import { SliderProps as RadixSliderProps } from '@radix-ui/react-slider'
 import clsx from 'clsx'
 
 import s from './slider.module.scss'
 
-export type SliderComponentProps = {
-  rootProps: SliderProps
+export type SliderProps = {
+  rootProps: RadixSliderProps
 } & ComponentPropsWithoutRef<'div'>
 
-export const SliderComponent = ({ className, rootProps, ...restProps }: SliderComponentProps) => {
+export const Slider = ({ className, rootProps, ...restProps }: SliderProps) => {
   const minValueRef = useRef<HTMLInputElement>(null)
   const maxValueRef = useRef<HTMLInputElement>(null)
   const classNames = clsx(s.sliderContainer, className)
@@ -28,11 +28,16 @@ export const SliderComponent = ({ className, rootProps, ...restProps }: SliderCo
 
   return (
     <div className={classNames} {...restProps}>
-      <div className={s.extremeNumber} id={'val'} ref={minValueRef} />
-
-      <Slider.Root
+      <div className={s.extremeNumber} ref={minValueRef} />
+      <RadixSlider.Root
         {...rootProps}
         className={s.sliderRoot}
+        onLostPointerCapture={(event: PointerEvent) => {
+          const target = event.target as HTMLSpanElement
+          const value = Number(target.ariaValueNow)
+
+          rootProps.onValueCommit?.([value, value])
+        }}
         onValueChange={value => {
           rootProps.onValueChange?.(value)
 
@@ -41,14 +46,13 @@ export const SliderComponent = ({ className, rootProps, ...restProps }: SliderCo
             maxValueRef.current.innerText = `${value[1]}`
           }
         }}
-        value={rootProps.value}
       >
-        <Slider.Track className={s.sliderTrack}>
-          <Slider.Range className={s.sliderRange} />
-        </Slider.Track>
-        <Slider.Thumb className={s.sliderThumb} />
-        <Slider.Thumb className={s.sliderThumb} />
-      </Slider.Root>
+        <RadixSlider.Track className={s.sliderTrack}>
+          <RadixSlider.Range className={s.sliderRange} />
+        </RadixSlider.Track>
+        <RadixSlider.Thumb className={s.sliderThumb} />
+        <RadixSlider.Thumb className={s.sliderThumb} />
+      </RadixSlider.Root>
       <div className={s.extremeNumber} ref={maxValueRef} />
     </div>
   )

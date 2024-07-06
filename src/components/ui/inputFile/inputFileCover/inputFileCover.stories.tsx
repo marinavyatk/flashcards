@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { InputFileCover } from '@/components/ui/inputFile/InputFileCover/InputFileCover'
+import { InputFileCover } from '@/components/ui/inputFile/inputFileCover/inputFileCover'
 
 const meta = {
   component: InputFileCover,

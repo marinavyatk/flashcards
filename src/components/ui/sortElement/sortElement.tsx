@@ -33,8 +33,10 @@ export const SortElement = (props: SortElementProps) => {
   useEffect(() => {
     if (currentSortField !== orderBy) {
       setIcon(undefined)
+    } else {
+      setIcon(currentSortDirection)
     }
-  }, [currentSortField])
+  }, [currentSort])
 
   const defineNewOrderBy = (
     orderBy: string,

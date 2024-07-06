@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { SignInFormValues } from '@/components/forms/formValidation'
+import { SignInFormValues } from '@/common/formValidation'
 
 import { SingIn } from './'
 

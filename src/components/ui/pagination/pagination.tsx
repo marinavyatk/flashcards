@@ -34,8 +34,6 @@ export const Pagination = (props: PaginationProps) => {
     onPageChange(currentPage - 1)
   }
 
-  // const handle
-
   const lastPage = paginationRange[paginationRange.length - 1]
 
   return (
@@ -45,15 +43,14 @@ export const Pagination = (props: PaginationProps) => {
           <ArrowPaginationIcon />
         </button>
       </li>
-      {paginationRange.map(pageNumber => {
+      {paginationRange.map((pageNumber, index) => {
         if (pageNumber === DOTS) {
           return (
-            <li className={s.paginationDots} key={pageNumber}>
+            <li className={s.paginationDots} key={pageNumber + index}>
               &#8230;
             </li>
           )
         }
-
         if (typeof pageNumber !== 'string') {
           return (
             <li key={pageNumber}>

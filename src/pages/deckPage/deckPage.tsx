@@ -14,6 +14,7 @@ import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { BackLink } from '@/components/layouts/backLink/backLink'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { EditCardModal } from '@/components/layouts/modals/editCardModal/editCardModal'
 import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
@@ -55,9 +56,13 @@ export const DeckPage = () => {
 
   const navigate = useNavigate()
 
-  const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
-    delete: false,
-    edit: false,
+  const { modalState, toggleModalHandler } = useModalStateHandler<
+    'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
+  >({
+    deleteCard: { cardId: '', open: false },
+    deleteDeck: false,
+    editCard: { cardId: '', open: false },
+    editDeck: false,
   })
 
   const [createCard] = useCreateCardMutation()
@@ -114,6 +119,17 @@ export const DeckPage = () => {
     navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
   }
 
+  const handleDeleteCard = () => {
+    deleteCard({ cardId: modalState.deleteCard.cardId })
+  }
+
+  const handleEditCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('editCard', { cardId: cardId, open: true })
+  }
+  const handleDeleteCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('deleteCard', { cardId: cardId, open: true })
+  }
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -145,22 +161,10 @@ export const DeckPage = () => {
       </PageTemplate>
     )
   }
+  console.log('modalState', modalState)
 
   return (
     <PageTemplate>
-      <EditDeckModal
-        id={deckData?.id || ''}
-        onClose={() => toggleModalHandler('edit', false)}
-        onFormSubmit={handleEditDeck}
-        open={modalState?.edit}
-      />
-      <ConfirmDeleteModal
-        deletedElement={'Deck'}
-        needShowTrigger={false}
-        onClose={() => toggleModalHandler('delete', false)}
-        onConfirm={handleDeleteDeck}
-        open={modalState?.delete}
-      />
       <div className={s.deckPage}>
         <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
@@ -174,8 +178,8 @@ export const DeckPage = () => {
                   deletedElement={'Deck'}
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
-                  onConfirmDelete={() => toggleModalHandler('delete', true)}
-                  onEdit={() => toggleModalHandler('edit', true)}
+                  onConfirmDelete={() => toggleModalHandler('deleteDeck', true)}
+                  onEdit={() => toggleModalHandler('editDeck', true)}
                   onLearn={handleLearn}
                 />
               )}
@@ -209,8 +213,8 @@ export const DeckPage = () => {
             >
               <CardsTableBody
                 isMyDeck={isMyDeck}
-                onConfirmDelete={deleteCard}
-                onEditCard={updateCard}
+                onDeleteCardTriggerClick={handleDeleteCardTriggerClick}
+                onEditCardTriggerClick={handleEditCardTriggerClick}
                 tableRowsData={cards.items}
               />
             </Table>
@@ -234,6 +238,38 @@ export const DeckPage = () => {
           />
         </div>
       </div>
+
+      <ConfirmDeleteModal
+        deletedElement={'Deck'}
+        needShowTrigger={false}
+        onClose={() => toggleModalHandler('deleteDeck', false)}
+        onConfirm={handleDeleteDeck}
+        open={modalState?.deleteDeck}
+      />
+      <ConfirmDeleteModal
+        deletedElement={'Card'}
+        needShowTrigger={false}
+        onClose={() => toggleModalHandler('deleteCard', false)}
+        onConfirm={handleDeleteCard}
+        open={modalState.deleteCard.open}
+      />
+
+      {modalState.editDeck && (
+        <EditDeckModal
+          id={deckData?.id || ''}
+          onClose={() => toggleModalHandler('editDeck', false)}
+          onFormSubmit={handleEditDeck}
+          open={modalState?.editDeck}
+        />
+      )}
+      {modalState.editCard.open && (
+        <EditCardModal
+          cardId={modalState.editCard.cardId}
+          onClose={() => toggleModalHandler('editCard', false)}
+          onFormSubmit={updateCard}
+          open={modalState.editCard.open}
+        />
+      )}
     </PageTemplate>
   )
 }

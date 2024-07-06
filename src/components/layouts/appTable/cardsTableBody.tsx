@@ -1,18 +1,16 @@
+import BinIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
-import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
-import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditCardModal } from '@/components/layouts/modals/editCardModal/editCardModal'
-import { Card, DeleteCard, UpdateCardArg } from '@/services/cards/cardsTypes'
+import { Card } from '@/services/cards/cardsTypes'
 
 import s from './appTable.module.scss'
 
 export type CardsTableBodyProps = {
   isMyDeck: boolean
-  onConfirmDelete: (data: DeleteCard) => void
-  onEditCard: (data: UpdateCardArg) => void
+  onDeleteCardTriggerClick: (cardId: string) => void
+  onEditCardTriggerClick: (cardId: string) => void
   tableRowsData: Card[]
 }
 
@@ -28,11 +26,7 @@ export const CardsTableBody = (props: CardsTableBodyProps) => {
 }
 
 const CardsTableRow = (props: CardsTableRowProps) => {
-  const { isMyDeck, item, onConfirmDelete, onEditCard } = props
-  const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
-    delete: false,
-    edit: false,
-  })
+  const { isMyDeck, item, onDeleteCardTriggerClick, onEditCardTriggerClick } = props
   const getRating = (grade: number) => {
     const rating = []
 
@@ -65,23 +59,12 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <button onClick={() => toggleModalHandler('edit', true)}>
+            <button onClick={() => onEditCardTriggerClick(item.id)}>
               <EditIcon />
             </button>
-            {modalState.edit && (
-              <EditCardModal
-                cardId={item.id}
-                onClose={() => toggleModalHandler('edit', false)}
-                onFormSubmit={onEditCard}
-                open={modalState.edit}
-              />
-            )}
-            <ConfirmDeleteModal
-              deletedElement={'Card'}
-              onConfirm={() => {
-                onConfirmDelete({ cardId: item.id })
-              }}
-            />
+            <button onClick={() => onDeleteCardTriggerClick(item.id)}>
+              <BinIcon />
+            </button>
           </div>
         </td>
       )}

@@ -11,7 +11,6 @@ import {
   DropdownMenuComponentProps,
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
-import { Typography } from '@/components/ui/typography'
 
 import s from './settingDropdown.module.scss'
 
@@ -19,9 +18,9 @@ export type SettingDropdownProps = {
   deletedElement: DeletedElement
   elementName?: string
   id: string
-  onConfirmDelete: (id: string) => void
-  onEdit: (id: string) => void
-  onLearn: (id: string) => void
+  onConfirmDelete: () => void
+  onEdit: () => void
+  onLearn: () => void
   otherDropDownProps?: DropdownMenuComponentProps
 } & ComponentPropsWithoutRef<'div'>
 
@@ -34,9 +33,7 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
     onConfirmDelete,
     onEdit,
     onLearn,
-    open,
     otherDropDownProps,
-    setOpen,
     ...restProps
   } = props
 

@@ -157,13 +157,13 @@ export const MainPage = () => {
             <Slider
               rootProps={{
                 defaultValue: cardsNumbersFromSearchParams,
+                key: `${minCardsCount}-${maxCardsCount}`,
                 max: minMaxData ? minMaxData.max : undefined,
                 min: minMaxData ? minMaxData.min : undefined,
                 onValueCommit: handleCardsCountChange,
               }}
             />
           </div>
-
           <Button onClick={clearFilters} variant={'secondary'}>
             <BinIcon /> Clear Filter
           </Button>

@@ -14,8 +14,10 @@ export const SignInPage = () => {
   const navigate = useNavigate()
   const onSubmit = async (data: SignInArgs) => {
     setNotification('')
+
     try {
       await signIn(data).unwrap()
+      console.log('navigate')
       navigate(routes.main)
     } catch (error: any) {
       console.log(error)

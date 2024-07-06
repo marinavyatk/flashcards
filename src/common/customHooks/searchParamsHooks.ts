@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import { selectMinValue } from '@/common/constants'
 import { useDebounce } from '@/common/customHooks/useDebounce'
 
 export const useAppSearchParams = (args: { max: number; min: number } | void) => {
@@ -60,7 +61,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
   }
 
   const handlePageSizeChange = (value: string) => {
-    if (value !== '10') {
+    if (value !== String(selectMinValue)) {
       searchParams.set('pageSize', value)
     } else {
       searchParams.delete('pageSize')

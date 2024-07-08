@@ -77,6 +77,41 @@ export const decksApi = flashcardsApi.injectEndpoints({
       }),
       updateDeck: builder.mutation<Deck, UpdateDeckArgs>({
         invalidatesTags: ['Decks'],
+        async onQueryStarted({ cover, id, ...args }, { dispatch, getState, queryFulfilled }) {
+          const patchResult: ReturnType<typeof dispatch>[] = []
+
+          const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
+
+          const formData = new FormData()
+
+          formData.append('cover', cover)
+
+          invalidateBy.forEach(({ originalArgs }) => {
+            console.log('originalArgs', originalArgs)
+            patchResult.push(
+              dispatch(
+                decksApi.util.updateQueryData('getDecks', originalArgs, draft => {
+                  const indexItemToUpdate = draft.items.findIndex(deck => deck.id === id)
+
+                  if (indexItemToUpdate === -1) {
+                    return
+                  } else {
+                    Object.assign(draft.items[indexItemToUpdate], {
+                      ...args,
+                      cover: URL.createObjectURL(cover),
+                    })
+                  }
+                })
+              )
+            )
+          })
+          try {
+            await queryFulfilled
+          } catch {
+            patchResult.undo()
+          }
+        },
+
         query: ({ id, ...body }) => {
           const { cover, isPrivate, name } = body
 

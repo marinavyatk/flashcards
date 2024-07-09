@@ -7,7 +7,9 @@ import {
   SaveCardGradeArgs,
   UpdateCardArg,
 } from '@/services/cards/cardsTypes'
+import { decksApi } from '@/services/decks/decksApi'
 import { flashcardsApi } from '@/services/flashcards-api'
+import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 //There may be problems with tags
 export const cardsApi = flashcardsApi.injectEndpoints({
@@ -73,27 +75,55 @@ export const cardsApi = flashcardsApi.injectEndpoints({
       }),
       updateCard: builder.mutation<Card, UpdateCardArg>({
         invalidatesTags: ['Cards'],
+        async onQueryStarted(
+          { answerImg, cardId, questionImg, ...args },
+          { dispatch, getState, queryFulfilled }
+        ) {
+          const patchResult: PatchCollection = []
+          const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Cards' }])
+          const formData = new FormData()
+
+          const questionImgObjectURL = questionImg ? URL.createObjectURL(questionImg) : ''
+          const answerImgObjectURL = answerImg ? URL.createObjectURL(answerImg) : ''
+
+          formData.append('questionImg', questionImgObjectURL ?? '')
+          formData.append('answerImg', answerImgObjectURL ?? '')
+
+          invalidateBy.forEach(({ originalArgs }) => {
+            patchResult.push(
+              dispatch(
+                decksApi.util.updateQueryData('retrieveCardsInDeck', originalArgs, draft => {
+                  const indexItemToUpdate = draft.items.findIndex(deck => deck.id === cardId)
+
+                  if (indexItemToUpdate === -1) {
+                    return
+                  } else {
+                    Object.assign(draft.items[indexItemToUpdate], {
+                      ...args,
+                      answerImg: answerImgObjectURL,
+                      questionImg: questionImgObjectURL,
+                    })
+                  }
+                })
+              )
+            )
+          })
+          try {
+            await queryFulfilled
+          } catch {
+            patchResult.undo()
+          } finally {
+            questionImgObjectURL &&
+              setTimeout(() => URL.revokeObjectURL(questionImgObjectURL), 3000)
+            answerImgObjectURL && setTimeout(() => URL.revokeObjectURL(answerImgObjectURL), 3000)
+          }
+        },
         query: ({ cardId, ...args }) => {
           const formData = new FormData()
 
-          if (args.answer !== undefined) {
-            formData.append('answer', args.answer)
-          }
-          if (args.question !== undefined) {
-            formData.append('question', args.question)
-          }
-          if (args.answerImg !== undefined) {
-            formData.append('answerImg', args.answerImg)
-          }
-          if (args.questionImg !== undefined) {
-            formData.append('questionImg', args.questionImg)
-          }
-          if (args.answerVideo !== undefined) {
-            formData.append('answerVideo', args.answerVideo)
-          }
-          if (args.questionVideo !== undefined) {
-            formData.append('questionVideo', args.questionVideo)
-          }
+          Object.entries({ ...args }).forEach(([key, value]) => {
+            formData.append(key, value !== null ? value : '')
+          })
 
           return {
             body: formData,

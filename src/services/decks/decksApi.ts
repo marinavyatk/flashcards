@@ -12,6 +12,7 @@ import {
   UpdateDeckArgs,
 } from '@/services/decks/decks.types'
 import { flashcardsApi } from '@/services/flashcards-api'
+import { current } from '@reduxjs/toolkit'
 import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const decksApi = flashcardsApi.injectEndpoints({
@@ -52,6 +53,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
                 decksApi.util.updateQueryData('getDecks', originalArgs, draft => {
                   const indexItemToDelete = draft.items.findIndex(deck => deck.id === id)
 
+                  console.log('draft', current(draft))
                   if (indexItemToDelete === -1) {
                     return
                   } else {

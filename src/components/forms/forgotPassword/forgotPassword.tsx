@@ -55,7 +55,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Did you remember your password?
         </Typography>
-        <Typography as={Link} className={s.singUp} to={routes.signIn} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.public.signIn} variant={'subtitle1'}>
           Try logging in
         </Typography>
       </form>

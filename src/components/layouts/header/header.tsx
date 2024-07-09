@@ -24,7 +24,7 @@ export const Header = (props: HeaderProps) => {
   return (
     <header className={classNames} {...restProps}>
       <div className={s.innerContainer}>
-        <Link to={routes.main}>
+        <Link to={routes.private.main}>
           <Logo className={s.logo} />
         </Link>
         {isAuthorized ? (

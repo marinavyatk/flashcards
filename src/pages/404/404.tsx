@@ -16,7 +16,7 @@ export const PageNotFound = () => {
         <Typography as={'span'} variant={'body1'}>
           Sorry! Page not found!
         </Typography>
-        <Button as={Link} to={routes.main}>
+        <Button as={Link} to={routes.private.main}>
           Back to home page
         </Button>
       </div>

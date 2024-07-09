@@ -18,7 +18,7 @@ export const SignInPage = () => {
     try {
       await signIn(data).unwrap()
       console.log('navigate')
-      navigate(routes.main)
+      navigate(routes.private.main)
     } catch (error: any) {
       console.log(error)
       setNotification(error.data.message)

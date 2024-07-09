@@ -42,38 +42,37 @@ export const decksApi = flashcardsApi.injectEndpoints({
       }),
       deleteDeck: builder.mutation<void, DeleteDeckArgs>({
         invalidatesTags: ['Decks'],
-        // async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
-        //   const patchResult: PatchCollection = []
-        //   const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
-        //
-        //   invalidateBy.forEach(({ originalArgs }) => {
-        //     patchResult.push(
-        //       dispatch(
-        //         decksApi.util.updateQueryData('getDecks', originalArgs, draft => {
-        //           const indexItemToDelete = draft.items.findIndex(deck => deck.id === id)
-        //
-        //           if (indexItemToDelete === -1) {
-        //             return
-        //           } else {
-        //             draft.items = draft.items.filter((item, index) => index !== indexItemToDelete)
-        //           }
-        //         })
-        //       )
-        //     )
-        //   })
-        //   try {
-        //     await queryFulfilled
-        //   } catch {
-        //     patchResult.undo()
-        //   }
-        // },
+        async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
+          const patchResult: PatchCollection = []
+          const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
+
+          invalidateBy.forEach(({ originalArgs }) => {
+            patchResult.push(
+              dispatch(
+                decksApi.util.updateQueryData('getDecks', originalArgs, draft => {
+                  const indexItemToDelete = draft.items.findIndex(deck => deck.id === id)
+
+                  if (indexItemToDelete === -1) {
+                    return
+                  } else {
+                    draft.items = draft.items.filter((item, index) => index !== indexItemToDelete)
+                  }
+                })
+              )
+            )
+          })
+          try {
+            await queryFulfilled
+          } catch {
+            patchResult.undo()
+          }
+        },
 
         query: args => ({
           method: 'DELETE',
           url: `/v1/decks/${args.id}`,
         }),
       }),
-
       getDecks: builder.query<DecksListResponse, GetDecksArgs | void>({
         providesTags: ['Decks'],
         query: args => ({

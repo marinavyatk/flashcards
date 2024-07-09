@@ -104,9 +104,9 @@ export const DeckPage = () => {
     const urlSearchParams = localStorage.getItem('urlSearchParams')
 
     if (urlSearchParams) {
-      navigate(routes.main + urlSearchParams)
+      navigate(routes.private.main + urlSearchParams)
     } else {
-      navigate(routes.main)
+      navigate(routes.private.main)
     }
   }
 

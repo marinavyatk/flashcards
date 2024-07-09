@@ -22,7 +22,7 @@ export const EditProfilePage = () => {
     try {
       await signOut().unwrap()
       localStorage.clear()
-      navigate(routes.signIn)
+      navigate(routes.public.signIn)
     } catch (error: any) {
       console.log(error)
     }

@@ -18,57 +18,61 @@ import { MainPage } from '@/pages/mainPage/mainPage'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 
 export const routes = {
-  checkEmail: '/check-email',
-  createNewPassword: '/create-new-password',
-  deck: '/decks/:deckId',
-  editProfile: '/edit-profile',
-  forgotPassword: '/forgot-password',
-  learn: 'learn/:deckId/:cardId',
-  main: '/',
-  pageNotFound: '/*',
-  signIn: '/sign-in',
-  signUp: '/sign-up',
+  private: {
+    deck: '/decks/:deckId',
+    editProfile: '/edit-profile',
+    learn: 'learn/:deckId/:cardId',
+    main: '/',
+  },
+  public: {
+    checkEmail: '/check-email',
+    createNewPassword: '/create-new-password',
+    forgotPassword: '/forgot-password',
+    pageNotFound: '/*',
+    signIn: '/sign-in',
+    signUp: '/sign-up',
+  },
 }
 
 const publicRoutes: RouteObject[] = [
   {
     element: <SignInPage />,
-    path: routes.signIn,
+    path: routes.public.signIn,
   },
   {
     element: <SignUpPage />,
-    path: routes.signUp,
+    path: routes.public.signUp,
   },
   {
     element: <ForgotPasswordPage />,
-    path: routes.forgotPassword,
+    path: routes.public.forgotPassword,
   },
   {
     element: <CheckEmailPage />,
-    path: routes.checkEmail,
+    path: routes.public.checkEmail,
   },
   {
     element: <PageNotFound />,
-    path: routes.pageNotFound,
+    path: routes.public.pageNotFound,
   },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     element: <MainPage />,
-    path: routes.main,
+    path: routes.private.main,
   },
   {
     element: <DeckPage />,
-    path: routes.deck,
+    path: routes.private.deck,
   },
   {
     element: <EditProfilePage />,
-    path: routes.editProfile,
+    path: routes.private.editProfile,
   },
   {
     element: <LearnPage />,
-    path: routes.learn,
+    path: routes.private.learn,
   },
 ]
 
@@ -81,16 +85,16 @@ export const router = createBrowserRouter([
 ])
 
 function PrivateRoutes() {
-  const { data: userData, isLoading } = useGetCurrentUserDataQuery()
+  const { isError, isLoading } = useGetCurrentUserDataQuery()
 
   if (isLoading) {
     return <div>...Loading...</div>
   }
 
-  if (userData) {
-    const isAuthenticated = !!userData
+  if (!isError) {
+    const isAuthenticated = !isError
 
-    return isAuthenticated ? <Outlet /> : <Navigate to={routes.signIn} />
+    return isAuthenticated ? <Outlet /> : <Navigate to={routes.public.signIn} />
   }
 }
 

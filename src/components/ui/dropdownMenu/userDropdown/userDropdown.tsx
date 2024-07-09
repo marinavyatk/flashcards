@@ -28,13 +28,13 @@ export const UserDropdown = (props: UserDropdownProps) => {
     try {
       await signOut().unwrap()
       localStorage.clear()
-      navigate(routes.signIn)
+      navigate(routes.public.signIn)
     } catch (error: any) {
       console.log(error)
     }
   }
   const handleOpenProfile = () => {
-    navigate(routes.editProfile)
+    navigate(routes.private.editProfile)
   }
 
   return (

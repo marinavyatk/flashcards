@@ -1,5 +1,7 @@
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
+import { matchPath } from 'react-router-dom'
+
 import { router, routes } from '@/common/router'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
@@ -53,18 +55,14 @@ export const baseQueryWithReauth: BaseQueryFn<
           localStorage.setItem('refreshToken', refreshResult.data.refreshToken)
           result = await baseQuery(args, api, extraOptions)
         } else {
-          // const publicRoutes = [
-          //   routes.signUp,
-          //   routes.forgotPassword,
-          //   routes.checkEmail,
-          //   routes.createNewPassword,
-          //   routes.pageNotFound,
-          // ]
-          // const location = window.location.pathname
-          //
-          // if (!publicRoutes.includes(location)) {
-          // router.navigate(routes.signIn) //temp
-          // }
+          const privateRoutes = Object.values(routes.private)
+          const location = window.location.pathname
+
+          const shouldRedirect = privateRoutes.some(route => matchPath(route, location))
+
+          if (shouldRedirect) {
+            router.navigate(routes.public.signIn)
+          }
         }
       } finally {
         release()

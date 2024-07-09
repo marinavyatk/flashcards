@@ -58,7 +58,7 @@ export const SingIn = (props: SingInProps) => {
         <Typography
           as={Link}
           className={s.forgotPassword}
-          to={routes.forgotPassword}
+          to={routes.public.forgotPassword}
           variant={'body2'}
         >
           Forgot Password?
@@ -67,7 +67,7 @@ export const SingIn = (props: SingInProps) => {
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Don't have an account?
         </Typography>
-        <Typography as={Link} className={s.singUp} to={routes.signUp} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.public.signUp} variant={'subtitle1'}>
           Sing Up
         </Typography>
       </form>

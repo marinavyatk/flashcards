@@ -16,7 +16,7 @@ export const SignUpPage = () => {
 
     try {
       await signUp(requestData).unwrap()
-      navigate(routes.main)
+      navigate(routes.private.main)
     } catch (error: any) {
       console.log(error)
     }

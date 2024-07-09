@@ -16,7 +16,7 @@ export const CreateNewPasswordPage = () => {
 
     try {
       await createNewPassword(requestData).unwrap()
-      navigate(routes.signIn)
+      navigate(routes.public.signIn)
     } catch (error: any) {
       console.log(error)
     }

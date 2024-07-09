@@ -26,7 +26,7 @@ export const CheckEmail = (props: CheckEmailProps) => {
       <Typography as={'p'} className={s.instruction} variant={'body2'}>
         We’ve sent an Email with instructions to example@mail.com
       </Typography>
-      <Button as={Link} fullWidth to={routes.signIn}>
+      <Button as={Link} fullWidth to={routes.public.signIn}>
         Back to Sign In
       </Button>
     </Card>

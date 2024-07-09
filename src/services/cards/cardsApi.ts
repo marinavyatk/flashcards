@@ -20,21 +20,9 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         query: ({ id, ...args }) => {
           const formData = new FormData()
 
-          formData.append('answer', args.answer)
-          formData.append('question', args.question)
-
-          if (args.answerImg) {
-            formData.append('answerImg', args.answerImg)
-          }
-          if (args.questionImg) {
-            formData.append('questionImg', args.questionImg)
-          }
-          if (args.answerVideo) {
-            formData.append('answerVideo', args.answerVideo)
-          }
-          if (args.questionVideo) {
-            formData.append('questionVideo', args.questionVideo)
-          }
+          Object.entries({ ...args }).forEach(([key, value]) => {
+            formData.append(key, value !== null ? value : '')
+          })
 
           return {
             body: formData,
@@ -45,6 +33,31 @@ export const cardsApi = flashcardsApi.injectEndpoints({
       }),
       deleteCard: builder.mutation<void, DeleteCard>({
         invalidatesTags: ['Cards', 'Decks'],
+        async onQueryStarted({ cardId }, { dispatch, getState, queryFulfilled }) {
+          const patchResult: PatchCollection = []
+          const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Cards' }])
+
+          invalidateBy.forEach(({ originalArgs }) => {
+            patchResult.push(
+              dispatch(
+                decksApi.util.updateQueryData('retrieveCardsInDeck', originalArgs, draft => {
+                  const indexItemToDelete = draft.items.findIndex(deck => deck.id === cardId)
+
+                  if (indexItemToDelete === -1) {
+                    return
+                  } else {
+                    draft.items = draft.items.filter((item, index) => index !== indexItemToDelete)
+                  }
+                })
+              )
+            )
+          })
+          try {
+            await queryFulfilled
+          } catch {
+            patchResult.undo()
+          }
+        },
         query: args => ({
           method: 'DELETE',
           url: `/v1/cards/${args.cardId}`,

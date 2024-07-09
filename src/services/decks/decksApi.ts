@@ -12,7 +12,6 @@ import {
   UpdateDeckArgs,
 } from '@/services/decks/decks.types'
 import { flashcardsApi } from '@/services/flashcards-api'
-import { current } from '@reduxjs/toolkit'
 import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const decksApi = flashcardsApi.injectEndpoints({
@@ -21,18 +20,15 @@ export const decksApi = flashcardsApi.injectEndpoints({
       createDeck: builder.mutation<Deck, CreateDeckArgs>({
         invalidatesTags: ['Decks'],
         query: args => {
-          const { cover, isPrivate, name } = args
           const formData = new FormData()
 
-          if (cover) {
-            formData.append('cover', cover)
-          }
-          if (name) {
-            formData.append('name', name)
-          }
-          if (isPrivate) {
-            formData.append('isPrivate', String(isPrivate))
-          }
+          Object.entries({ ...args }).forEach(([key, value]) => {
+            if (key === 'cover') {
+              formData.append('cover', (value ?? '') as string)
+            } else {
+              formData.append(key, value !== null ? String(value) : '')
+            }
+          })
 
           return {
             body: formData,
@@ -53,7 +49,6 @@ export const decksApi = flashcardsApi.injectEndpoints({
                 decksApi.util.updateQueryData('getDecks', originalArgs, draft => {
                   const indexItemToDelete = draft.items.findIndex(deck => deck.id === id)
 
-                  console.log('draft', current(draft))
                   if (indexItemToDelete === -1) {
                     return
                   } else {
@@ -142,7 +137,6 @@ export const decksApi = flashcardsApi.injectEndpoints({
             }
           }
         },
-
         query: ({ id, ...body }) => {
           const formData = new FormData()
 

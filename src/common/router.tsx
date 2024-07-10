@@ -18,6 +18,9 @@ import { MainPage } from '@/pages/mainPage/mainPage'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 
 export const routes = {
+  common: {
+    pageNotFound: '/*',
+  },
   private: {
     deck: '/decks/:deckId',
     editProfile: '/edit-profile',
@@ -28,11 +31,17 @@ export const routes = {
     checkEmail: '/check-email',
     createNewPassword: '/create-new-password',
     forgotPassword: '/forgot-password',
-    pageNotFound: '/*',
     signIn: '/sign-in',
     signUp: '/sign-up',
   },
 }
+
+const commonRoutes = [
+  {
+    element: <PageNotFound />,
+    path: routes.common.pageNotFound,
+  },
+]
 
 const publicRoutes: RouteObject[] = [
   {
@@ -50,10 +59,6 @@ const publicRoutes: RouteObject[] = [
   {
     element: <CheckEmailPage />,
     path: routes.public.checkEmail,
-  },
-  {
-    element: <PageNotFound />,
-    path: routes.public.pageNotFound,
   },
 ]
 
@@ -81,7 +86,11 @@ export const router = createBrowserRouter([
     children: privateRoutes,
     element: <PrivateRoutes />,
   },
-  ...publicRoutes,
+  {
+    children: publicRoutes,
+    element: <PublicRoutes />,
+  },
+  ...commonRoutes,
 ])
 
 function PrivateRoutes() {
@@ -96,6 +105,20 @@ function PrivateRoutes() {
 
     return isAuthenticated ? <Outlet /> : <Navigate to={routes.public.signIn} />
   }
+}
+
+function PublicRoutes() {
+  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
+
+  if (isLoading) {
+    return <div>...Loading...</div>
+  }
+
+  if (!currentUser) {
+    return <Outlet />
+  }
+
+  return <Navigate to={routes.private.main} />
 }
 
 export function Router() {

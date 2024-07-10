@@ -58,7 +58,7 @@ export const SingUp = (props: SingUpProps) => {
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Already have an account?
         </Typography>
-        <Typography as={Link} className={s.singUp} to={routes.signIn} variant={'subtitle1'}>
+        <Typography as={Link} className={s.singUp} to={routes.public.signIn} variant={'subtitle1'}>
           Sing In
         </Typography>
       </form>

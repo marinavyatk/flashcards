@@ -10,6 +10,7 @@ import {
   VerifyUserEmailArgs,
 } from '@/services/auth/authApiTypes'
 import { flashcardsApi } from '@/services/flashcards-api'
+import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const AuthApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
@@ -75,16 +76,9 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       signOut: builder.mutation<void, void>({
         invalidatesTags: ['UserData'],
-
-        async onQueryStarted(id, { dispatch, queryFulfilled }) {
-          try {
-            const { data } = await queryFulfilled
-
-            dispatch(flashcardsApi.util.resetApiState())
-            localStorage.clear()
-          } catch (err) {
-            console.log(err)
-          }
+        async onQueryStarted(_, { dispatch }) {
+          dispatch(flashcardsApi.util.resetApiState())
+          localStorage.clear()
         },
         query: () => ({
           method: 'POST',
@@ -93,6 +87,38 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       updateUserData: builder.mutation<UserData, UpdateUserData>({
         invalidatesTags: ['UserData'],
+        async onQueryStarted({ avatar, name }, { dispatch, getState, queryFulfilled }) {
+          const patchResult: PatchCollection = []
+          const invalidateBy = AuthApi.util.selectInvalidatedBy(getState(), [{ type: 'UserData' }])
+          const formData = new FormData()
+
+          const avatarObjectURL = avatar ? URL.createObjectURL(avatar as Blob) : ''
+
+          formData.append('avatar', avatar ?? '')
+          invalidateBy.forEach(({ originalArgs }) => {
+            patchResult.push(
+              dispatch(
+                AuthApi.util.updateQueryData('getCurrentUserData', originalArgs, draft => {
+                  if (name) {
+                    draft.name = name
+                  }
+                  if (avatar) {
+                    draft.avatar = avatarObjectURL
+                  }
+                })
+              )
+            )
+          })
+          try {
+            await queryFulfilled
+          } catch {
+            patchResult.undo()
+          } finally {
+            if (avatarObjectURL) {
+              setTimeout(() => URL.revokeObjectURL(avatarObjectURL), 3000)
+            }
+          }
+        },
         query: args => {
           const { avatar, name } = args
           const formData = new FormData()

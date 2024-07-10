@@ -52,7 +52,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
                   if (indexItemToDelete === -1) {
                     return
                   } else {
-                    draft.items = draft.items.filter((item, index) => index !== indexItemToDelete)
+                    draft.items = draft.items.filter((_, index) => index !== indexItemToDelete)
                   }
                 })
               )

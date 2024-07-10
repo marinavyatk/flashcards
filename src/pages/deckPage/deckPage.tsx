@@ -161,7 +161,6 @@ export const DeckPage = () => {
       </PageTemplate>
     )
   }
-  console.log('modalState', modalState)
 
   return (
     <PageTemplate>

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { selectMinValue } from '@/common/constants'
@@ -39,17 +39,14 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     setSearchParams(searchParams)
   }
 
-  const handleOrderByChange = useCallback(
-    (value: string) => {
-      if (value !== 'updated-desc') {
-        searchParams.set('orderBy', value)
-      } else {
-        searchParams.delete('orderBy')
-      }
-      setSearchParams(searchParams)
-    },
-    [searchParams]
-  )
+  const handleOrderByChange = (value: string) => {
+    if (value !== 'updated-desc') {
+      searchParams.set('orderBy', value)
+    } else {
+      searchParams.delete('orderBy')
+    }
+    setSearchParams(searchParams)
+  }
 
   const handleCurrentPageChange = (value: number) => {
     if (value !== 1) {
@@ -70,25 +67,22 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     setSearchParams(searchParams)
   }
 
-  return useMemo(
-    () => ({
-      currentPage,
-      deckOwnership,
-      handleCardsCountChange,
-      handleCurrentPageChange,
-      handleOrderByChange,
-      handlePageSizeChange,
-      handleSwitchDeckOwnership,
-      maxCardsCount,
-      minCardsCount,
-      orderBy,
-      pageSize,
-      search,
-      searchParams,
-      setSearchParams,
-    }),
-    [search, orderBy, pageSize, currentPage, minCardsCount, maxCardsCount, deckOwnership]
-  )
+  return {
+    currentPage,
+    deckOwnership,
+    handleCardsCountChange,
+    handleCurrentPageChange,
+    handleOrderByChange,
+    handlePageSizeChange,
+    handleSwitchDeckOwnership,
+    maxCardsCount,
+    minCardsCount,
+    orderBy,
+    pageSize,
+    search,
+    searchParams,
+    setSearchParams,
+  }
 }
 
 export const useDebouncedInputSearchValue = () => {
@@ -101,7 +95,7 @@ export const useDebouncedInputSearchValue = () => {
     setInputValue(value)
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (debouncedInputValue) {
       searchParams.set('search', debouncedInputValue)
     } else {

@@ -25,18 +25,29 @@ export const CardsTableBody = (props: CardsTableBodyProps) => {
   return <>{tableRows}</>
 }
 
+type RatingProps = {
+  cardId: string
+  grade: number
+}
+const Rating = (props: RatingProps) => {
+  const { cardId, grade } = props
+  const stars = [1, 2, 3, 4, 5]
+
+  return (
+    <div className={s.grade}>
+      {stars.map(star => {
+        if (grade >= star) {
+          return <RatingStar key={star + cardId} />
+        }
+
+        return <RatingStarEmpty key={star + cardId} />
+      })}
+    </div>
+  )
+}
+
 const CardsTableRow = (props: CardsTableRowProps) => {
   const { isMyDeck, item, onDeleteCardTriggerClick, onEditCardTriggerClick } = props
-  const getRating = (grade: number) => {
-    const rating = []
-
-    for (let i = 0; i < 5; i++) {
-      rating.push(<RatingStarEmpty key={i} />)
-    }
-    rating.fill(<RatingStar />, 0, grade)
-
-    return rating
-  }
 
   return (
     <tr>
@@ -54,7 +65,7 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       </td>
       <td>{formatDate(item.updated)}</td>
       <td>
-        <div className={s.grade}>{getRating(item.grade)}</div>
+        <Rating cardId={item.id} grade={item.grade} />
       </td>
       {isMyDeck && (
         <td>

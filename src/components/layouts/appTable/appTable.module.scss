@@ -25,21 +25,45 @@
 .actions {
   display: flex;
   gap: 10px;
+  align-items: center;
   justify-content: flex-end;
 
-  button {
-    all: unset;
-    cursor: pointer;
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     svg {
       width: 16px;
-      height: 16px;
-      fill: var(--color-light-100);
+      fill: var(--color-dark-300);
+    }
+  }
+
+  button {
+    all: unset;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
       transition: transform 0.4s;
 
       &:hover {
         transform: translateY(2px);
         transition: transform 0.4s;
+      }
+    }
+
+    &:disabled {
+      svg {
+        fill: var(--color-dark-300);
+
+        &:hover {
+          transform: unset;
+        }
       }
     }
   }

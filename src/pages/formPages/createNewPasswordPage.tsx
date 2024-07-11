@@ -7,7 +7,7 @@ import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { useResetPasswordMutation } from '@/services/auth/authApi'
 
 export const CreateNewPasswordPage = () => {
-  const [createNewPassword] = useResetPasswordMutation()
+  const [createNewPassword, { isLoading: showTopLoader }] = useResetPasswordMutation()
 
   const navigate = useNavigate()
   const onSubmit = async (data: CreateNewPasswordFormValues) => {
@@ -23,7 +23,7 @@ export const CreateNewPasswordPage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate showTopLoader={showTopLoader}>
       <CreateNewPassword onFormSubmit={onSubmit} />
     </PageTemplate>
   )

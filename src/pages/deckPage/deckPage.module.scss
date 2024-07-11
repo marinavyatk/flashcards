@@ -33,7 +33,7 @@
   max-width: 1008px;
 
   .deckName {
-    margin-bottom: 70px;
+    margin-bottom: 24px;
   }
 
   .noCardMessage {
@@ -41,6 +41,8 @@
     flex-direction: column;
     gap: 30px;
     align-items: center;
+
+    margin-top: 70px;
 
     p {
       color: var(--color-dark-100);

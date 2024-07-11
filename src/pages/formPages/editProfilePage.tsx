@@ -11,7 +11,7 @@ import {
 import { UpdateUserData } from '@/services/auth/authApiTypes'
 
 export const EditProfilePage = () => {
-  const [updateUserData, { error }] = useUpdateUserDataMutation()
+  const [updateUserData, { error, isLoading: showTopLoader }] = useUpdateUserDataMutation()
   const [signOut] = useSignOutMutation()
   const { data } = useGetCurrentUserDataQuery()
   const navigate = useNavigate()
@@ -40,7 +40,7 @@ export const EditProfilePage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate showTopLoader={showTopLoader}>
       <EditProfile
         email={data?.email}
         name={data?.name}

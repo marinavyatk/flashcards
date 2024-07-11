@@ -20,8 +20,7 @@ import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
 import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
-import { useLazyRetrieveRandomCardQuery } from '@/services/cards/cardsApi'
-import { CreateDeckArgs, UpdateDeckArgs } from '@/services/decks/decks.types'
+import { CreateDeckArgs, Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
   useDeleteDeckMutation,
@@ -69,8 +68,6 @@ export const MainPage = () => {
     orderBy: orderBy,
   })
 
-  const [getRandomCard] = useLazyRetrieveRandomCardQuery()
-
   const clearFilters = () => {
     searchParams.delete('search')
     handleSearchChange('')
@@ -115,12 +112,8 @@ export const MainPage = () => {
     localStorage.setItem('urlSearchParams', urlSearchParams)
   }
 
-  const handleLearn = async (deckId: string) => {
-    const { data: randomCardData } = await getRandomCard({ deckId })
-
-    if (randomCardData) {
-      navigate(`/learn/${deckId}/${randomCardData?.id}`)
-    }
+  const handleLearn = async (deck: Deck) => {
+    navigate(`/decks/${deck.id}/learn`, { state: { deckData: deck } })
   }
 
   return (

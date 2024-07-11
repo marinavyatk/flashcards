@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { saveGradeFormValues, saveGradeSchema } from '@/common/formValidation'
 import { BackLink } from '@/components/layouts/backLink/backLink'
@@ -9,27 +9,22 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { FormRadioGroup } from '@/components/ui/radioGroup/formRadioGroup'
 import { Typography } from '@/components/ui/typography'
-import {
-  useGetCardQuery,
-  useRetrieveRandomCardQuery,
-  useSaveCardGradeMutation,
-} from '@/services/cards/cardsApi'
-import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
+import { useRetrieveRandomCardQuery, useSaveCardGradeMutation } from '@/services/cards/cardsApi'
+import { Card as RandomCard } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import s from './learnPage.module.scss'
 
 export const LearnPage = () => {
   const [showAnswer, setShowAnswer] = useState(false)
+  const [cardData, setCurrentCard] = useState<RandomCard | undefined>(undefined)
   const navigate = useNavigate()
-  const { cardId } = useParams()
-  const { data: cardData } = useGetCardQuery({ cardId: cardId ? cardId : '' })
-  const deckId = cardData?.deckId
-  const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
-  const { data: randomCardData } = useRetrieveRandomCardQuery({
+  const { state } = useLocation()
+  const { deckData } = state
+  const [saveGrade] = useSaveCardGradeMutation()
+  const { data: randomCard } = useRetrieveRandomCardQuery({
     deckId: deckData?.id ? deckData?.id : '',
   })
-  const [saveGrade] = useSaveCardGradeMutation()
   const handleChangeShowAnswer = () => {
     setShowAnswer(true)
   }
@@ -41,23 +36,30 @@ export const LearnPage = () => {
     resolver: zodResolver(saveGradeSchema),
   })
 
-  const onSubmit = (data: saveGradeFormValues) => {
-    if (deckId && cardId && randomCardData) {
-      saveGrade({ cardId: cardId, deckId: deckId, grade: Number(data.grade) })
-      setShowAnswer(false)
-      navigate(`/learn/${deckId}/${randomCardData.id}`, { replace: true })
-      reset()
-    }
+  if (randomCard && !cardData) {
+    setCurrentCard(randomCard)
   }
 
   if (!cardData) {
     return
   }
 
+  const onSubmit = async (data: saveGradeFormValues) => {
+    const newRandomCard = await saveGrade({
+      cardId: cardData?.id ?? '',
+      deckId: deckData?.id,
+      grade: Number(data.grade),
+    })
+
+    setCurrentCard(newRandomCard.data)
+    setShowAnswer(false)
+    reset()
+  }
+
   return (
     <PageTemplate>
       <div className={s.questionPage}>
-        <BackLink onClick={() => navigate(-1)}>Back to Cards List</BackLink>
+        <BackLink onClick={() => navigate(-1)}>Back to Previous Page</BackLink>
         <div className={s.cardContainer}>
           <Card className={s.questionCard}>
             <Typography as={'h1'} className={s.deckTitle} variant={'large'}>
@@ -76,7 +78,6 @@ export const LearnPage = () => {
               <Typography className={s.shots} variant={'body2'}>
                 Number of attempts to answer the question: {cardData.shots}
               </Typography>
-
               {!showAnswer ? (
                 <Button fullWidth onClick={handleChangeShowAnswer}>
                   Show answer

@@ -7,7 +7,7 @@ import {
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
-import { deckTableData } from '@/common/tableData'
+import { cardsTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
@@ -63,16 +63,20 @@ export const DeckPage = () => {
     editCard: { cardId: '', open: false },
     editDeck: false,
   })
-
-  const [createCard] = useCreateCardMutation()
-  const [deleteCard] = useDeleteCardMutation()
-  const [updateDeck] = useUpdateDeckMutation()
-  const [updateCard] = useUpdateCardMutation()
-  const [deleteDeck] = useDeleteDeckMutation()
-
+  const [updateDeck, { isLoading: isUpdateDeckLoading }] = useUpdateDeckMutation()
+  const [deleteDeck, { isLoading: isDeleteDeckLoading }] = useDeleteDeckMutation()
+  const [createCard, { isLoading: isCreateCardLoading }] = useCreateCardMutation()
+  const [deleteCard, { isLoading: isDeleteCardLoading }] = useDeleteCardMutation()
+  const [updateCard, { isLoading: isUpdateCardLoading }] = useUpdateCardMutation()
+  const showTopLoader =
+    isUpdateDeckLoading ||
+    isDeleteDeckLoading ||
+    isUpdateCardLoading ||
+    isCreateCardLoading ||
+    isDeleteCardLoading
   const { data: userData } = useGetCurrentUserDataQuery()
   const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
-  const { data: cards, isLoading } = useRetrieveCardsInDeckQuery({
+  const { data: cards, isLoading: isCardsLoading } = useRetrieveCardsInDeckQuery({
     currentPage: currentPage ? Number(currentPage) : undefined,
     id: deckId ? deckId : '',
     itemsPerPage: pageSize ? Number(pageSize) : 10,
@@ -125,13 +129,9 @@ export const DeckPage = () => {
     toggleModalHandler('deleteCard', { cardId: cardId, open: true })
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   if (deckData?.cardsCount === 0) {
     return (
-      <PageTemplate>
+      <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
         <div className={s.noCardsContainer}>
           <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
@@ -158,7 +158,7 @@ export const DeckPage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
       <div className={s.deckPage}>
         <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
@@ -196,7 +196,7 @@ export const DeckPage = () => {
               thead={
                 <tr>
                   <TableHead
-                    cellsData={deckTableData}
+                    cellsData={cardsTableData}
                     changeSort={handleOrderByChange}
                     currentOrderBy={orderBy}
                     defaultValue={'updated-desc'}

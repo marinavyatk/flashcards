@@ -8,7 +8,7 @@ import { useCreateNewAccountMutation } from '@/services/auth/authApi'
 import { CreateNewAccountArgs } from '@/services/auth/authApiTypes'
 
 export const SignUpPage = () => {
-  const [signUp] = useCreateNewAccountMutation()
+  const [signUp, { isLoading: showTopLoader }] = useCreateNewAccountMutation()
 
   const navigate = useNavigate()
   const onSubmit = async (data: SignUpFormValues) => {
@@ -23,7 +23,7 @@ export const SignUpPage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate showTopLoader={showTopLoader}>
       <SingUp onFormSubmit={onSubmit} />
     </PageTemplate>
   )

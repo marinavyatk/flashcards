@@ -21,7 +21,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
           const formData = new FormData()
 
           Object.entries({ ...args }).forEach(([key, value]) => {
-            formData.append(key, value !== null ? value : '')
+            formData.append(key, value ? value : '')
           })
 
           return {

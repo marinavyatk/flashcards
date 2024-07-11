@@ -5,7 +5,6 @@ import s from './appTable.module.scss'
 export type Cell = {
   name: string
   orderBy: string
-  sorted: boolean
 }
 
 export type TableHeadProps = {

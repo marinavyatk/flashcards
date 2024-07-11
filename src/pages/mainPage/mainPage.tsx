@@ -7,7 +7,7 @@ import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
-import { decksData } from '@/common/tableData'
+import { decksTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
@@ -33,13 +33,12 @@ import s from './mainPage.module.scss'
 
 export const MainPage = () => {
   const { data: userData } = useGetCurrentUserDataQuery()
-  const { data: minMaxData } = useGetMinMaxCardAmountQuery()
-  const [createDeck] = useCreateDeckMutation()
-  const [deleteDeck] = useDeleteDeckMutation()
-  const [updateDeck] = useUpdateDeckMutation()
+  const { data: minMaxData, isLoading: isMinMaxLoading } = useGetMinMaxCardAmountQuery()
+  const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
+  const [deleteDeck, { isLoading: isDeleteDeckLoading }] = useDeleteDeckMutation()
+  const [updateDeck, { isLoading: isUpdateDeckLoading }] = useUpdateDeckMutation()
   const { search: urlSearchParams } = useLocation()
   const navigate = useNavigate()
-
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const {
     currentPage,
@@ -58,7 +57,7 @@ export const MainPage = () => {
     setSearchParams,
   } = useAppSearchParams({ max: minMaxData?.max ?? 1, min: minMaxData?.min ?? 0 })
 
-  const { data } = useGetDecksQuery({
+  const { data: decksData, isLoading: isDecksLoading } = useGetDecksQuery({
     authorId: deckOwnership ? deckOwnership : undefined,
     currentPage: currentPage ? Number(currentPage) : undefined,
     itemsPerPage: pageSize ? Number(pageSize) : undefined,
@@ -117,7 +116,10 @@ export const MainPage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate
+      isLoading={isDecksLoading || isMinMaxLoading}
+      showTopLoader={isCreateDeckLoading || isDeleteDeckLoading || isUpdateDeckLoading}
+    >
       <div className={s.mainPage}>
         <div className={s.container}>
           <Typography as={'h1'} variant={'large'}>
@@ -162,13 +164,13 @@ export const MainPage = () => {
           </Button>
         </div>
 
-        {data?.items.length ? (
+        {decksData?.items.length ? (
           <Table
             className={s.table}
             thead={
               <tr>
                 <TableHead
-                  cellsData={decksData}
+                  cellsData={decksTableData}
                   changeSort={handleOrderByChange}
                   currentOrderBy={orderBy}
                   defaultValue={'updated-desc'}
@@ -181,7 +183,7 @@ export const MainPage = () => {
               onEdit={handleEditDeck}
               onGoToDeck={handleGoToDeck}
               onLearn={handleLearn}
-              tableRowsData={data?.items || []}
+              tableRowsData={decksData?.items || []}
               userId={userData?.id || ''}
             />
           </Table>
@@ -194,9 +196,9 @@ export const MainPage = () => {
         <AppPagination
           className={s.pagination}
           paginationProps={{
-            currentPage: data?.pagination.currentPage || 1,
+            currentPage: decksData?.pagination.currentPage || 1,
             onPageChange: handleCurrentPageChange,
-            totalCount: data?.pagination.totalItems || 1,
+            totalCount: decksData?.pagination.totalItems || 1,
           }}
           selectProps={{
             rootProps: {

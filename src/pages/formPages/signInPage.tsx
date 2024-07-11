@@ -8,7 +8,7 @@ import { useSignInMutation } from '@/services/auth/authApi'
 import { SignInArgs } from '@/services/auth/authApiTypes'
 
 export const SignInPage = () => {
-  const [signIn] = useSignInMutation()
+  const [signIn, { isLoading: showTopLoader }] = useSignInMutation()
   const [notification, setNotification] = useState('')
 
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ export const SignInPage = () => {
   }
 
   return (
-    <PageTemplate notificationDescription={notification}>
+    <PageTemplate notificationDescription={notification} showTopLoader={showTopLoader}>
       <SingIn onFormSubmit={onSubmit} />
     </PageTemplate>
   )

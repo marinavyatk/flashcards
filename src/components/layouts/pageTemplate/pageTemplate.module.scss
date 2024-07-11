@@ -4,4 +4,18 @@
     justify-content: center;
     margin: 36px auto 0;
   }
+
+  .fixingContainer {
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+
+  .headerContainer {
+    position: relative;
+
+    .loaderLine {
+      position: absolute;
+    }
+  }
 }

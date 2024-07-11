@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
+import PrivateIcon from '@/assets/svg/privateIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
@@ -38,11 +39,14 @@ const DecksTableRow = (props: DecksTableRowProps) => {
       <td>{item.author.name}</td>
       <td>
         <div className={s.actions}>
-          {item.cardsCount > 0 && (
-            <button>
-              <PlayIcon onClick={() => onLearn(item)} />
-            </button>
+          {item.isPrivate && (
+            <span title={'This sign means that only you can see the deck'}>
+              <PrivateIcon />
+            </span>
           )}
+          <button disabled={item.cardsCount === 0}>
+            <PlayIcon onClick={() => onLearn(item)} />
+          </button>
           {isMyDeck && (
             <>
               <button onClick={() => toggleModalHandler('edit', true)}>

@@ -26,7 +26,6 @@ import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
-  useRetrieveRandomCardQuery,
   useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
@@ -81,10 +80,6 @@ export const DeckPage = () => {
     question: search ? search : undefined,
   })
 
-  const { data: randomCardData } = useRetrieveRandomCardQuery({
-    deckId: deckData?.id ? deckData?.id : '',
-  })
-
   const isMyDeck = deckData?.userId === userData?.id
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
@@ -116,7 +111,7 @@ export const DeckPage = () => {
   }
 
   const handleLearn = () => {
-    navigate(`/learn/${deckData?.id}/${randomCardData?.id}`)
+    navigate(`/decks/${deckData?.id}/learn`, { state: { deckData: deckData } })
   }
 
   const handleDeleteCard = () => {
@@ -186,7 +181,7 @@ export const DeckPage = () => {
             {isMyDeck ? (
               <AddNewCardModal onFormSubmit={handleAddNewCard} />
             ) : (
-              <Button as={Link} to={`/learn/${deckData?.id}/${randomCardData?.id}`}>
+              <Button as={Link} state={{ deckData: deckData }} to={`/decks/${deckData?.id}/learn`}>
                 Learn to Pack
               </Button>
             )}

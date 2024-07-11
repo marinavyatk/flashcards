@@ -46,7 +46,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
                   if (indexItemToDelete === -1) {
                     return
                   } else {
-                    draft.items = draft.items.filter((item, index) => index !== indexItemToDelete)
+                    draft.items = draft.items.filter((_, index) => index !== indexItemToDelete)
                   }
                 })
               )
@@ -79,7 +79,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         }),
       }),
       saveCardGrade: builder.mutation<Card, SaveCardGradeArgs>({
-        invalidatesTags: ['Cards', 'RandomCard'],
+        invalidatesTags: ['Cards'],
         query: ({ deckId, ...args }) => ({
           body: { ...args },
           method: 'POST',
@@ -153,7 +153,6 @@ export const {
   useCreateCardMutation,
   useDeleteCardMutation,
   useGetCardQuery,
-  useLazyRetrieveRandomCardQuery,
   useRetrieveRandomCardQuery,
   useSaveCardGradeMutation,
   useUpdateCardMutation,

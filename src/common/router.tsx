@@ -24,7 +24,7 @@ export const routes = {
   private: {
     deck: '/decks/:deckId',
     editProfile: '/edit-profile',
-    learn: 'learn/:deckId/:cardId',
+    learn: '/decks/:deckId/learn',
     main: '/',
   },
   public: {

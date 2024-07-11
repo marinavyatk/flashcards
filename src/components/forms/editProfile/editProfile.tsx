@@ -32,6 +32,7 @@ export const EditProfile = (props: EditProfileProps) => {
     control,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<EditProfileFormValues>({
     defaultValues: {
       name: '',
@@ -61,6 +62,7 @@ export const EditProfile = (props: EditProfileProps) => {
 
   const handleCancel = () => {
     setEditMode(false)
+    reset()
   }
 
   return (

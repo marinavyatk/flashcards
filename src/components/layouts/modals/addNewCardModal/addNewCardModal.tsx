@@ -30,13 +30,12 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
     defaultValues: {
       answer: '',
       answerImg: undefined,
-      answerVideo: undefined,
       question: '',
       questionImg: undefined,
-      questionVideo: undefined,
     },
     mode: 'onBlur',
     resolver: zodResolver(addNewCardSchema),
+    shouldUnregister: true,
   })
 
   console.log('AddNewCardModalErrors', errors)

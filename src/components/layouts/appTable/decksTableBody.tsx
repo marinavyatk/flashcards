@@ -40,7 +40,7 @@ const DecksTableRow = (props: DecksTableRowProps) => {
         <div className={s.actions}>
           {item.cardsCount > 0 && (
             <button>
-              <PlayIcon onClick={() => onLearn(item.id)} />
+              <PlayIcon onClick={() => onLearn(item)} />
             </button>
           )}
           {isMyDeck && (
@@ -78,7 +78,7 @@ export type DecksTableBodyProps = {
   onConfirmDelete: (id: string) => void
   onEdit: (data: UpdateDeckArgs) => void
   onGoToDeck?: () => void
-  onLearn: (id: string) => void
+  onLearn: (deck: Deck) => void
   tableRowsData: Deck[]
   userId: string
 }

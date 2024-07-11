@@ -108,11 +108,7 @@ function PrivateRoutes() {
 }
 
 function PublicRoutes() {
-  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
-
-  if (isLoading) {
-    return <div>...Loading...</div>
-  }
+  const { data: currentUser } = useGetCurrentUserDataQuery()
 
   if (!currentUser) {
     return <Outlet />

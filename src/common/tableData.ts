@@ -1,6 +1,6 @@
-import { Cell } from '@/components/layouts/appTable/cardsTableBody'
+import { Cell } from '@/components/layouts/appTable/tableHead'
 
-export const decksData: Cell[] = [
+export const decksTableData: Cell[] = [
   {
     name: 'Deck name',
     orderBy: 'name',
@@ -23,7 +23,7 @@ export const decksData: Cell[] = [
   },
 ]
 
-export const deckTableData: Cell[] = [
+export const cardsTableData: Cell[] = [
   {
     name: 'Question',
     orderBy: 'question',

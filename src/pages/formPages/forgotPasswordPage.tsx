@@ -7,7 +7,8 @@ import { useSendPasswordRecoveryEmailMutation } from '@/services/auth/authApi'
 import { SendPasswordRecoveryEmailArgs } from '@/services/auth/authApiTypes'
 
 export const ForgotPasswordPage = () => {
-  const [sendPasswordRecoveryEmail] = useSendPasswordRecoveryEmailMutation()
+  const [sendPasswordRecoveryEmail, { isLoading: showTopLoader }] =
+    useSendPasswordRecoveryEmailMutation()
 
   const navigate = useNavigate()
   const onSubmit = async (data: SendPasswordRecoveryEmailArgs) => {
@@ -20,7 +21,7 @@ export const ForgotPasswordPage = () => {
   }
 
   return (
-    <PageTemplate>
+    <PageTemplate showTopLoader={showTopLoader}>
       <ForgotPassword onFormSubmit={onSubmit} />
     </PageTemplate>
   )

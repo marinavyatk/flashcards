@@ -30,7 +30,7 @@ export const AppPagination = (props: AppPaginationProps) => {
       />
       {showSelect && (
         <div className={s.selectWithText}>
-          Показать
+          Show
           <Select
             {...selectProps}
             itemProps={[
@@ -42,7 +42,7 @@ export const AppPagination = (props: AppPaginationProps) => {
             ]}
             triggerValue={{ placeholder: selectProps.rootProps?.value || '10' }}
           />
-          на странице
+          on the page
         </div>
       )}
     </div>

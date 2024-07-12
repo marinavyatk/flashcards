@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import { selectMinValue } from '@/common/constants'
@@ -7,6 +8,7 @@ import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
+import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { decksTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
@@ -33,10 +35,17 @@ import s from './mainPage.module.scss'
 
 export const MainPage = () => {
   const { data: userData } = useGetCurrentUserDataQuery()
-  const { data: minMaxData, isLoading: isMinMaxLoading } = useGetMinMaxCardAmountQuery()
-  const [createDeck, { isLoading: isCreateDeckLoading }] = useCreateDeckMutation()
-  const [deleteDeck, { isLoading: isDeleteDeckLoading }] = useDeleteDeckMutation()
-  const [updateDeck, { isLoading: isUpdateDeckLoading }] = useUpdateDeckMutation()
+  const {
+    data: minMaxData,
+    error: minMaxError,
+    isLoading: isMinMaxLoading,
+  } = useGetMinMaxCardAmountQuery()
+  const [createDeck, { error: createDeckError, isLoading: isCreateDeckLoading }] =
+    useCreateDeckMutation()
+  const [deleteDeck, { error: deleteDeckError, isLoading: isDeleteDeckLoading }] =
+    useDeleteDeckMutation()
+  const [updateDeck, { error: updateDeckError, isLoading: isUpdateDeckLoading }] =
+    useUpdateDeckMutation()
   const { search: urlSearchParams } = useLocation()
   const navigate = useNavigate()
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
@@ -57,7 +66,11 @@ export const MainPage = () => {
     setSearchParams,
   } = useAppSearchParams({ max: minMaxData?.max ?? 1, min: minMaxData?.min ?? 0 })
 
-  const { data: decksData, isLoading: isDecksLoading } = useGetDecksQuery({
+  const {
+    data: decksData,
+    error: getDecksError,
+    isLoading: isDecksLoading,
+  } = useGetDecksQuery({
     authorId: deckOwnership ? deckOwnership : undefined,
     currentPage: currentPage ? Number(currentPage) : undefined,
     itemsPerPage: pageSize ? Number(pageSize) : undefined,
@@ -66,6 +79,9 @@ export const MainPage = () => {
     name: search ?? undefined,
     orderBy: orderBy,
   })
+  const errors = [getDecksError, minMaxError, createDeckError, deleteDeckError, updateDeckError]
+
+  useShowErrors(errors)
 
   const clearFilters = () => {
     searchParams.delete('search')
@@ -103,8 +119,8 @@ export const MainPage = () => {
     setSearchParams(searchParams)
   }
 
-  const handleEditDeck = (data: UpdateDeckArgs) => {
-    updateDeck(data)
+  const handleEditDeck = async (data: UpdateDeckArgs) => {
+    await updateDeck(data).then(toast.success('Deck successfully updated'))
   }
 
   const handleGoToDeck = () => {

@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
+import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { SignUpFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { SingUp } from '@/components/forms/signUp'
@@ -8,18 +10,20 @@ import { useCreateNewAccountMutation } from '@/services/auth/authApi'
 import { CreateNewAccountArgs } from '@/services/auth/authApiTypes'
 
 export const SignUpPage = () => {
-  const [signUp, { isLoading: showTopLoader }] = useCreateNewAccountMutation()
+  const [signUp, { error: signUpError, isLoading: showTopLoader }] = useCreateNewAccountMutation()
+  const errors = [signUpError]
 
+  useShowErrors(errors)
   const navigate = useNavigate()
   const onSubmit = async (data: SignUpFormValues) => {
     const requestData: CreateNewAccountArgs = { email: data.email, password: data.password }
 
-    try {
-      await signUp(requestData).unwrap()
-      navigate(routes.private.main)
-    } catch (error: any) {
-      console.log(error)
-    }
+    await signUp(requestData)
+      .unwrap()
+      .then(() => {
+        toast.success('You have successfully registered')
+        navigate(routes.private.main)
+      })
   }
 
   return (

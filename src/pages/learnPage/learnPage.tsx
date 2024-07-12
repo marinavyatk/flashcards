@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { saveGradeFormValues, saveGradeSchema } from '@/common/formValidation'
 import { BackLink } from '@/components/layouts/backLink/backLink'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
@@ -22,10 +23,20 @@ export const LearnPage = () => {
   const navigate = useNavigate()
   const { state } = useLocation()
   const { deckData } = state
-  const [saveGrade, { isLoading: showTopLoader }] = useSaveCardGradeMutation()
-  const { data: randomCard, isLoading: isRandomCardLoading } = useRetrieveRandomCardQuery({
+  const [saveGrade, { error: saveGradeError, isLoading: showTopLoader }] =
+    useSaveCardGradeMutation()
+  const {
+    data: randomCard,
+    error: randomCardError,
+    isLoading: isRandomCardLoading,
+  } = useRetrieveRandomCardQuery({
     deckId: deckData?.id ? deckData?.id : '',
   })
+
+  const errors = [saveGradeError, randomCardError]
+
+  useShowErrors(errors)
+
   const handleChangeShowAnswer = () => {
     setShowAnswer(true)
   }
@@ -60,6 +71,7 @@ export const LearnPage = () => {
       </PageTemplate>
     )
   }
+
   if (cardData) {
     return (
       <PageTemplate showTopLoader={showTopLoader}>

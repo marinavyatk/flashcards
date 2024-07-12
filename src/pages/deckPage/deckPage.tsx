@@ -1,10 +1,12 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
+import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { cardsTableData } from '@/common/tableData'
@@ -28,6 +30,7 @@ import {
   useDeleteCardMutation,
   useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
+import { UpdateCardArg } from '@/services/cards/cardsTypes'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useDeleteDeckMutation,
@@ -52,9 +55,7 @@ export const DeckPage = () => {
     setSearchParams,
   } = useAppSearchParams()
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
-
   const navigate = useNavigate()
-
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
@@ -63,11 +64,16 @@ export const DeckPage = () => {
     editCard: { cardId: '', open: false },
     editDeck: false,
   })
-  const [updateDeck, { isLoading: isUpdateDeckLoading }] = useUpdateDeckMutation()
-  const [deleteDeck, { isLoading: isDeleteDeckLoading }] = useDeleteDeckMutation()
-  const [createCard, { isLoading: isCreateCardLoading }] = useCreateCardMutation()
-  const [deleteCard, { isLoading: isDeleteCardLoading }] = useDeleteCardMutation()
-  const [updateCard, { isLoading: isUpdateCardLoading }] = useUpdateCardMutation()
+  const [updateDeck, { error: updateDeckError, isLoading: isUpdateDeckLoading }] =
+    useUpdateDeckMutation()
+  const [deleteDeck, { error: deleteDeckError, isLoading: isDeleteDeckLoading }] =
+    useDeleteDeckMutation()
+  const [createCard, { error: createCardError, isLoading: isCreateCardLoading }] =
+    useCreateCardMutation()
+  const [deleteCard, { error: deleteCardError, isLoading: isDeleteCardLoading }] =
+    useDeleteCardMutation()
+  const [updateCard, { error: updateCardError, isLoading: isUpdateCardLoading }] =
+    useUpdateCardMutation()
   const showTopLoader =
     isUpdateDeckLoading ||
     isDeleteDeckLoading ||
@@ -75,8 +81,12 @@ export const DeckPage = () => {
     isCreateCardLoading ||
     isDeleteCardLoading
   const { data: userData } = useGetCurrentUserDataQuery()
-  const { data: deckData } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
-  const { data: cards, isLoading: isCardsLoading } = useRetrieveCardsInDeckQuery({
+  const { data: deckData, error: getDeckError } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
+  const {
+    data: cards,
+    error: getCardsError,
+    isLoading: isCardsLoading,
+  } = useRetrieveCardsInDeckQuery({
     currentPage: currentPage ? Number(currentPage) : undefined,
     id: deckId ? deckId : '',
     itemsPerPage: pageSize ? Number(pageSize) : 10,
@@ -86,6 +96,15 @@ export const DeckPage = () => {
 
   const isMyDeck = deckData?.userId === userData?.id
 
+  const handleEditDeck = (data: UpdateDeckArgs) => {
+    updateDeck(data)
+  }
+
+  const handleDeleteDeck = () => {
+    deleteDeck({ id: deckId ? deckId : '' })
+    handleBackClick()
+  }
+
   const handleAddNewCard = (data: addNewCardFormValues) => {
     createCard({ ...data, id: deckId ? deckId : '' })
     searchParams.delete('currentPage')
@@ -94,9 +113,26 @@ export const DeckPage = () => {
     handleSearchChange('')
     setSearchParams(searchParams)
   }
+  const handleLearn = () => {
+    navigate(`/decks/${deckData?.id}/learn`, { state: { deckData: deckData } })
+  }
 
-  const handleEditDeck = (data: UpdateDeckArgs) => {
-    updateDeck(data)
+  const handleDeleteCard = () => {
+    deleteCard({ cardId: modalState.deleteCard.cardId })
+  }
+
+  const handleUpdateCard = async (data: UpdateCardArg) => {
+    await updateCard(data)
+    if (!updateCardError) {
+      toast.success('Card successfully updated')
+    }
+  }
+
+  const handleEditCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('editCard', { cardId: cardId, open: true })
+  }
+  const handleDeleteCardTriggerClick = (cardId: string) => {
+    toggleModalHandler('deleteCard', { cardId: cardId, open: true })
   }
 
   const handleBackClick = () => {
@@ -109,25 +145,17 @@ export const DeckPage = () => {
     }
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-    handleBackClick()
-  }
+  const errors = [
+    getDeckError,
+    deleteDeckError,
+    updateDeckError,
+    getCardsError,
+    createCardError,
+    deleteCardError,
+    updateCardError,
+  ]
 
-  const handleLearn = () => {
-    navigate(`/decks/${deckData?.id}/learn`, { state: { deckData: deckData } })
-  }
-
-  const handleDeleteCard = () => {
-    deleteCard({ cardId: modalState.deleteCard.cardId })
-  }
-
-  const handleEditCardTriggerClick = (cardId: string) => {
-    toggleModalHandler('editCard', { cardId: cardId, open: true })
-  }
-  const handleDeleteCardTriggerClick = (cardId: string) => {
-    toggleModalHandler('deleteCard', { cardId: cardId, open: true })
-  }
+  useShowErrors(errors)
 
   if (deckData?.cardsCount === 0) {
     return (
@@ -260,7 +288,7 @@ export const DeckPage = () => {
         <EditCardModal
           cardId={modalState.editCard.cardId}
           onClose={() => toggleModalHandler('editCard', false)}
-          onFormSubmit={updateCard}
+          onFormSubmit={handleUpdateCard}
           open={modalState.editCard.open}
         />
       )}

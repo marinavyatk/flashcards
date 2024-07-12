@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { routes } from '@/common/router'
 import { EditProfile } from '@/components/forms/editProfile'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
@@ -11,13 +12,15 @@ import {
 import { UpdateUserData } from '@/services/auth/authApiTypes'
 
 export const EditProfilePage = () => {
-  const [updateUserData, { error, isLoading: showTopLoader }] = useUpdateUserDataMutation()
-  const [signOut] = useSignOutMutation()
+  const [updateUserData, { error: updateUserDataError, isLoading: showTopLoader }] =
+    useUpdateUserDataMutation()
+  const [signOut, { error: signOutError }] = useSignOutMutation()
   const { data } = useGetCurrentUserDataQuery()
   const navigate = useNavigate()
 
-  console.log('request error', error)
+  const errors = [updateUserDataError, signOutError]
 
+  useShowErrors(errors)
   const handleSignOut = async () => {
     try {
       await signOut().unwrap()
@@ -27,12 +30,8 @@ export const EditProfilePage = () => {
       console.log(error)
     }
   }
-  const onSubmit = async (data: UpdateUserData) => {
-    try {
-      await updateUserData(data).unwrap()
-    } catch (error: any) {
-      console.log(error)
-    }
+  const onSubmit = (data: UpdateUserData) => {
+    updateUserData(data)
   }
 
   if (!data) {

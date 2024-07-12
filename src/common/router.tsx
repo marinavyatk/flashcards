@@ -9,6 +9,7 @@ import {
 import { PageNotFound } from '@/pages/404/404'
 import { DeckPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
+import { CreateNewPasswordPage } from '@/pages/formPages/createNewPasswordPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
@@ -60,6 +61,10 @@ const publicRoutes: RouteObject[] = [
     element: <CheckEmailPage />,
     path: routes.public.checkEmail,
   },
+  {
+    element: <CreateNewPasswordPage />,
+    path: routes.public.createNewPassword,
+  },
 ]
 
 const privateRoutes: RouteObject[] = [
@@ -94,11 +99,7 @@ export const router = createBrowserRouter([
 ])
 
 function PrivateRoutes() {
-  const { isError, isLoading } = useGetCurrentUserDataQuery()
-
-  if (isLoading) {
-    return <div>...Loading...</div>
-  }
+  const { isError } = useGetCurrentUserDataQuery()
 
   if (!isError) {
     const isAuthenticated = !isError

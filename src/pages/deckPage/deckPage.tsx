@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -24,7 +24,6 @@ import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/se
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
@@ -80,7 +79,7 @@ export const DeckPage = () => {
     isUpdateCardLoading ||
     isCreateCardLoading ||
     isDeleteCardLoading
-  const { data: userData } = useGetCurrentUserDataQuery()
+  const userData = useOutletContext()
   const { data: deckData, error: getDeckError } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
   const {
     data: cards,
@@ -100,9 +99,8 @@ export const DeckPage = () => {
     updateDeck(data)
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-    handleBackClick()
+  const handleDeleteDeck = async () => {
+    await deleteDeck({ id: deckId ? deckId : '' }).then(handleBackClick)
   }
 
   const handleAddNewCard = (data: addNewCardFormValues) => {

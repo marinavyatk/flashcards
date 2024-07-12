@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
@@ -21,7 +21,6 @@ import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import { CreateDeckArgs, Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
@@ -34,7 +33,7 @@ import {
 import s from './mainPage.module.scss'
 
 export const MainPage = () => {
-  const { data: userData } = useGetCurrentUserDataQuery()
+  const userData = useOutletContext()
   const {
     data: minMaxData,
     error: minMaxError,

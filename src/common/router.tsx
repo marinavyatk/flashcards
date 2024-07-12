@@ -6,9 +6,11 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
+import { PageLoader } from '@/components/ui/loader/loader'
 import { PageNotFound } from '@/pages/404/404'
 import { DeckPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
+import { CreateNewPasswordPage } from '@/pages/formPages/createNewPasswordPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
 import { SignInPage } from '@/pages/formPages/signInPage'
@@ -60,6 +62,10 @@ const publicRoutes: RouteObject[] = [
     element: <CheckEmailPage />,
     path: routes.public.checkEmail,
   },
+  {
+    element: <CreateNewPasswordPage />,
+    path: routes.public.createNewPassword,
+  },
 ]
 
 const privateRoutes: RouteObject[] = [
@@ -97,7 +103,7 @@ function PrivateRoutes() {
   const { isError, isLoading } = useGetCurrentUserDataQuery()
 
   if (isLoading) {
-    return <div>...Loading...</div>
+    return <PageLoader />
   }
 
   if (!isError) {
@@ -108,8 +114,11 @@ function PrivateRoutes() {
 }
 
 function PublicRoutes() {
-  const { data: currentUser } = useGetCurrentUserDataQuery()
+  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
 
+  if (isLoading) {
+    return <PageLoader />
+  }
   if (!currentUser) {
     return <Outlet />
   }

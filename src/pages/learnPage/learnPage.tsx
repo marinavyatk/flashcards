@@ -71,6 +71,7 @@ export const LearnPage = () => {
       </PageTemplate>
     )
   }
+
   if (cardData) {
     return (
       <PageTemplate showTopLoader={showTopLoader}>

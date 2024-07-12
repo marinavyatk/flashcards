@@ -22,13 +22,7 @@ export const EditProfilePage = () => {
 
   useShowErrors(errors)
   const handleSignOut = async () => {
-    try {
-      await signOut().unwrap()
-      localStorage.clear()
-      navigate(routes.public.signIn)
-    } catch (error: any) {
-      console.log(error)
-    }
+    await signOut().unwrap().then(navigate(routes.public.signIn))
   }
   const onSubmit = (data: UpdateUserData) => {
     updateUserData(data)

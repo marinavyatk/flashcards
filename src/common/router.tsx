@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
 } from 'react-router-dom'
 
+import { PageLoader } from '@/components/ui/loader/loader'
 import { PageNotFound } from '@/pages/404/404'
 import { DeckPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
@@ -99,7 +100,11 @@ export const router = createBrowserRouter([
 ])
 
 function PrivateRoutes() {
-  const { isError } = useGetCurrentUserDataQuery()
+  const { isError, isLoading } = useGetCurrentUserDataQuery()
+
+  if (isLoading) {
+    return <PageLoader />
+  }
 
   if (!isError) {
     const isAuthenticated = !isError
@@ -109,8 +114,11 @@ function PrivateRoutes() {
 }
 
 function PublicRoutes() {
-  const { data: currentUser } = useGetCurrentUserDataQuery()
+  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
 
+  if (isLoading) {
+    return <PageLoader />
+  }
   if (!currentUser) {
     return <Outlet />
   }

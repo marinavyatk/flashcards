@@ -79,7 +79,6 @@ export const MainPage = () => {
     name: search ?? undefined,
     orderBy: orderBy,
   })
-
   const errors = [getDecksError, minMaxError, createDeckError, deleteDeckError, updateDeckError]
 
   useShowErrors(errors)
@@ -121,11 +120,7 @@ export const MainPage = () => {
   }
 
   const handleEditDeck = async (data: UpdateDeckArgs) => {
-    await updateDeck(data)
-
-    if (!updateDeckError) {
-      toast.success('Deck successfully updated')
-    }
+    await updateDeck(data).then(toast.success('Deck successfully updated'))
   }
 
   const handleGoToDeck = () => {

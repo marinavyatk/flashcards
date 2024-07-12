@@ -16,10 +16,11 @@ export const SignInPage = () => {
   const navigate = useNavigate()
   const onSubmit = async (data: SignInArgs) => {
     await signIn(data)
-    navigate(routes.private.main)
-    if (!singInError) {
-      toast.success('Welcome! Have fun learning!')
-    }
+      .unwrap()
+      .then(() => {
+        toast.success('Welcome! Have fun learning!')
+        navigate(routes.private.main)
+      })
   }
 
   return (

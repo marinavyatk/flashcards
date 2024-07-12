@@ -12,5 +12,5 @@ export const useShowErrors = (errors: any[]) => {
         toast.error(errorText)
       }
     })
-  }, errors)
+  }, [...errors])
 }

@@ -18,11 +18,12 @@ export const SignUpPage = () => {
   const onSubmit = async (data: SignUpFormValues) => {
     const requestData: CreateNewAccountArgs = { email: data.email, password: data.password }
 
-    await signUp(requestData).unwrap()
-    navigate(routes.private.main)
-    if (!signUpError) {
-      toast.success('You have successfully registered')
-    }
+    await signUp(requestData)
+      .unwrap()
+      .then(() => {
+        toast.success('You have successfully registered')
+        navigate(routes.private.main)
+      })
   }
 
   return (

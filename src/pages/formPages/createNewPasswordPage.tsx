@@ -21,11 +21,12 @@ export const CreateNewPasswordPage = () => {
     const token = localStorage.getItem('accessToken') as string
     const requestData = { ...data, token }
 
-    await createNewPassword(requestData).unwrap()
-    navigate(routes.public.signIn)
-    if (!resetPasswordError) {
-      toast.success('Password successfully changed')
-    }
+    await createNewPassword(requestData)
+      .unwrap()
+      .then(() => {
+        toast.success('Password successfully changed')
+        navigate(routes.public.signIn)
+      })
   }
 
   return (

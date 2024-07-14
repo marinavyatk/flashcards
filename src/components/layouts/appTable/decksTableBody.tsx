@@ -54,7 +54,7 @@ const DecksTableRow = (props: DecksTableRowProps) => {
               </button>
               {modalState.edit && (
                 <EditDeckModal
-                  id={item.id}
+                  deckData={item}
                   onClose={() => toggleModalHandler('edit', false)}
                   onFormSubmit={onEdit}
                   open={modalState.edit}

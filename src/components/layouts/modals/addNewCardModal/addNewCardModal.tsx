@@ -21,12 +21,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
   const [questionCover, setQuestionCover] = useState<string>('')
   const [answerCover, setAnswerCover] = useState<string>('')
   const [open, setOpen] = useState(false)
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<addNewCardFormValues>({
+  const { control, handleSubmit, reset } = useForm<addNewCardFormValues>({
     defaultValues: {
       answer: '',
       answerImg: undefined,
@@ -37,8 +32,6 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
     resolver: zodResolver(addNewCardSchema),
     shouldUnregister: true,
   })
-
-  console.log('AddNewCardModalErrors', errors)
 
   const handleQuestionFileChange = (newFile: File | undefined) => {
     if (questionCover) {

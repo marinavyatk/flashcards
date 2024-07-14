@@ -11,39 +11,23 @@ import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
-import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import s from '../modals.module.scss'
 
 export type EditDeckModalProps = {
-  id: string
+  deckData: Deck
   onClose?: () => void
   onFormSubmit: (data: UpdateDeckArgs) => void
   open?: boolean
   trigger?: ReactNode
 }
-export const EditDeckModal = ({ id, ...restProps }: EditDeckModalProps) => {
-  const { data: deckData } = useRetrieveDeckQuery({ id })
-
-  if (deckData) {
-    return <EditDeckContent deckData={deckData} id={id} {...restProps} />
-  }
-}
-
-type EditDeckContentProps = {
-  deckData: Deck
-} & EditDeckModalProps
-export const EditDeckContent = (props: EditDeckContentProps) => {
-  const { deckData, id, onClose, onFormSubmit, open, trigger } = props
+export const EditDeckModal = (props: EditDeckModalProps) => {
+  const { deckData, onClose, onFormSubmit, open, trigger } = props
   const [cover, setCover] = useState<string>(deckData?.cover || '')
 
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<updateDeckFormValues>({
+  const { control, handleSubmit } = useForm<updateDeckFormValues>({
     defaultValues: {
       cover: deckData?.cover,
       isPrivate: deckData?.isPrivate ?? true,
@@ -52,8 +36,6 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
     mode: 'onBlur',
     resolver: zodResolver(updateDeckSchema),
   })
-
-  console.log('UpdateDeckModalErrors', errors)
 
   const handleFileChange = (newFile: File | undefined) => {
     if (cover) {
@@ -73,7 +55,7 @@ export const EditDeckContent = (props: EditDeckContentProps) => {
       editedData.cover = ''
     }
 
-    onFormSubmit({ ...editedData, id })
+    onFormSubmit({ ...editedData, id: deckData.id })
     onClose?.()
   }
   const handleCancel = () => {

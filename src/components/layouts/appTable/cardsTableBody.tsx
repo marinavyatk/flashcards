@@ -3,6 +3,7 @@ import EditIcon from '@/assets/svg/editIcon.svg?react'
 import RatingStar from '@/assets/svg/ratingStar.svg?react'
 import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { Card } from '@/services/cards/cardsTypes'
 
 import s from './appTable.module.scss'
@@ -10,7 +11,7 @@ import s from './appTable.module.scss'
 export type CardsTableBodyProps = {
   isMyDeck: boolean
   onDeleteCardTriggerClick: (cardId: string) => void
-  onEditCardTriggerClick: (cardId: string) => void
+  onEditCardTriggerClick: (cardData: Card) => void
   tableRowsData: Card[]
 }
 
@@ -53,13 +54,23 @@ const CardsTableRow = (props: CardsTableRowProps) => {
     <tr>
       <td>
         <div className={s.cellWithImg}>
-          {item.questionImg && <img alt={'Question deck'} src={item.questionImg} />}
+          {item.questionImg && (
+            <ViewCloserModal
+              imgSrc={item.questionImg}
+              trigger={<img alt={'Question deck'} className={s.modalImg} src={item.questionImg} />}
+            />
+          )}
           <span>{item.question}</span>
         </div>
       </td>
       <td>
         <div className={s.cellWithImg}>
-          {item.answerImg && <img alt={'Question deck'} src={item.answerImg} />}
+          {item.answerImg && (
+            <ViewCloserModal
+              imgSrc={item.answerImg}
+              trigger={<img alt={'Question deck'} className={s.modalImg} src={item.answerImg} />}
+            />
+          )}
           <span> {item.answer}</span>
         </div>
       </td>
@@ -70,7 +81,7 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <button onClick={() => onEditCardTriggerClick(item.id)}>
+            <button onClick={() => onEditCardTriggerClick(item)}>
               <EditIcon />
             </button>
             <button onClick={() => onDeleteCardTriggerClick(item.id)}>

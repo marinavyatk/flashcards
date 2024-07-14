@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { saveGradeFormValues, saveGradeSchema } from '@/common/formValidation'
 import { BackLink } from '@/components/layouts/backLink/backLink'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -92,7 +93,16 @@ export const LearnPage = () => {
                   </Typography>
                 </div>
                 {cardData.questionImg && (
-                  <img alt={'Question picture'} src={cardData.questionImg} />
+                  <ViewCloserModal
+                    imgSrc={cardData.questionImg}
+                    trigger={
+                      <img
+                        alt={'Question picture'}
+                        className={s.image}
+                        src={cardData.questionImg}
+                      />
+                    }
+                  />
                 )}
                 <Typography className={s.shots} variant={'body2'}>
                   Number of attempts to answer the question: {cardData.shots}
@@ -111,7 +121,18 @@ export const LearnPage = () => {
                         {cardData.answer}
                       </Typography>
                     </div>
-                    {cardData.answerImg && <img alt={'Answer picture'} src={cardData.answerImg} />}
+                    {cardData.answerImg && (
+                      <ViewCloserModal
+                        imgSrc={cardData.answerImg}
+                        trigger={
+                          <img
+                            alt={'Answer picture'}
+                            className={s.image}
+                            src={cardData.answerImg}
+                          />
+                        }
+                      />
+                    )}
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <Typography as={'span'} className={s.formHeader} variant={'subtitle1'}>
                         Rate yourself:

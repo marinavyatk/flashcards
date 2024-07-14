@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import { Header } from '@/components/layouts/header'
 import { PageLoader } from '@/components/ui/loader/loader'
 import { LoaderLine } from '@/components/ui/loaderLine/loaderLine'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -16,8 +16,8 @@ type PageTemplateProps = {
 }
 
 export const PageTemplate = ({ children, isLoading, showTopLoader }: PageTemplateProps) => {
-  const { data } = useGetCurrentUserDataQuery()
-  const isAuthorized = !!data
+  const userData = useOutletContext()
+  const isAuthorized = !!userData
 
   return (
     <div className={s.template}>
@@ -27,9 +27,9 @@ export const PageTemplate = ({ children, isLoading, showTopLoader }: PageTemplat
             className={s.header}
             isAuthorized={isAuthorized}
             userDropdownProps={{
-              avatar: data?.avatar || '',
-              email: data?.email || '',
-              name: data?.name || '',
+              avatar: userData?.avatar || '',
+              email: userData?.email || '',
+              name: userData?.name || '',
             }}
           />
           {showTopLoader && <LoaderLine className={s.loaderLine} />}

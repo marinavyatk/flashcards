@@ -51,6 +51,21 @@
 
         -webkit-text-fill-color: var(--color-light-100);
       }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        background: linear-gradient(
+          rgb(255 255 255 / 0%) 0%,
+          rgb(0 174 255 / 4%) 50%,
+          rgb(255 255 255 / 0%) 51%,
+          rgb(0 174 255 / 3%) 100%
+        );
+        box-shadow: 0 0 0 1000px transparent inset;
+        transition: background-color 5000s ease-in-out 0s;
+
+        -webkit-text-fill-color: var(--color-light-100);
+      }
     }
 
     .endButton {

@@ -35,3 +35,19 @@
     flex-shrink: 1;
   }
 }
+
+.modalContainer {
+  width: fit-content;
+  max-width: unset;
+}
+
+.imgContainer {
+  display: flex;
+  width: fit-content;
+  background-color: var(--color-dark-500);
+
+  img {
+    max-width: 70vw;
+    max-height: calc(90vh - 66px);
+  }
+}

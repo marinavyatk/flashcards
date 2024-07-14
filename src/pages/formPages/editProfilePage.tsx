@@ -1,21 +1,17 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { routes } from '@/common/router'
 import { EditProfile } from '@/components/forms/editProfile'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
-import {
-  useGetCurrentUserDataQuery,
-  useSignOutMutation,
-  useUpdateUserDataMutation,
-} from '@/services/auth/authApi'
+import { useSignOutMutation, useUpdateUserDataMutation } from '@/services/auth/authApi'
 import { UpdateUserData } from '@/services/auth/authApiTypes'
 
 export const EditProfilePage = () => {
   const [updateUserData, { error: updateUserDataError, isLoading: showTopLoader }] =
     useUpdateUserDataMutation()
   const [signOut, { error: signOutError }] = useSignOutMutation()
-  const { data } = useGetCurrentUserDataQuery()
+  const userData = useOutletContext()
   const navigate = useNavigate()
 
   const errors = [updateUserDataError, signOutError]
@@ -28,18 +24,18 @@ export const EditProfilePage = () => {
     updateUserData(data)
   }
 
-  if (!data) {
+  if (!userData) {
     return
   }
 
   return (
     <PageTemplate showTopLoader={showTopLoader}>
       <EditProfile
-        email={data?.email}
-        name={data?.name}
+        email={userData?.email}
+        name={userData?.name}
         onFormSubmit={onSubmit}
         onSignOut={handleSignOut}
-        profilePhoto={data?.avatar}
+        profilePhoto={userData?.avatar}
       />
     </PageTemplate>
   )

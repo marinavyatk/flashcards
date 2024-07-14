@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -24,13 +24,12 @@ import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/se
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
-import { useGetCurrentUserDataQuery } from '@/services/auth/authApi'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
   useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
-import { UpdateCardArg } from '@/services/cards/cardsTypes'
+import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useDeleteDeckMutation,
@@ -80,7 +79,7 @@ export const DeckPage = () => {
     isUpdateCardLoading ||
     isCreateCardLoading ||
     isDeleteCardLoading
-  const { data: userData } = useGetCurrentUserDataQuery()
+  const userData = useOutletContext()
   const { data: deckData, error: getDeckError } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
   const {
     data: cards,
@@ -100,9 +99,8 @@ export const DeckPage = () => {
     updateDeck(data)
   }
 
-  const handleDeleteDeck = () => {
-    deleteDeck({ id: deckId ? deckId : '' })
-    handleBackClick()
+  const handleDeleteDeck = async () => {
+    await deleteDeck({ id: deckId ? deckId : '' }).then(handleBackClick)
   }
 
   const handleAddNewCard = (data: addNewCardFormValues) => {
@@ -122,11 +120,11 @@ export const DeckPage = () => {
   }
 
   const handleUpdateCard = async (data: UpdateCardArg) => {
-    await updateCard(data).then(toast.success('Card successfully updated'))
+    await updateCard(data).then(() => toast.success('Card successfully updated'))
   }
 
-  const handleEditCardTriggerClick = (cardId: string) => {
-    toggleModalHandler('editCard', { cardId: cardId, open: true })
+  const handleEditCardTriggerClick = (cardData: Card) => {
+    toggleModalHandler('editCard', { cardData: cardData, open: true })
   }
   const handleDeleteCardTriggerClick = (cardId: string) => {
     toggleModalHandler('deleteCard', { cardId: cardId, open: true })
@@ -275,6 +273,7 @@ export const DeckPage = () => {
 
       {modalState.editDeck && (
         <EditDeckModal
+          deckData={deckData}
           id={deckData?.id || ''}
           onClose={() => toggleModalHandler('editDeck', false)}
           onFormSubmit={handleEditDeck}
@@ -283,6 +282,7 @@ export const DeckPage = () => {
       )}
       {modalState.editCard.open && (
         <EditCardModal
+          cardData={modalState.editCard.cardData}
           cardId={modalState.editCard.cardId}
           onClose={() => toggleModalHandler('editCard', false)}
           onFormSubmit={handleUpdateCard}

@@ -100,7 +100,7 @@ export const router = createBrowserRouter([
 ])
 
 function PrivateRoutes() {
-  const { isError, isLoading } = useGetCurrentUserDataQuery()
+  const { data: userData, isError, isLoading } = useGetCurrentUserDataQuery()
 
   if (isLoading) {
     return <PageLoader />
@@ -109,18 +109,18 @@ function PrivateRoutes() {
   if (!isError) {
     const isAuthenticated = !isError
 
-    return isAuthenticated ? <Outlet /> : <Navigate to={routes.public.signIn} />
+    return isAuthenticated ? <Outlet context={userData} /> : <Navigate to={routes.public.signIn} />
   }
 }
 
 function PublicRoutes() {
-  const { data: currentUser, isLoading } = useGetCurrentUserDataQuery()
+  const { data: userData, isLoading } = useGetCurrentUserDataQuery()
 
   if (isLoading) {
     return <PageLoader />
   }
-  if (!currentUser) {
-    return <Outlet />
+  if (!userData) {
+    return <Outlet context={userData} />
   }
 
   return <Navigate to={routes.private.main} />

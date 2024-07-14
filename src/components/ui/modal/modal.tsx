@@ -4,16 +4,19 @@ import CloseIcon from '@/assets/svg/closeIcon.svg?react'
 import { Typography } from '@/components/ui/typography'
 import * as Dialog from '@radix-ui/react-dialog'
 import { DialogProps } from '@radix-ui/react-dialog'
+import { DialogContentProps } from '@radix-ui/react-dialog/dist'
+import clsx from 'clsx'
 
 import s from './modal.module.scss'
 
 export type ModalProps = {
+  contentProps?: DialogContentProps
   modalHeader: string
   rootProps?: DialogProps
   trigger?: ReactNode
 } & ComponentPropsWithoutRef<'div'>
 export const Modal = (props: ModalProps) => {
-  const { children, modalHeader, rootProps, trigger, ...restProps } = props
+  const { children, contentProps, modalHeader, rootProps, trigger, ...restProps } = props
 
   return (
     <div {...restProps}>
@@ -21,7 +24,7 @@ export const Modal = (props: ModalProps) => {
         <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className={s.overlay} />
-          <Dialog.Content className={s.content}>
+          <Dialog.Content {...contentProps} className={clsx(s.content, contentProps?.className)}>
             <div className={s.header}>
               <Dialog.Title className={s.title}>
                 <Typography as={'span'} variant={'h3'}>

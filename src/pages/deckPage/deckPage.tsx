@@ -29,7 +29,7 @@ import {
   useDeleteCardMutation,
   useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
-import { UpdateCardArg } from '@/services/cards/cardsTypes'
+import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useDeleteDeckMutation,
@@ -123,8 +123,8 @@ export const DeckPage = () => {
     await updateCard(data).then(() => toast.success('Card successfully updated'))
   }
 
-  const handleEditCardTriggerClick = (cardId: string) => {
-    toggleModalHandler('editCard', { cardId: cardId, open: true })
+  const handleEditCardTriggerClick = (cardData: Card) => {
+    toggleModalHandler('editCard', { cardData: cardData, open: true })
   }
   const handleDeleteCardTriggerClick = (cardId: string) => {
     toggleModalHandler('deleteCard', { cardId: cardId, open: true })
@@ -273,6 +273,7 @@ export const DeckPage = () => {
 
       {modalState.editDeck && (
         <EditDeckModal
+          deckData={deckData}
           id={deckData?.id || ''}
           onClose={() => toggleModalHandler('editDeck', false)}
           onFormSubmit={handleEditDeck}
@@ -281,6 +282,7 @@ export const DeckPage = () => {
       )}
       {modalState.editCard.open && (
         <EditCardModal
+          cardData={modalState.editCard.cardData}
           cardId={modalState.editCard.cardId}
           onClose={() => toggleModalHandler('editCard', false)}
           onFormSubmit={handleUpdateCard}

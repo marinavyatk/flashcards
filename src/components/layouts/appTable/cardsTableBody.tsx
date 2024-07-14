@@ -11,7 +11,7 @@ import s from './appTable.module.scss'
 export type CardsTableBodyProps = {
   isMyDeck: boolean
   onDeleteCardTriggerClick: (cardId: string) => void
-  onEditCardTriggerClick: (cardId: string) => void
+  onEditCardTriggerClick: (cardData: Card) => void
   tableRowsData: Card[]
 }
 
@@ -81,7 +81,7 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <button onClick={() => onEditCardTriggerClick(item.id)}>
+            <button onClick={() => onEditCardTriggerClick(item)}>
               <EditIcon />
             </button>
             <button onClick={() => onDeleteCardTriggerClick(item.id)}>

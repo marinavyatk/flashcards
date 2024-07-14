@@ -14,7 +14,6 @@ import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/for
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
-import { useGetCardQuery } from '@/services/cards/cardsApi'
 import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -22,26 +21,14 @@ import * as Dialog from '@radix-ui/react-dialog'
 import s from '../modals.module.scss'
 
 export type EditCardModalProps = {
-  cardId: string
+  cardData: Card
   onClose?: () => void
   onFormSubmit: (data: UpdateCardArg) => void
   open?: boolean
   trigger?: ReactNode
 }
-export const EditCardModal = ({ cardId, ...restProps }: EditCardModalProps) => {
-  const { data: cardData } = useGetCardQuery({ cardId })
-
-  if (cardData) {
-    return <EditCardContent cardData={cardData} cardId={cardId} {...restProps} />
-  }
-}
-
-type EditCardContentProps = {
-  cardData: Card[]
-} & EditCardModalProps
-
-export const EditCardContent = (props: EditCardContentProps) => {
-  const { cardData, cardId, onClose, onFormSubmit, open, trigger } = props
+export const EditCardModal = (props: EditCardModalProps) => {
+  const { cardData, onClose, onFormSubmit, open, trigger } = props
   const [questionCover, setQuestionCover] = useState<string>(cardData?.questionImg || '')
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
   const {
@@ -95,7 +82,7 @@ export const EditCardContent = (props: EditCardContentProps) => {
       }
       preparedData[key] = data[key]
     })
-    onFormSubmit({ cardId, ...preparedData })
+    onFormSubmit({ cardId: cardData?.id, ...preparedData })
     onClose?.()
   }
 

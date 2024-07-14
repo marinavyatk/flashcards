@@ -21,12 +21,7 @@ export type AddNewDeckModalProps = {
 export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
   const [cover, setCover] = useState<string>('')
   const [open, setOpen] = useState(false)
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<addNewDeckFromValues>({
+  const { control, handleSubmit, reset } = useForm<addNewDeckFromValues>({
     defaultValues: {
       cover: {} as File,
       isPrivate: true,
@@ -35,8 +30,6 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
     mode: 'onBlur',
     resolver: zodResolver(addNewDeckSchema),
   })
-
-  console.log('AddNewDeckModalErrors', errors)
   const handleFileChange = (newFile: File | undefined) => {
     if (cover) {
       URL.revokeObjectURL(cover)

@@ -120,7 +120,7 @@ export const DeckPage = () => {
   }
 
   const handleUpdateCard = async (data: UpdateCardArg) => {
-    await updateCard(data).then(toast.success('Card successfully updated'))
+    await updateCard(data).then(() => toast.success('Card successfully updated'))
   }
 
   const handleEditCardTriggerClick = (cardId: string) => {

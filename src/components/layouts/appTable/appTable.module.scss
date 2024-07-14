@@ -74,6 +74,10 @@
   gap: 20px;
   align-items: center;
   text-align: justify;
+
+  .modalImg {
+    cursor: pointer;
+  }
 }
 
 .grade {

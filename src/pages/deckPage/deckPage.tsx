@@ -24,6 +24,7 @@ import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/se
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
+import { UserData } from '@/services/auth/authApiTypes'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
@@ -58,9 +59,9 @@ export const DeckPage = () => {
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
-    deleteCard: { cardId: '', open: false },
+    deleteCard: { cardData: {}, open: false },
     deleteDeck: false,
-    editCard: { cardId: '', open: false },
+    editCard: { cardData: {}, open: false },
     editDeck: false,
   })
   const [updateDeck, { error: updateDeckError, isLoading: isUpdateDeckLoading }] =
@@ -79,7 +80,7 @@ export const DeckPage = () => {
     isUpdateCardLoading ||
     isCreateCardLoading ||
     isDeleteCardLoading
-  const userData = useOutletContext()
+  const userData: UserData = useOutletContext()
   const { data: deckData, error: getDeckError } = useRetrieveDeckQuery({ id: deckId ? deckId : '' })
   const {
     data: cards,
@@ -255,9 +256,9 @@ export const DeckPage = () => {
           />
         </div>
       </div>
-
       <ConfirmDeleteModal
         deletedElement={'Deck'}
+        elementName={deckData?.name}
         needShowTrigger={false}
         onClose={() => toggleModalHandler('deleteDeck', false)}
         onConfirm={handleDeleteDeck}
@@ -266,7 +267,7 @@ export const DeckPage = () => {
       <ConfirmDeleteModal
         deletedElement={'Card'}
         needShowTrigger={false}
-        onClose={() => toggleModalHandler('deleteCard', false)}
+        onClose={() => toggleModalHandler('deleteCard', { cardData: null, open: false })}
         onConfirm={handleDeleteCard}
         open={modalState.deleteCard.open}
       />
@@ -283,8 +284,7 @@ export const DeckPage = () => {
       {modalState.editCard.open && (
         <EditCardModal
           cardData={modalState.editCard.cardData}
-          cardId={modalState.editCard.cardId}
-          onClose={() => toggleModalHandler('editCard', false)}
+          onClose={() => toggleModalHandler('editCard', { cardData: null, open: false })}
           onFormSubmit={handleUpdateCard}
           open={modalState.editCard.open}
         />

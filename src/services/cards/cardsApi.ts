@@ -11,7 +11,6 @@ import { decksApi } from '@/services/decks/decksApi'
 import { flashcardsApi } from '@/services/flashcards-api'
 import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
-//There may be problems with tags
 export const cardsApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
     return {
@@ -94,13 +93,8 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         ) {
           const patchResult: PatchCollection = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Cards' }])
-          const formData = new FormData()
-
           const questionImgObjectURL = questionImg ? URL.createObjectURL(questionImg) : ''
           const answerImgObjectURL = answerImg ? URL.createObjectURL(answerImg) : ''
-
-          formData.append('questionImg', questionImgObjectURL ?? '')
-          formData.append('answerImg', answerImgObjectURL ?? '')
 
           invalidateBy.forEach(({ originalArgs }) => {
             patchResult.push(
@@ -113,8 +107,14 @@ export const cardsApi = flashcardsApi.injectEndpoints({
                   } else {
                     Object.assign(draft.items[indexItemToUpdate], {
                       ...args,
-                      answerImg: answerImgObjectURL,
-                      questionImg: questionImgObjectURL,
+                      answerImg:
+                        answerImg === undefined
+                          ? draft.items[indexItemToUpdate].answerImg
+                          : answerImgObjectURL,
+                      questionImg:
+                        questionImg === undefined
+                          ? draft.items[indexItemToUpdate].questionImg
+                          : questionImgObjectURL,
                     })
                   }
                 })
@@ -126,9 +126,8 @@ export const cardsApi = flashcardsApi.injectEndpoints({
           } catch {
             patchResult.undo()
           } finally {
-            questionImgObjectURL &&
-              setTimeout(() => URL.revokeObjectURL(questionImgObjectURL), 3000)
-            answerImgObjectURL && setTimeout(() => URL.revokeObjectURL(answerImgObjectURL), 3000)
+            questionImgObjectURL && URL.revokeObjectURL(questionImgObjectURL)
+            answerImgObjectURL && URL.revokeObjectURL(answerImgObjectURL)
           }
         },
         query: ({ cardId, ...args }) => {

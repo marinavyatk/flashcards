@@ -115,7 +115,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
             patchResult.undo()
           } finally {
             if (avatarObjectURL) {
-              setTimeout(() => URL.revokeObjectURL(avatarObjectURL), 3000)
+              URL.revokeObjectURL(avatarObjectURL)
             }
           }
         },

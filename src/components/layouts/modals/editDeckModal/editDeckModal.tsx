@@ -44,7 +44,8 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
 
   const handleRemoveCover = () => handleFileChange(undefined, cover, setCover, 'cover', setValue)
 
-  const handleChangeCover = newFile => handleFileChange(newFile, cover, setCover, 'cover', setValue)
+  const handleChangeCover = (newFile: File | undefined) =>
+    handleFileChange(newFile, cover, setCover, 'cover', setValue)
 
   const handleFormSubmit = (data: updateDeckFormValues) => {
     const preparedData = prepareData(data, dirtyFields)

@@ -31,7 +31,7 @@ import {
   useUpdateCardMutation,
 } from '@/services/cards/cardsApi'
 import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
-import { UpdateDeckArgs } from '@/services/decks/decks.types'
+import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useDeleteDeckMutation,
   useRetrieveCardsInDeckQuery,
@@ -274,8 +274,7 @@ export const DeckPage = () => {
 
       {modalState.editDeck && (
         <EditDeckModal
-          deckData={deckData}
-          id={deckData?.id || ''}
+          deckData={deckData ?? ({} as Deck)}
           onClose={() => toggleModalHandler('editDeck', false)}
           onFormSubmit={handleEditDeck}
           open={modalState?.editDeck}

@@ -45,6 +45,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     } else {
       searchParams.delete('orderBy')
     }
+    searchParams.delete('currentPage')
     setSearchParams(searchParams)
   }
 

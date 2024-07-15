@@ -14,11 +14,11 @@ export const ViewCloserModal = (props: ViewCloserModalProps) => {
   return (
     <Modal
       contentProps={{ className: s.modalContainer }}
-      modalHeader={'View image closer'}
+      modalHeader={'View image'}
       trigger={trigger}
     >
       <div className={s.imgContainer}>
-        <img alt={'Image closer'} className={s.imgCloser} src={imgSrc} />
+        <img alt={'View image'} className={s.imgCloser} src={imgSrc} />
       </div>
     </Modal>
   )

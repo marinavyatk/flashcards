@@ -130,7 +130,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
             patchResult.undo()
           } finally {
             if (coverObjectURL) {
-              setTimeout(() => URL.revokeObjectURL(coverObjectURL), 3000)
+              URL.revokeObjectURL(coverObjectURL)
             }
           }
         },

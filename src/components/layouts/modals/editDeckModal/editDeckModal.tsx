@@ -29,7 +29,7 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
 
   const {
     control,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isDirty },
     handleSubmit,
     setValue,
   } = useForm<updateDeckFormValues>({
@@ -49,7 +49,7 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
   const handleFormSubmit = (data: updateDeckFormValues) => {
     const preparedData = prepareData(data, dirtyFields)
 
-    onFormSubmit({ ...preparedData, id: deckData.id })
+    isDirty && onFormSubmit({ ...preparedData, id: deckData.id })
     onClose?.()
   }
   const handleCancel = () => {

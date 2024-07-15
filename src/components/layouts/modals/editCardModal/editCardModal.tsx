@@ -33,7 +33,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
   const {
     control,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isDirty },
     handleSubmit,
     setValue,
   } = useForm<updateCardFormValues>({
@@ -50,7 +50,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
   const handleFormSubmit = (data: addNewCardFormValues) => {
     const preparedData = prepareData(data, dirtyFields)
 
-    onFormSubmit({ cardId: cardData?.id, ...preparedData })
+    isDirty && onFormSubmit({ cardId: cardData?.id, ...preparedData })
     onClose?.()
   }
 

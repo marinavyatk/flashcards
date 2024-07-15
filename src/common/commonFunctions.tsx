@@ -1,6 +1,10 @@
 import { toast } from 'react-toastify'
 
-import { UseFormSetValue } from 'react-hook-form/dist/types/form'
+import {
+  UseFormClearErrors,
+  UseFormSetError,
+  UseFormSetValue,
+} from 'react-hook-form/dist/types/form'
 
 export const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString('ru-RU')
@@ -26,7 +30,7 @@ export const handleFileChange = (
   cover: string,
   setCover: (cover: string) => void,
   fieldName: string,
-  setValue: UseFormSetValue<TFieldValues>
+  setValue: UseFormSetValue
 ) => {
   if (cover) {
     URL.revokeObjectURL(cover)
@@ -57,4 +61,21 @@ export const prepareData = (data: any, dirtyFields: any) => {
   })
 
   return preparedData
+}
+
+export const handleTextChange = (
+  value: string,
+  maxLength: number,
+  fieldName: string,
+  setError: UseFormSetError,
+  clearErrors: UseFormClearErrors
+) => {
+  if (value.length > maxLength) {
+    setError(fieldName, {
+      message: `String must contain at most ${maxLength} character(s)`,
+      type: 'manual',
+    })
+  } else {
+    clearErrors(fieldName)
+  }
 }

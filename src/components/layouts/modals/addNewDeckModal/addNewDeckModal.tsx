@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
+import { handleTextChange } from '@/common/commonFunctions'
 import { addNewDeckFromValues, addNewDeckSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
@@ -21,7 +22,7 @@ export type AddNewDeckModalProps = {
 export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
   const [cover, setCover] = useState<string>('')
   const [open, setOpen] = useState(false)
-  const { control, handleSubmit, reset } = useForm<addNewDeckFromValues>({
+  const { clearErrors, control, handleSubmit, reset, setError } = useForm<addNewDeckFromValues>({
     defaultValues: {
       cover: {} as File,
       isPrivate: true,
@@ -34,7 +35,6 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
     if (cover) {
       URL.revokeObjectURL(cover)
     }
-
     if (!newFile) {
       setCover('')
     } else {
@@ -47,19 +47,30 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
     setCover('')
     setOpen(false)
   }
-  const handleCancel = () => {
-    reset()
-    setCover('')
+  const handleValueChange = (value: string) => {
+    handleTextChange(value, 30, 'name', setError, clearErrors)
   }
 
   return (
     <Modal
       modalHeader={'Add New Deck'}
-      rootProps={{ onOpenChange: setOpen, open: open }}
+      rootProps={{
+        onOpenChange: open => {
+          reset()
+          setCover('')
+          setOpen(open)
+        },
+        open: open,
+      }}
       trigger={<Button>Add New Deck</Button>}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
-        <FormTextField control={control} label={'Name Pack'} name={'name'} />
+        <FormTextField
+          control={control}
+          label={'Name Pack'}
+          name={'name'}
+          onValueChange={handleValueChange}
+        />
         {cover && <img alt={'Deck Cover'} className={s.cover} src={cover} />}
         <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
           <ImageIcon />
@@ -70,7 +81,7 @@ export const AddNewDeckModal = ({ onFormSubmit }: AddNewDeckModalProps) => {
         <FormCheckbox control={control} label={'Private pack'} name={'isPrivate'} />
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
-            <Button onClick={handleCancel} type={'button'} variant={'secondary'}>
+            <Button type={'button'} variant={'secondary'}>
               Cancel
             </Button>
           </Dialog.Close>

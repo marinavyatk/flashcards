@@ -104,11 +104,8 @@ export const decksApi = flashcardsApi.injectEndpoints({
         async onQueryStarted({ cover, id, ...args }, { dispatch, getState, queryFulfilled }) {
           const patchResult: PatchCollection = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
-          const formData = new FormData()
-
           const coverObjectURL = cover ? URL.createObjectURL(cover) : ''
 
-          formData.append('cover', cover ?? '')
           invalidateBy.forEach(({ originalArgs }) => {
             patchResult.push(
               dispatch(

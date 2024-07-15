@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { handleImgError } from '@/common/commonFunctions'
+import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
 import { updateDeckFormValues, updateDeckSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
@@ -27,7 +27,12 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
   const { deckData, onClose, onFormSubmit, open, trigger } = props
   const [cover, setCover] = useState<string>(deckData?.cover || '')
 
-  const { control, handleSubmit } = useForm<updateDeckFormValues>({
+  const {
+    control,
+    formState: { dirtyFields },
+    handleSubmit,
+    setValue,
+  } = useForm<updateDeckFormValues>({
     defaultValues: {
       cover: deckData?.cover,
       isPrivate: deckData?.isPrivate ?? true,
@@ -37,25 +42,14 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
     resolver: zodResolver(updateDeckSchema),
   })
 
-  const handleFileChange = (newFile: File | undefined) => {
-    if (cover) {
-      URL.revokeObjectURL(cover)
-    }
+  const handleRemoveCover = () => handleFileChange(undefined, cover, setCover, 'cover', setValue)
 
-    if (!newFile) {
-      setCover('')
-    } else {
-      setCover(URL.createObjectURL(newFile))
-    }
-  }
+  const handleChangeCover = newFile => handleFileChange(newFile, cover, setCover, 'cover', setValue)
+
   const handleFormSubmit = (data: updateDeckFormValues) => {
-    const editedData = data
+    const preparedData = prepareData(data, dirtyFields)
 
-    if (!cover) {
-      editedData.cover = ''
-    }
-
-    onFormSubmit({ ...editedData, id: deckData.id })
+    onFormSubmit({ ...preparedData, id: deckData.id })
     onClose?.()
   }
   const handleCancel = () => {
@@ -90,14 +84,14 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
             <Button
               className={s.removeCoverButton}
               fullWidth
-              onClick={() => handleFileChange(undefined)}
+              onClick={handleRemoveCover}
               type={'button'}
               variant={'secondary'}
             >
               Remove Image
             </Button>
           )}
-          <FormInputFileCover control={control} name={'cover'} onFileChange={handleFileChange}>
+          <FormInputFileCover control={control} name={'cover'} onFileChange={handleChangeCover}>
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
               {cover ? 'Change Image' : 'Upload Image'}
@@ -105,7 +99,6 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
           </FormInputFileCover>
         </div>
         <FormCheckbox control={control} label={'Private pack'} name={'isPrivate'} />
-
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
             <Button onClick={handleCancel} type={'button'} variant={'secondary'}>

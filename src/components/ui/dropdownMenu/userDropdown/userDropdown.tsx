@@ -25,13 +25,12 @@ export const UserDropdown = (props: UserDropdownProps) => {
   const [signOut] = useSignOutMutation()
   const navigate = useNavigate()
   const handleSignOut = async () => {
-    try {
-      await signOut().unwrap()
-      localStorage.clear()
-      navigate(routes.public.signIn)
-    } catch (error: any) {
-      console.log(error)
-    }
+    await signOut()
+      .unwrap()
+      .then(() => {
+        localStorage.clear()
+        navigate(routes.public.signIn)
+      })
   }
   const handleOpenProfile = () => {
     navigate(routes.private.editProfile)

@@ -56,7 +56,7 @@ export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps) => {
           </Typography>
         ) : (
           <Typography>
-            Do you really want to remove {elementName}? <br />
+            Do you really want to remove "{elementName}"? <br />
             All cards will be deleted.
           </Typography>
         )}

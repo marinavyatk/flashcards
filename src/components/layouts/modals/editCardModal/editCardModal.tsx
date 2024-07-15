@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
-import { handleImgError } from '@/common/commonFunctions'
+import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
 import {
   addNewCardFormValues,
   updateCardFormValues,
@@ -33,62 +33,42 @@ export const EditCardModal = (props: EditCardModalProps) => {
   const [answerCover, setAnswerCover] = useState<string>(cardData?.answerImg || '')
   const {
     control,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isDirty },
     handleSubmit,
     setValue,
   } = useForm<updateCardFormValues>({
     defaultValues: {
       answer: cardData?.answer,
       answerImg: cardData?.answerImg,
-      answerVideo: cardData?.answerVideo,
       question: cardData?.question,
       questionImg: cardData?.questionImg,
-      questionVideo: cardData?.questionVideo,
     },
     mode: 'onBlur',
     resolver: zodResolver(updateCardSchema),
   })
 
-  const handleFileChange = (
-    newFile: File | undefined,
-    cover: string,
-    setCover: (cover: string) => void,
-    fieldName: string
-  ) => {
-    if (cover) {
-      URL.revokeObjectURL(cover)
-    }
-    if (!newFile) {
-      setCover('')
-      setValue(fieldName, undefined, { shouldDirty: true })
-    } else {
-      setCover(URL.createObjectURL(newFile))
-    }
-  }
-
   const handleFormSubmit = (data: addNewCardFormValues) => {
-    const updatedKeys = Object.keys(dirtyFields) as keyof (typeof dirtyFields)[]
-    const dataKeys = Object.keys(data)
-    const preparedData = {}
+    const preparedData = prepareData(data, dirtyFields)
 
-    dataKeys.forEach(key => {
-      if (!updatedKeys.includes(key)) {
-        return
-      }
-      if (data[key] === undefined) {
-        preparedData[key] = ''
-
-        return
-      }
-      preparedData[key] = data[key]
-    })
-    onFormSubmit({ cardId: cardData?.id, ...preparedData })
+    isDirty && onFormSubmit({ cardId: cardData?.id, ...preparedData })
     onClose?.()
   }
 
   const handleCancel = () => {
     onClose?.()
   }
+
+  const handleRemoveQuestionCover = () =>
+    handleFileChange(undefined, questionCover, setQuestionCover, 'questionImg', setValue)
+
+  const handleRemoveAnswerCover = () =>
+    handleFileChange(undefined, answerCover, setAnswerCover, 'answerImg', setValue)
+
+  const handleChangeQuestionCover = newFile =>
+    handleFileChange(newFile, questionCover, setQuestionCover, 'questionImg', setValue)
+
+  const handleChangeAnswerCover = newFile =>
+    handleFileChange(newFile, answerCover, setAnswerCover, 'answerImg', setValue)
 
   return (
     <Modal
@@ -123,9 +103,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
             <Button
               className={s.removeCoverButton}
               fullWidth
-              onClick={() =>
-                handleFileChange(undefined, questionCover, setQuestionCover, 'questionImg')
-              }
+              onClick={handleRemoveQuestionCover}
               type={'button'}
               variant={'secondary'}
             >
@@ -135,9 +113,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
           <FormInputFileCover
             control={control}
             name={'questionImg'}
-            onFileChange={newFile =>
-              handleFileChange(newFile, questionCover, setQuestionCover, 'questionImg')
-            }
+            onFileChange={handleChangeQuestionCover}
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>
@@ -160,7 +136,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
             <Button
               className={s.removeCoverButton}
               fullWidth
-              onClick={() => handleFileChange(undefined, answerCover, setAnswerCover, 'answerImg')}
+              onClick={handleRemoveAnswerCover}
               type={'button'}
               variant={'secondary'}
             >
@@ -170,9 +146,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
           <FormInputFileCover
             control={control}
             name={'answerImg'}
-            onFileChange={newFile =>
-              handleFileChange(newFile, answerCover, setAnswerCover, 'answerImg')
-            }
+            onFileChange={handleChangeAnswerCover}
           >
             <ImageIcon />
             <Typography as={'span'} variant={'subtitle2'}>

@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom'
 
+import BinIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import PrivateIcon from '@/assets/svg/privateIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
-import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
-import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
-import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
-import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
+import { Deck } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
 
@@ -16,11 +14,8 @@ type DecksTableRowProps = {
 } & Omit<DecksTableBodyProps, 'tableRowsData'>
 
 const DecksTableRow = (props: DecksTableRowProps) => {
-  const { item, onConfirmDelete, onEdit, onGoToDeck, onLearn, userId } = props
-  const { modalState, toggleModalHandler } = useModalStateHandler<'delete' | 'edit'>({
-    delete: false,
-    edit: false,
-  })
+  const { item, onDeleteDeckTriggerClick, onEditDeckTriggerClick, onGoToDeck, onLearn, userId } =
+    props
   const isMyDeck = item.author.id === userId
   const handleGoToDeck = () => {
     onGoToDeck?.()
@@ -49,28 +44,13 @@ const DecksTableRow = (props: DecksTableRowProps) => {
           </button>
           {isMyDeck && (
             <>
-              <button onClick={() => toggleModalHandler('edit', true)}>
+              <button onClick={() => onEditDeckTriggerClick(item)}>
                 <EditIcon />
               </button>
-              {modalState.edit && (
-                <EditDeckModal
-                  deckData={item}
-                  onClose={() => toggleModalHandler('edit', false)}
-                  onFormSubmit={onEdit}
-                  open={modalState.edit}
-                />
-              )}
+              <button onClick={() => onDeleteDeckTriggerClick(item)}>
+                <BinIcon />
+              </button>
             </>
-          )}
-          {isMyDeck && (
-            <ConfirmDeleteModal
-              deletedElement={'Deck'}
-              elementName={item.name}
-              onClose={() => toggleModalHandler('delete', false)}
-              onConfirm={() => onConfirmDelete(item.id)}
-              open={modalState.delete}
-              triggerProps={{ onClick: () => toggleModalHandler('delete', true) }}
-            />
           )}
         </div>
       </td>
@@ -79,8 +59,8 @@ const DecksTableRow = (props: DecksTableRowProps) => {
 }
 
 export type DecksTableBodyProps = {
-  onConfirmDelete: (id: string) => void
-  onEdit: (data: UpdateDeckArgs) => void
+  onDeleteDeckTriggerClick: (deckData: Deck) => void
+  onEditDeckTriggerClick: (deckData: Deck) => void
   onGoToDeck?: () => void
   onLearn: (deck: Deck) => void
   tableRowsData: Deck[]

@@ -35,8 +35,6 @@ export const SingIn = (props: SingInProps) => {
     resolver: zodResolver(signInSchema),
   })
 
-  console.log('errors: ', errors)
-
   const classNames = clsx(s.signIn, className)
 
   return (

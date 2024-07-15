@@ -32,8 +32,6 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
     resolver: zodResolver(forgotPasswordSchema),
   })
 
-  console.log('errors: ', errors)
-
   const classNames = clsx(s.forgotPassword, className)
 
   return (

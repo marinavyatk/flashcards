@@ -30,8 +30,6 @@ export const CreateNewPassword = (props: CreateNewPasswordProps) => {
     resolver: zodResolver(createNewPasswordSchema),
   })
 
-  console.log('errors: ', errors)
-
   const classNames = clsx(s.createPassword, className)
 
   return (

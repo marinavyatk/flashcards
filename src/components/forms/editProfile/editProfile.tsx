@@ -41,8 +41,6 @@ export const EditProfile = (props: EditProfileProps) => {
     resolver: zodResolver(editProfileSchema),
   })
 
-  console.log('errors: ', errors)
-
   const [editMode, setEditMode] = useState(false)
 
   const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {

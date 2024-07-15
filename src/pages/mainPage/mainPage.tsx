@@ -8,12 +8,15 @@ import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
 } from '@/common/customHooks/searchParamsHooks'
+import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { decksTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
 import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
 import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
+import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
+import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -34,6 +37,10 @@ import s from './mainPage.module.scss'
 
 export const MainPage = () => {
   const userData = useOutletContext()
+  const { modalState, toggleModalHandler } = useModalStateHandler<'deleteDeck' | 'editDeck'>({
+    deleteDeck: { deckData: {}, open: false },
+    editDeck: { deckData: {}, open: false },
+  })
   const {
     data: minMaxData,
     error: minMaxError,
@@ -119,7 +126,7 @@ export const MainPage = () => {
   }
 
   const handleEditDeck = async (data: UpdateDeckArgs) => {
-    await updateDeck(data).then(toast.success('Deck successfully updated'))
+    await updateDeck(data).then(() => toast.success('Deck successfully updated'))
   }
 
   const handleGoToDeck = () => {
@@ -128,6 +135,13 @@ export const MainPage = () => {
 
   const handleLearn = async (deck: Deck) => {
     navigate(`/decks/${deck.id}/learn`, { state: { deckData: deck } })
+  }
+
+  const handleEditDeckTriggerClick = (deckData: Deck) => {
+    toggleModalHandler('editDeck', { deckData: deckData, open: true })
+  }
+  const handleDeleteDeckTriggerClick = (deckData: Deck) => {
+    toggleModalHandler('deleteDeck', { deckData: deckData, open: true })
   }
 
   return (
@@ -194,8 +208,8 @@ export const MainPage = () => {
             }
           >
             <DecksTableBody
-              onConfirmDelete={handleDeleteDeck}
-              onEdit={handleEditDeck}
+              onDeleteDeckTriggerClick={handleDeleteDeckTriggerClick}
+              onEditDeckTriggerClick={handleEditDeckTriggerClick}
               onGoToDeck={handleGoToDeck}
               onLearn={handleLearn}
               tableRowsData={decksData?.items || []}
@@ -223,6 +237,24 @@ export const MainPage = () => {
           }}
         />
       </div>
+      {modalState.editDeck.open && (
+        <EditDeckModal
+          deckData={modalState.editDeck.deckData}
+          onClose={() => toggleModalHandler('editDeck', { deckData: null, open: false })}
+          onFormSubmit={handleEditDeck}
+          open={modalState.editDeck.open}
+        />
+      )}
+      {modalState.deleteDeck.open && (
+        <ConfirmDeleteModal
+          deletedElement={'Deck'}
+          elementName={modalState.deleteDeck.deckData.name}
+          needShowTrigger={false}
+          onClose={() => toggleModalHandler('deleteDeck', { deckData: null, open: false })}
+          onConfirm={() => handleDeleteDeck(modalState.deleteDeck.deckData.id)}
+          open={modalState.deleteDeck.open}
+        />
+      )}
     </PageTemplate>
   )
 }

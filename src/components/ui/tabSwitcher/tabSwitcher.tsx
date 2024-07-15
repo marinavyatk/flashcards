@@ -19,7 +19,12 @@ export const TabSwitcher = ({ className, itemProps, ...restProps }: TabSwitcherP
   const classNames = clsx(s.toggleRoot, className)
 
   return (
-    <ToggleGroup.Root {...restProps} className={classNames} type={'single'}>
+    <ToggleGroup.Root
+      {...restProps}
+      className={classNames}
+      orientation={'horizontal'}
+      type={'single'}
+    >
       {items}
     </ToggleGroup.Root>
   )

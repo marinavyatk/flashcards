@@ -1,5 +1,6 @@
 .toggleRoot {
   overflow: hidden;
+  display: flex;
   width: fit-content;
   border-radius: 2px;
 }
@@ -11,6 +12,7 @@
 
   font-size: 16px;
   line-height: var(--line-height-m);
+  white-space: nowrap;
 
   background-color: transparent;
   border-top: 1px solid var(--color-dark-300);

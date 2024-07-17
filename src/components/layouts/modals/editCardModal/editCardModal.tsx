@@ -4,11 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
-import {
-  addNewCardFormValues,
-  updateCardFormValues,
-  updateCardSchema,
-} from '@/common/formValidation'
+import { updateCardFormValues, updateCardSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
@@ -47,7 +43,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
     resolver: zodResolver(updateCardSchema),
   })
 
-  const handleFormSubmit = (data: addNewCardFormValues) => {
+  const handleFormSubmit = (data: updateCardFormValues) => {
     const preparedData = prepareData(data, dirtyFields)
 
     isDirty && onFormSubmit({ cardId: cardData?.id, ...preparedData })
@@ -64,10 +60,10 @@ export const EditCardModal = (props: EditCardModalProps) => {
   const handleRemoveAnswerCover = () =>
     handleFileChange(undefined, answerCover, setAnswerCover, 'answerImg', setValue)
 
-  const handleChangeQuestionCover = newFile =>
+  const handleChangeQuestionCover = (newFile: File | undefined) =>
     handleFileChange(newFile, questionCover, setQuestionCover, 'questionImg', setValue)
 
-  const handleChangeAnswerCover = newFile =>
+  const handleChangeAnswerCover = (newFile: File | undefined) =>
     handleFileChange(newFile, answerCover, setAnswerCover, 'answerImg', setValue)
 
   return (

@@ -52,10 +52,8 @@ export type addNewDeckFromValues = z.infer<typeof addNewDeckSchema>
 export const addNewCardSchema = z.object({
   answer: z.string().min(3).max(500),
   answerImg: fileSchema,
-  answerVideo: fileSchema,
   question: z.string().min(3).max(500),
   questionImg: fileSchema,
-  questionVideo: fileSchema,
 })
 
 export type addNewCardFormValues = z.infer<typeof addNewCardSchema>
@@ -67,7 +65,7 @@ export const saveGradeSchema = z.object({
 export type saveGradeFormValues = z.infer<typeof saveGradeSchema>
 
 export const updateDeckSchema = z.object({
-  cover: fileSchema,
+  cover: fileSchema.or(z.string().url()),
   isPrivate: z.boolean().optional(),
   name: z.string().min(3).max(30).optional(),
 })
@@ -76,11 +74,9 @@ export type updateDeckFormValues = z.infer<typeof updateDeckSchema>
 
 export const updateCardSchema = z.object({
   answer: z.string().min(3).max(500).optional(),
-  answerImg: fileSchema,
-  answerVideo: fileSchema,
+  answerImg: fileSchema.or(z.string().url()),
   question: z.string().min(3).max(500).optional(),
-  questionImg: fileSchema,
-  questionVideo: fileSchema,
+  questionImg: fileSchema.or(z.string().url()),
 })
 
 export type updateCardFormValues = z.infer<typeof updateCardSchema>

@@ -3,8 +3,7 @@ import { ComponentPropsWithoutRef, ReactNode } from 'react'
 import CloseIcon from '@/assets/svg/closeIcon.svg?react'
 import { Typography } from '@/components/ui/typography'
 import * as Dialog from '@radix-ui/react-dialog'
-import { DialogProps } from '@radix-ui/react-dialog'
-import { DialogContentProps } from '@radix-ui/react-dialog/dist'
+import { DialogContentProps, DialogProps } from '@radix-ui/react-dialog'
 import clsx from 'clsx'
 
 import s from './modal.module.scss'
@@ -32,7 +31,7 @@ export const Modal = (props: ModalProps) => {
                 </Typography>
               </Dialog.Title>
               <Dialog.Close asChild>
-                <button className={s.closeButton}>
+                <button className={s.closeButton} type={'button'}>
                   <CloseIcon className={s.closeIcon} />
                 </button>
               </Dialog.Close>

@@ -9,7 +9,6 @@ import {
 } from '@/services/cards/cardsTypes'
 import { decksApi } from '@/services/decks/decksApi'
 import { flashcardsApi } from '@/services/flashcards-api'
-import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const cardsApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
@@ -33,7 +32,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
       deleteCard: builder.mutation<void, DeleteCard>({
         invalidatesTags: ['Cards', 'Decks'],
         async onQueryStarted({ cardId }, { dispatch, getState, queryFulfilled }) {
-          const patchResult: PatchCollection = []
+          const patchResult: any = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Cards' }])
 
           invalidateBy.forEach(({ originalArgs }) => {
@@ -73,14 +72,14 @@ export const cardsApi = flashcardsApi.injectEndpoints({
         providesTags: ['RandomCard'],
         query: ({ deckId, ...args }) => ({
           method: 'GET',
-          params: { ...args } ?? undefined,
+          params: args ?? undefined,
           url: `/v1/decks/${deckId}/learn`,
         }),
       }),
       saveCardGrade: builder.mutation<Card, SaveCardGradeArgs>({
         invalidatesTags: ['Cards'],
         query: ({ deckId, ...args }) => ({
-          body: { ...args },
+          body: args,
           method: 'POST',
           url: `/v1/decks/${deckId}/learn`,
         }),
@@ -91,7 +90,7 @@ export const cardsApi = flashcardsApi.injectEndpoints({
           { answerImg, cardId, questionImg, ...args },
           { dispatch, getState, queryFulfilled }
         ) {
-          const patchResult: PatchCollection = []
+          const patchResult: any = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Cards' }])
           const questionImgObjectURL = questionImg ? URL.createObjectURL(questionImg) : ''
           const answerImgObjectURL = answerImg ? URL.createObjectURL(answerImg) : ''

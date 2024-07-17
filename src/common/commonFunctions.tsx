@@ -1,18 +1,12 @@
 import { toast } from 'react-toastify'
 
-import {
-  UseFormClearErrors,
-  UseFormSetError,
-  UseFormSetValue,
-} from 'react-hook-form/dist/types/form'
-
 export const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString('ru-RU')
 }
 
-export const handleImgError = setEmpty => {
+export const handleImgError = (setEmpty: (empty: string) => void) => {
   toast.error('Something wrong with your image. Please, try to choose another one')
-  setEmpty()
+  setEmpty('')
 }
 
 export const returnErrorText = (error: any) => {
@@ -30,7 +24,7 @@ export const handleFileChange = (
   cover: string,
   setCover: (cover: string) => void,
   fieldName: string,
-  setValue: UseFormSetValue
+  setValue: any
 ) => {
   if (cover) {
     URL.revokeObjectURL(cover)
@@ -43,10 +37,11 @@ export const handleFileChange = (
   }
 }
 
+type Data = { [key: string]: any }
 export const prepareData = (data: any, dirtyFields: any) => {
-  const updatedKeys = Object.keys(dirtyFields) as keyof (typeof dirtyFields)[]
+  const updatedKeys = Object.keys(dirtyFields) as unknown as Array<keyof typeof dirtyFields>
   const dataKeys = Object.keys(data)
-  const preparedData = {}
+  const preparedData: Data = {}
 
   dataKeys.forEach(key => {
     if (!updatedKeys.includes(key)) {
@@ -67,8 +62,8 @@ export const handleTextChange = (
   value: string,
   maxLength: number,
   fieldName: string,
-  setError: UseFormSetError,
-  clearErrors: UseFormClearErrors
+  setError: any,
+  clearErrors: any
 ) => {
   if (value.length > maxLength) {
     setError(fieldName, {

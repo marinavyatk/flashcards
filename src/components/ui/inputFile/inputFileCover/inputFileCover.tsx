@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef } from 'react'
+import { ChangeEvent } from 'react'
 
 import { InputFile, InputFileProps } from '@/components/ui/inputFile'
 import clsx from 'clsx'
@@ -10,7 +10,7 @@ export type InputFileCoverProps = {
   onFileChange?: (file: File | undefined) => void
 } & InputFileProps
 
-export const InputFileCover = forwardRef((props: InputFileCoverProps, ref: HTMLInputElement) => {
+export const InputFileCover = (props: InputFileCoverProps) => {
   const { children, onChange, onFileChange, ...restProps } = props
 
   const classNames = clsx(s.inputFileCover, restProps?.containerProps?.className)
@@ -33,4 +33,4 @@ export const InputFileCover = forwardRef((props: InputFileCoverProps, ref: HTMLI
       {children}
     </InputFile>
   )
-})
+}

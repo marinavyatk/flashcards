@@ -20,11 +20,7 @@ type ForgotPasswordProps = {
 
 export const ForgotPassword = (props: ForgotPasswordProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<ForgotPasswordFormValues>({
+  const { control, handleSubmit } = useForm<ForgotPasswordFormValues>({
     defaultValues: {
       email: '',
     },

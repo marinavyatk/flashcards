@@ -22,33 +22,6 @@
     max-width: 299px;
   }
 
-  .deckMainInfo {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-
-    a {
-      text-decoration: none;
-    }
-  }
-
-  .actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-
-    button {
-      all: unset;
-      cursor: pointer;
-
-      svg {
-        width: 16px;
-        height: 16px;
-        fill: var(--color-light-100);
-      }
-    }
-  }
-
   .table {
     margin: 36px 0 24px;
   }

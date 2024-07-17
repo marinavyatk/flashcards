@@ -24,6 +24,7 @@ import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
 import { TextField } from '@/components/ui/textField'
 import { Typography } from '@/components/ui/typography'
+import { UserData } from '@/services/auth/authApiTypes'
 import { CreateDeckArgs, Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import {
   useCreateDeckMutation,
@@ -36,7 +37,7 @@ import {
 import s from './mainPage.module.scss'
 
 export const MainPage = () => {
-  const userData = useOutletContext()
+  const userData: UserData = useOutletContext()
   const { modalState, toggleModalHandler } = useModalStateHandler<'deleteDeck' | 'editDeck'>({
     deleteDeck: { deckData: {}, open: false },
     editDeck: { deckData: {}, open: false },

@@ -10,7 +10,6 @@ import {
   VerifyUserEmailArgs,
 } from '@/services/auth/authApiTypes'
 import { flashcardsApi } from '@/services/flashcards-api'
-import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const AuthApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
@@ -23,7 +22,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       getCurrentUserData: builder.query<UserData, void>({
-        keepUnusedDataFor: 0,
+        // keepUnusedDataFor: 0,
         providesTags: ['UserData'],
         query: () => ({
           method: 'GET',
@@ -76,10 +75,10 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       signOut: builder.mutation<void, void>({
         invalidatesTags: ['UserData'],
-        async onQueryStarted(_, { dispatch }) {
-          dispatch(flashcardsApi.util.resetApiState())
-          localStorage.clear()
-        },
+        // async onQueryStarted(_, { dispatch }) {
+        //   dispatch(flashcardsApi.util.resetApiState())
+        //   localStorage.clear()
+        // },
         query: () => ({
           method: 'POST',
           url: '/v2/auth/logout',
@@ -88,7 +87,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       updateUserData: builder.mutation<UserData, UpdateUserData>({
         invalidatesTags: ['UserData'],
         async onQueryStarted({ avatar, name }, { dispatch, getState, queryFulfilled }) {
-          const patchResult: PatchCollection = []
+          const patchResult: any = []
           const invalidateBy = AuthApi.util.selectInvalidatedBy(getState(), [{ type: 'UserData' }])
           const formData = new FormData()
 

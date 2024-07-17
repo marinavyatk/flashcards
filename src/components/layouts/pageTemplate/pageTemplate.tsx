@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import { Header } from '@/components/layouts/header'
 import { PageLoader } from '@/components/ui/loader/loader'
 import { LoaderLine } from '@/components/ui/loaderLine/loaderLine'
+import { UserData } from '@/services/auth/authApiTypes'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -16,7 +17,7 @@ type PageTemplateProps = {
 }
 
 export const PageTemplate = ({ children, isLoading, showTopLoader }: PageTemplateProps) => {
-  const userData = useOutletContext()
+  const userData: UserData = useOutletContext()
   const isAuthorized = !!userData
 
   return (

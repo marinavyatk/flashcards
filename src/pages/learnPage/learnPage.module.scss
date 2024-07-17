@@ -27,29 +27,6 @@
   color: var(--color-dark-100);
 }
 
-.backLink {
-  all: unset;
-
-  cursor: pointer;
-
-  display: flex;
-  gap: 10px;
-  align-items: center;
-
-  margin-bottom: 36px;
-
-  &:hover {
-    transform: translateY(2px);
-    color: var(--color-accent-300);
-    transition: all 0.4s;
-
-    svg {
-      fill: var(--color-accent-300);
-      transition: all 0.4s;
-    }
-  }
-}
-
 .nextQuestionButton {
   margin-top: 30px;
 }

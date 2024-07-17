@@ -20,11 +20,7 @@ type SingUpProps = {
 
 export const SingUp = (props: SingUpProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<SignUpFormValues>({
+  const { control, handleSubmit } = useForm<SignUpFormValues>({
     defaultValues: {
       confirmPassword: '',
       email: '',

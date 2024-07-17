@@ -11,7 +11,7 @@ export type InputFileProps = {
 
 export const InputFile = forwardRef<HTMLInputElement, InputFileProps>((props, ref) => {
   const { children, className, containerProps, labelProps, ...restProps } = props
-  const inputClassNames = clsx(s.inputFile, restProps?.className)
+  const inputClassNames = clsx(s.inputFile, className)
   const labelClassNames = clsx(s.inputFileLabel, labelProps?.className)
   const id = useId()
 

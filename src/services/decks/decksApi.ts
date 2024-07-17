@@ -1,4 +1,3 @@
-// import type { PatchCollection } from '@reduxjs/toolkit'
 import {
   CreateDeckArgs,
   Deck,
@@ -12,7 +11,6 @@ import {
   UpdateDeckArgs,
 } from '@/services/decks/decks.types'
 import { flashcardsApi } from '@/services/flashcards-api'
-import { PatchCollection } from '@reduxjs/toolkit/dist/query/core/buildThunks'
 
 export const decksApi = flashcardsApi.injectEndpoints({
   endpoints: builder => {
@@ -40,7 +38,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
       deleteDeck: builder.mutation<void, DeleteDeckArgs>({
         invalidatesTags: ['Decks'],
         async onQueryStarted({ id }, { dispatch, getState, queryFulfilled }) {
-          const patchResult: PatchCollection = []
+          const patchResult: any = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
 
           invalidateBy.forEach(({ originalArgs }) => {
@@ -102,7 +100,7 @@ export const decksApi = flashcardsApi.injectEndpoints({
       updateDeck: builder.mutation<Deck, UpdateDeckArgs>({
         invalidatesTags: ['Decks'],
         async onQueryStarted({ cover, id, ...args }, { dispatch, getState, queryFulfilled }) {
-          const patchResult: PatchCollection = []
+          const patchResult: any = []
           const invalidateBy = decksApi.util.selectInvalidatedBy(getState(), [{ type: 'Decks' }])
           const coverObjectURL = cover ? URL.createObjectURL(cover) : ''
 

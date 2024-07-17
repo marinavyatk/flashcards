@@ -23,7 +23,11 @@ export const Modal = (props: ModalProps) => {
         <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className={s.overlay} />
-          <Dialog.Content {...contentProps} className={clsx(s.content, contentProps?.className)}>
+          <Dialog.Content
+            {...contentProps}
+            aria-describedby={undefined}
+            className={clsx(s.content, contentProps?.className)}
+          >
             <div className={s.header}>
               <Dialog.Title className={s.title}>
                 <Typography as={'span'} variant={'h3'}>

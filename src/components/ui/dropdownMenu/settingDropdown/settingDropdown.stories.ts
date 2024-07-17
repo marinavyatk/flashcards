@@ -15,8 +15,11 @@ export const DropdownMenuWithSettings: Story = {
   args: {
     deletedElement: 'Card',
     id: '1234',
-    onConfirmDelete: (id: string) => {
-      console.log(id)
+    onConfirmDelete: () => {
+      console.log('Delete')
+    },
+    onLearn: () => {
+      console.log('Delete')
     },
   },
 }

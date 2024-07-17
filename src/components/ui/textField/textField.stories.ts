@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import TextareaAutosize from 'react-textarea-autosize'
-
 import { TextField } from './'
 
 const meta = {
@@ -65,15 +63,5 @@ export const SearchDisabled: Story = {
     disabled: true,
     placeholder: 'primary input disabled',
     type: 'search',
-  },
-}
-export const Textarea: Story = {
-  args: {
-    as: TextareaAutosize,
-    disabled: false,
-    onValueChange: () => {
-      alert('reset')
-    },
-    placeholder: 'primary input',
   },
 }

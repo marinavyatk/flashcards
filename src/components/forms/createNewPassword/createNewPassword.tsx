@@ -18,11 +18,7 @@ type CreateNewPasswordProps = {
 
 export const CreateNewPassword = (props: CreateNewPasswordProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<CreateNewPasswordFormValues>({
+  const { control, handleSubmit } = useForm<CreateNewPasswordFormValues>({
     defaultValues: {
       password: '',
     },

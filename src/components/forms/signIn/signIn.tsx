@@ -21,11 +21,7 @@ type SingInProps = {
 
 export const SingIn = (props: SingInProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<SignInFormValues>({
+  const { control, handleSubmit } = useForm<SignInFormValues>({
     defaultValues: {
       email: '',
       password: '',

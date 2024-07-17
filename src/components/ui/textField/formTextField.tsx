@@ -8,11 +8,11 @@ export type FormTextFieldProps<T extends FieldValues> = { as?: T } & Omit<
 > &
   UseControllerProps<T>
 export const FormTextField = <T extends FieldValues>(props: FormTextFieldProps<T>) => {
-  const { control, defaultValue, name, rules, shouldUnregister, ...textFieldProps } = props
+  const { as, control, defaultValue, name, rules, shouldUnregister, ...textFieldProps } = props
   const {
     field,
     fieldState: { error },
   } = useController({ control, defaultValue, name, rules, shouldUnregister })
 
-  return <TextField {...textFieldProps} errorMessage={error?.message} {...field} />
+  return <TextField {...textFieldProps} errorMessage={error?.message} {...field} as={as} />
 }

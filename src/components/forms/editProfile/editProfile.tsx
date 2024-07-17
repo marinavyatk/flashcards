@@ -28,12 +28,7 @@ type EditProfileProps = {
 export const EditProfile = (props: EditProfileProps) => {
   const { className, email, name, onFormSubmit, onSignOut, profilePhoto, ...restProps } = props
   const classNames = clsx(s.editProfile, className)
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<EditProfileFormValues>({
+  const { control, handleSubmit, reset } = useForm<EditProfileFormValues>({
     defaultValues: {
       name: '',
     },

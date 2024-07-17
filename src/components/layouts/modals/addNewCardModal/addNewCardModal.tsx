@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import TextareaAutosize from 'react-textarea-autosize'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { addNewCardFormValues, addNewCardSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
-import { FormTextField } from '@/components/ui/textField/formTextField'
+import { FormTextArea } from '@/components/ui/textarea/formTextArea'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -74,12 +73,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
       trigger={<Button>Add New Card</Button>}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
-        <FormTextField
-          as={TextareaAutosize}
-          control={control}
-          label={'Question'}
-          name={'question'}
-        />
+        <FormTextArea control={control} label={'Question'} name={'question'} />
         {questionCover && <img alt={'Question Cover'} className={s.cover} src={questionCover} />}
         <FormInputFileCover
           control={control}
@@ -92,7 +86,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
           </Typography>
         </FormInputFileCover>
 
-        <FormTextField as={TextareaAutosize} control={control} label={'Answer'} name={'answer'} />
+        <FormTextArea control={control} label={'Answer'} name={'answer'} />
         {answerCover && <img alt={'Deck Cover'} className={s.cover} src={answerCover} />}
         <FormInputFileCover
           control={control}

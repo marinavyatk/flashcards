@@ -1,9 +1,7 @@
 import {
   ChangeEvent,
   ComponentPropsWithoutRef,
-  ElementType,
   ForwardedRef,
-  ReactElement,
   forwardRef,
   useRef,
   useState,
@@ -33,32 +31,20 @@ function getFinalType(
   return 'password'
 }
 
-export type TextFieldProps<T extends ElementType = 'input'> = {
-  as?: T
+export type TextFieldProps = {
   containerProps?: ComponentPropsWithoutRef<'div'>
   errorMessage?: string
   label?: string
   onValueChange?: (value: string) => void
   variant?: 'password' | 'primary' | 'search'
-} & ComponentPropsWithoutRef<T>
+} & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef(
-  <T extends ElementType = 'input'>(
-    props: TextFieldProps<T>,
-    ref: ForwardedRef<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const {
-      as: Component = 'input',
-      className,
-      containerProps,
-      errorMessage,
-      label,
-      onValueChange,
-      type,
-      ...restProps
-    } = props
+  (props: TextFieldProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const { className, containerProps, errorMessage, label, onValueChange, type, ...restProps } =
+      props
     const [isPasswordShown, setIsPasswordShown] = useState(false)
-    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
     const finalRef = useCombinedRef(ref, inputRef)
     const containerClassNames = clsx(s.textField, containerProps?.className, {
       [s.disabled]: restProps.disabled,
@@ -72,7 +58,7 @@ export const TextField = forwardRef(
     const isPasswordVisibilityButtonShown = type === 'password'
     const isDeleteButtonShown = type === 'search'
 
-    function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
       restProps.onChange?.(event)
       onValueChange?.(event.target.value)
     }
@@ -93,7 +79,7 @@ export const TextField = forwardRef(
           <div className={s.startElements}>
             {finalType === 'search' && <SearchIcon className={s.searchIcon} />}
 
-            <Component
+            <input
               {...restProps}
               className={inputClassNames}
               disabled={restProps.disabled}
@@ -126,6 +112,4 @@ export const TextField = forwardRef(
       </div>
     )
   }
-) as (
-  props: { ref?: ForwardedRef<HTMLInputElement | HTMLTextAreaElement> } & TextFieldProps
-) => ReactElement
+)

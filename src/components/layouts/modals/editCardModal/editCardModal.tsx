@@ -1,6 +1,5 @@
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import TextareaAutosize from 'react-textarea-autosize'
 
 import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
@@ -8,7 +7,7 @@ import { updateCardFormValues, updateCardSchema } from '@/common/formValidation'
 import { Button } from '@/components/ui/button'
 import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
-import { FormTextField } from '@/components/ui/textField/formTextField'
+import { FormTextArea } from '@/components/ui/textarea/formTextArea'
 import { Typography } from '@/components/ui/typography'
 import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -80,12 +79,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
       trigger={trigger}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
-        <FormTextField
-          as={TextareaAutosize}
-          control={control}
-          label={'Question'}
-          name={'question'}
-        />
+        <FormTextArea control={control} label={'Question'} name={'question'} />
         {questionCover && (
           <img
             alt={'Question Cover'}
@@ -118,7 +112,7 @@ export const EditCardModal = (props: EditCardModalProps) => {
           </FormInputFileCover>
         </div>
 
-        <FormTextField as={TextareaAutosize} control={control} label={'Answer'} name={'answer'} />
+        <FormTextArea control={control} label={'Answer'} name={'answer'} />
         {answerCover && (
           <img
             alt={'Deck Cover'}

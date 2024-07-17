@@ -180,9 +180,9 @@ export const MainPage = () => {
               Number of cards
             </Typography>
             <Slider
+              key={`${minCardsCount}-${maxCardsCount}`}
               rootProps={{
                 defaultValue: cardsNumbersFromSearchParams,
-                key: `${minCardsCount}-${maxCardsCount}`,
                 max: minMaxData ? minMaxData.max : undefined,
                 min: minMaxData ? minMaxData.min : undefined,
                 onValueCommit: handleCardsCountChange,

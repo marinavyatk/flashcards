@@ -1,9 +1,8 @@
 import BinIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
-import RatingStar from '@/assets/svg/ratingStar.svg?react'
-import RatingStarEmpty from '@/assets/svg/ratingStarEmpty.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
+import { Rating } from '@/components/ui/rating/rating'
 import { Card } from '@/services/cards/cardsTypes'
 
 import s from './appTable.module.scss'
@@ -24,27 +23,6 @@ export const CardsTableBody = (props: CardsTableBodyProps) => {
   })
 
   return <>{tableRows}</>
-}
-
-type RatingProps = {
-  cardId: string
-  grade: number
-}
-const Rating = (props: RatingProps) => {
-  const { cardId, grade } = props
-  const stars = [1, 2, 3, 4, 5]
-
-  return (
-    <div className={s.grade}>
-      {stars.map(star => {
-        if (grade >= star) {
-          return <RatingStar key={star + cardId} />
-        }
-
-        return <RatingStarEmpty key={star + cardId} />
-      })}
-    </div>
-  )
 }
 
 const CardsTableRow = (props: CardsTableRowProps) => {

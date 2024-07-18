@@ -1,4 +1,4 @@
-import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
+import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -55,7 +55,6 @@ export const DeckPage = () => {
     setSearchParams,
   } = useAppSearchParams()
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
-  const navigate = useNavigate()
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
@@ -111,9 +110,6 @@ export const DeckPage = () => {
     searchParams.delete('search')
     handleSearchChange('')
     setSearchParams(searchParams)
-  }
-  const handleLearn = () => {
-    navigate(`/decks/${deckData?.id}/learn`)
   }
 
   const handleDeleteCard = () => {
@@ -197,9 +193,9 @@ export const DeckPage = () => {
                   deletedElement={'Deck'}
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
+                  learnPath={`/decks/${deckData?.id}/learn`}
                   onConfirmDelete={() => toggleModalHandler('deleteDeck', true)}
                   onEdit={() => toggleModalHandler('editDeck', true)}
-                  onLearn={handleLearn}
                 />
               )}
             </div>

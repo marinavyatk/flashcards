@@ -50,6 +50,11 @@
     align-items: center;
     justify-content: center;
 
+    a {
+      all: unset;
+      display: flex;
+    }
+
     svg {
       transition: transform 0.4s;
 
@@ -60,6 +65,8 @@
     }
 
     &:disabled {
+      pointer-events: none;
+
       svg {
         fill: var(--color-dark-300);
 
@@ -67,6 +74,10 @@
           transform: unset;
         }
       }
+    }
+
+    &:focus-visible {
+      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 }

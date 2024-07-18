@@ -14,6 +14,12 @@
   gap: 6px;
   align-items: center;
 
+  a {
+    all: unset;
+    display: flex;
+    gap: 6px;
+  }
+
   img,
   svg {
     cursor: pointer;

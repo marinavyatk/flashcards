@@ -67,7 +67,13 @@ const DecksTableRow = (props: DecksTableRowProps) => {
             </span>
           )}
           <button disabled={isDeckEmpty} title={learnDeckTitle}>
-            <PlayIcon onClick={() => onLearn(item)} />
+            {isDeckEmpty ? (
+              <PlayIcon />
+            ) : (
+              <Link to={`/decks/${item.id}/learn`}>
+                <PlayIcon onClick={() => onLearn(item)} />
+              </Link>
+            )}
           </button>
           {isMyDeck && (
             <>

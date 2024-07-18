@@ -81,10 +81,10 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <button onClick={() => onEditCardTriggerClick(item)}>
+            <button onClick={() => onEditCardTriggerClick(item)} title={'Edit card'}>
               <EditIcon />
             </button>
-            <button onClick={() => onDeleteCardTriggerClick(item.id)}>
+            <button onClick={() => onDeleteCardTriggerClick(item.id)} title={'Delete card'}>
               <BinIcon />
             </button>
           </div>

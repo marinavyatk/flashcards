@@ -9,6 +9,29 @@ import { Deck } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
 
+export type DecksTableBodyProps = {
+  onDeleteDeckTriggerClick: (deckData: Deck) => void
+  onEditDeckTriggerClick: (deckData: Deck) => void
+  onGoToDeck?: () => void
+  onLearn: (deck: Deck) => void
+  tableRowsData: Deck[]
+  userId: string
+}
+
+export const DecksTableBody = (props: DecksTableBodyProps) => {
+  const { tableRowsData, ...restProps } = props
+
+  if (!tableRowsData.length) {
+    return null
+  }
+
+  const tableRows = tableRowsData.map(item => {
+    return <DecksTableRow item={item} key={item.id} {...restProps} />
+  })
+
+  return <>{tableRows}</>
+}
+
 type DecksTableRowProps = {
   item: Deck
 } & Omit<DecksTableBodyProps, 'tableRowsData'>
@@ -17,6 +40,10 @@ const DecksTableRow = (props: DecksTableRowProps) => {
   const { item, onDeleteDeckTriggerClick, onEditDeckTriggerClick, onGoToDeck, onLearn, userId } =
     props
   const isMyDeck = item.author.id === userId
+  const isDeckEmpty = item.cardsCount === 0
+  const learnDeckTitle = isDeckEmpty
+    ? 'You need to have at least one card to learn the deck'
+    : 'Learn deck'
   const handleGoToDeck = () => {
     onGoToDeck?.()
   }
@@ -39,15 +66,15 @@ const DecksTableRow = (props: DecksTableRowProps) => {
               <PrivateIcon />
             </span>
           )}
-          <button disabled={item.cardsCount === 0}>
+          <button disabled={isDeckEmpty} title={learnDeckTitle}>
             <PlayIcon onClick={() => onLearn(item)} />
           </button>
           {isMyDeck && (
             <>
-              <button onClick={() => onEditDeckTriggerClick(item)}>
+              <button onClick={() => onEditDeckTriggerClick(item)} title={'Edit deck'}>
                 <EditIcon />
               </button>
-              <button onClick={() => onDeleteDeckTriggerClick(item)}>
+              <button onClick={() => onDeleteDeckTriggerClick(item)} title={'Delete deck'}>
                 <BinIcon />
               </button>
             </>
@@ -56,27 +83,4 @@ const DecksTableRow = (props: DecksTableRowProps) => {
       </td>
     </tr>
   )
-}
-
-export type DecksTableBodyProps = {
-  onDeleteDeckTriggerClick: (deckData: Deck) => void
-  onEditDeckTriggerClick: (deckData: Deck) => void
-  onGoToDeck?: () => void
-  onLearn: (deck: Deck) => void
-  tableRowsData: Deck[]
-  userId: string
-}
-
-export const DecksTableBody = (props: DecksTableBodyProps) => {
-  const { tableRowsData, ...restProps } = props
-
-  if (!tableRowsData.length) {
-    return null
-  }
-
-  const tableRows = tableRowsData.map(item => {
-    return <DecksTableRow item={item} key={item.id} {...restProps} />
-  })
-
-  return <>{tableRows}</>
 }

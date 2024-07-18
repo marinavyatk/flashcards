@@ -113,7 +113,7 @@ export const DeckPage = () => {
     setSearchParams(searchParams)
   }
   const handleLearn = () => {
-    navigate(`/decks/${deckData?.id}/learn`, { state: { deckData: deckData } })
+    navigate(`/decks/${deckData?.id}/learn`)
   }
 
   const handleDeleteCard = () => {

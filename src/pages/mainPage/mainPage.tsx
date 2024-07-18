@@ -134,8 +134,8 @@ export const MainPage = () => {
     localStorage.setItem('urlSearchParams', urlSearchParams)
   }
 
-  const handleLearn = async (deck: Deck) => {
-    navigate(`/decks/${deck.id}/learn`, { state: { deckData: deck } })
+  const handleLearn = (deck: Deck) => {
+    navigate(`/decks/${deck.id}/learn`)
   }
 
   const handleEditDeckTriggerClick = (deckData: Deck) => {

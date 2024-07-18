@@ -12,6 +12,12 @@
   color: var(--color-light-100);
   text-decoration: none;
 
+  .imgContainer {
+    overflow: hidden;
+    background-color: var(--color-dark-300);
+    border-radius: 2px;
+  }
+
   .deckName {
     transition: transform 0.4s;
   }

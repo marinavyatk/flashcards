@@ -9,10 +9,7 @@ import {
   selectMinValue,
   tabSwitcherValueDefault,
 } from '@/common/constants'
-import {
-  useAppSearchParams,
-  useDebouncedInputSearchValue,
-} from '@/common/customHooks/searchParamsHooks'
+import { useAppSearchParams } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { decksTableData } from '@/common/tableData'
@@ -27,7 +24,7 @@ import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
 import { Table } from '@/components/ui/table'
-import { TextField } from '@/components/ui/textField'
+import { TextFieldDebounced } from '@/components/ui/textField/textFieldDebounced'
 import { Typography } from '@/components/ui/typography'
 import { UserData } from '@/services/auth/authApiTypes'
 import { CreateDeckArgs, Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
@@ -60,7 +57,6 @@ export const MainPage = () => {
     useUpdateDeckMutation()
   const { search: urlSearchParams } = useLocation()
   const navigate = useNavigate()
-  const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const {
     currentPage,
     deckOwnership,
@@ -68,6 +64,7 @@ export const MainPage = () => {
     handleCurrentPageChange,
     handleOrderByChange,
     handlePageSizeChange,
+    handleSearchInputChange,
     handleSwitchDeckOwnership,
     maxCardsCount,
     minCardsCount,
@@ -77,8 +74,6 @@ export const MainPage = () => {
     searchParams,
     setSearchParams,
   } = useAppSearchParams({ max: minMaxData?.max ?? 1, min: minMaxData?.min ?? 0 })
-
-  console.log('currentPage', currentPage)
 
   const {
     data: decksData,
@@ -99,7 +94,7 @@ export const MainPage = () => {
 
   const clearFilters = () => {
     searchParams.delete('search')
-    handleSearchChange('')
+    handleSearchInputChange('')
     searchParams.delete('minCardsCount')
     searchParams.delete('maxCardsCount')
     searchParams.delete('deckOwnership')
@@ -165,11 +160,9 @@ export const MainPage = () => {
           <AddNewDeckModal onFormSubmit={handleAddNewDeck} />
         </div>
         <div className={s.container}>
-          <TextField
-            containerProps={{ className: s.searchFilter }}
-            onValueChange={handleSearchChange}
-            type={'search'}
-            value={inputValue}
+          <TextFieldDebounced
+            setSearchInputValue={handleSearchInputChange}
+            valueFromSearchParams={search}
           />
           <div className={s.elementWithCaption}>
             <Typography as={'span'} variant={'body2'}>

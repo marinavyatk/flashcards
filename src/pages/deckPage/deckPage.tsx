@@ -1,10 +1,7 @@
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import {
-  useAppSearchParams,
-  useDebouncedInputSearchValue,
-} from '@/common/customHooks/searchParamsHooks'
+import { useAppSearchParams } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { addNewCardFormValues } from '@/common/formValidation'
@@ -22,7 +19,7 @@ import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
 import { Table } from '@/components/ui/table'
-import { TextField } from '@/components/ui/textField'
+import { TextFieldDebounced } from '@/components/ui/textField/textFieldDebounced'
 import { Typography } from '@/components/ui/typography'
 import { UserData } from '@/services/auth/authApiTypes'
 import {
@@ -48,13 +45,14 @@ export const DeckPage = () => {
     handleCurrentPageChange,
     handleOrderByChange,
     handlePageSizeChange,
+    handleSearchInputChange,
     orderBy,
     pageSize,
     search,
     searchParams,
     setSearchParams,
   } = useAppSearchParams()
-  const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
+  // const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
@@ -108,7 +106,6 @@ export const DeckPage = () => {
     searchParams.delete('currentPage')
     searchParams.delete('orderBy')
     searchParams.delete('search')
-    handleSearchChange('')
     setSearchParams(searchParams)
   }
 
@@ -210,8 +207,10 @@ export const DeckPage = () => {
           {deckData?.cover && (
             <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
           )}
-          <TextField onValueChange={handleSearchChange} type={'search'} value={inputValue} />
-
+          <TextFieldDebounced
+            setSearchInputValue={handleSearchInputChange}
+            valueFromSearchParams={search}
+          />
           {cards?.items.length ? (
             <Table
               thead={

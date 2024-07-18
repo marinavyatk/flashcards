@@ -135,11 +135,12 @@ export const DeckPage = () => {
     const urlSearchParams = localStorage.getItem('urlSearchParams')
 
     if (urlSearchParams) {
-      navigate(routes.private.main + urlSearchParams)
+      return routes.private.main + urlSearchParams
     } else {
-      navigate(routes.private.main)
+      return routes.private.main
     }
   }
+  const backLink = handleBackClick()
 
   const errors = [
     getDeckError,
@@ -157,7 +158,7 @@ export const DeckPage = () => {
     return (
       <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
         <div className={s.noCardsContainer}>
-          <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
+          <BackLink to={backLink}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
@@ -184,7 +185,7 @@ export const DeckPage = () => {
   return (
     <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
       <div className={s.deckPage}>
-        <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
+        <BackLink to={backLink}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
           <div className={s.actions}>
             <div className={s.deckNameWithOptions}>

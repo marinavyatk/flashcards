@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -70,6 +70,11 @@ export const LearnPage = () => {
     reset()
   }
 
+  const goBack = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    navigate(-1)
+  }
+
   if (isRandomCardLoading || isDeckLoading) {
     return (
       <PageTemplate>
@@ -82,7 +87,9 @@ export const LearnPage = () => {
     return (
       <PageTemplate showTopLoader={showTopLoader}>
         <div className={s.questionPage}>
-          <BackLink onClick={() => navigate(-1)}>Back to Previous Page</BackLink>
+          <BackLink onClick={goBack} to={'..'}>
+            Back to Previous Page
+          </BackLink>
           <div className={s.cardContainer}>
             <Card className={s.questionCard}>
               <Typography as={'h1'} className={s.deckTitle} variant={'large'}>

@@ -12,10 +12,10 @@
 }
 
 .ascArrow {
+  transform: rotate(-180deg);
   transition: transform 0.5s;
 }
 
 .descArrow {
-  transform: rotate(-180deg);
   transition: transform 0.5s;
 }

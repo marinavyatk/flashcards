@@ -1,18 +1,18 @@
 import { ComponentPropsWithoutRef } from 'react'
+import { Link } from 'react-router-dom'
 
 import ArrowBackIcon from '@/assets/svg/arrowBack.svg?react'
-import { Typography } from '@/components/ui/typography'
 
 import s from './backLink.module.scss'
 
-export type BackLinkProps = {} & ComponentPropsWithoutRef<'button'>
+export type BackLinkProps = { to: string } & ComponentPropsWithoutRef<'a'>
 
 export const BackLink = (props: BackLinkProps) => {
-  const { children, ...restProps } = props
+  const { children, to, ...restProps } = props
 
   return (
-    <Typography as={'button'} className={s.backLink} {...restProps} variant={'body2'}>
+    <Link to={to} {...restProps} className={s.backLink}>
       <ArrowBackIcon /> {children}
-    </Typography>
+    </Link>
   )
 }

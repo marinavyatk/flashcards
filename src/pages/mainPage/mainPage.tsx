@@ -78,6 +78,8 @@ export const MainPage = () => {
     setSearchParams,
   } = useAppSearchParams({ max: minMaxData?.max ?? 1, min: minMaxData?.min ?? 0 })
 
+  console.log('currentPage', currentPage)
+
   const {
     data: decksData,
     error: getDecksError,

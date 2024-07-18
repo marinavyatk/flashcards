@@ -1,4 +1,4 @@
-import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
+import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -55,7 +55,6 @@ export const DeckPage = () => {
     setSearchParams,
   } = useAppSearchParams()
   const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
-  const navigate = useNavigate()
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
@@ -112,9 +111,6 @@ export const DeckPage = () => {
     handleSearchChange('')
     setSearchParams(searchParams)
   }
-  const handleLearn = () => {
-    navigate(`/decks/${deckData?.id}/learn`, { state: { deckData: deckData } })
-  }
 
   const handleDeleteCard = () => {
     deleteCard({ cardId: modalState.deleteCard.cardId })
@@ -135,11 +131,12 @@ export const DeckPage = () => {
     const urlSearchParams = localStorage.getItem('urlSearchParams')
 
     if (urlSearchParams) {
-      navigate(routes.private.main + urlSearchParams)
+      return routes.private.main + urlSearchParams
     } else {
-      navigate(routes.private.main)
+      return routes.private.main
     }
   }
+  const backLink = handleBackClick()
 
   const errors = [
     getDeckError,
@@ -157,7 +154,7 @@ export const DeckPage = () => {
     return (
       <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
         <div className={s.noCardsContainer}>
-          <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
+          <BackLink to={backLink}>Back to Decks List</BackLink>
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
@@ -184,7 +181,7 @@ export const DeckPage = () => {
   return (
     <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
       <div className={s.deckPage}>
-        <BackLink onClick={handleBackClick}>Back to Decks List</BackLink>
+        <BackLink to={backLink}>Back to Decks List</BackLink>
         <div className={s.deckContainer}>
           <div className={s.actions}>
             <div className={s.deckNameWithOptions}>
@@ -196,9 +193,9 @@ export const DeckPage = () => {
                   deletedElement={'Deck'}
                   elementName={deckData?.name ?? ''}
                   id={deckData?.id ?? ''}
+                  learnPath={`/decks/${deckData?.id}/learn`}
                   onConfirmDelete={() => toggleModalHandler('deleteDeck', true)}
                   onEdit={() => toggleModalHandler('editDeck', true)}
-                  onLearn={handleLearn}
                 />
               )}
             </div>

@@ -15,12 +15,14 @@
 .deckTitle {
   margin-bottom: 45px;
   text-align: center;
+  word-break: break-word;
 }
 
 .questionContent {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  word-break: break-word;
 }
 
 .shots {

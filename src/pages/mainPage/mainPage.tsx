@@ -3,7 +3,12 @@ import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import { selectMinValue } from '@/common/constants'
+import {
+  orderByValueDefault,
+  pageDefault,
+  selectMinValue,
+  tabSwitcherValueDefault,
+} from '@/common/constants'
 import {
   useAppSearchParams,
   useDebouncedInputSearchValue,
@@ -169,10 +174,12 @@ export const MainPage = () => {
               Show decks cards
             </Typography>
             <TabSwitcher
-              defaultValue={'All Cards'}
-              itemProps={[{ value: 'My Cards' }, { value: 'All Cards' }]}
+              itemProps={[
+                { itemName: 'My Cards', value: '~caller' },
+                { itemName: 'All Cards', value: 'all' },
+              ]}
               onValueChange={handleSwitchDeckOwnership}
-              value={deckOwnership === '~caller' ? 'My Cards' : 'All Cards'}
+              value={deckOwnership ?? tabSwitcherValueDefault}
             />
           </div>
           <div className={s.elementWithCaption}>
@@ -203,7 +210,7 @@ export const MainPage = () => {
                   cellsData={decksTableData}
                   changeSort={handleOrderByChange}
                   currentOrderBy={orderBy}
-                  defaultValue={'updated-desc'}
+                  defaultValue={orderByValueDefault}
                 />
               </tr>
             }
@@ -226,7 +233,7 @@ export const MainPage = () => {
         <AppPagination
           className={s.pagination}
           paginationProps={{
-            currentPage: decksData?.pagination.currentPage || 1,
+            currentPage: decksData?.pagination.currentPage || pageDefault,
             onPageChange: handleCurrentPageChange,
             totalCount: decksData?.pagination.totalItems || 1,
           }}

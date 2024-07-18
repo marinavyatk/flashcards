@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { selectMinValue } from '@/common/constants'
+import {
+  orderByValueDefault,
+  pageDefault,
+  selectMinValue,
+  tabSwitcherValueDefault,
+} from '@/common/constants'
 import { useDebounce } from '@/common/customHooks/useDebounce'
 
 export const useAppSearchParams = (args: { max: number; min: number } | void) => {
@@ -30,8 +35,8 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
   }
 
   const handleSwitchDeckOwnership = (value: string) => {
-    if (value === 'My Cards') {
-      searchParams.set('deckOwnership', '~caller')
+    if (value !== tabSwitcherValueDefault) {
+      searchParams.set('deckOwnership', value)
     } else {
       searchParams.delete('deckOwnership')
     }
@@ -40,7 +45,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
   }
 
   const handleOrderByChange = (value: string) => {
-    if (value !== 'updated-desc') {
+    if (value !== orderByValueDefault) {
       searchParams.set('orderBy', value)
     } else {
       searchParams.delete('orderBy')
@@ -50,7 +55,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
   }
 
   const handleCurrentPageChange = (value: number) => {
-    if (value !== 1) {
+    if (value !== pageDefault) {
       searchParams.set('currentPage', String(value))
     } else {
       searchParams.delete('currentPage')

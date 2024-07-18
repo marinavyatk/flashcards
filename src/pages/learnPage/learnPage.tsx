@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { saveGradeFormValues, saveGradeSchema } from '@/common/formValidation'
@@ -14,6 +14,7 @@ import { FormRadioGroup } from '@/components/ui/radioGroup/formRadioGroup'
 import { Typography } from '@/components/ui/typography'
 import { useRetrieveRandomCardQuery, useSaveCardGradeMutation } from '@/services/cards/cardsApi'
 import { Card as RandomCard } from '@/services/cards/cardsTypes'
+import { useRetrieveDeckQuery } from '@/services/decks/decksApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import s from './learnPage.module.scss'
@@ -22,19 +23,23 @@ export const LearnPage = () => {
   const [showAnswer, setShowAnswer] = useState(false)
   const [cardData, setCurrentCard] = useState<RandomCard | undefined>(undefined)
   const navigate = useNavigate()
-  const { state } = useLocation()
-  const { deckData } = state
+  const { deckId } = useParams()
   const [saveGrade, { error: saveGradeError, isLoading: showTopLoader }] =
     useSaveCardGradeMutation()
+  const {
+    data: deckData,
+    error: getDeckError,
+    isLoading: isDeckLoading,
+  } = useRetrieveDeckQuery({ id: deckId ?? '' })
   const {
     data: randomCard,
     error: randomCardError,
     isLoading: isRandomCardLoading,
   } = useRetrieveRandomCardQuery({
-    deckId: deckData?.id ? deckData?.id : '',
+    deckId: deckId ?? '',
   })
 
-  const errors = [saveGradeError, randomCardError]
+  const errors = [saveGradeError, randomCardError, getDeckError]
 
   useShowErrors(errors)
 
@@ -56,7 +61,7 @@ export const LearnPage = () => {
   const onSubmit = async (data: saveGradeFormValues) => {
     const newRandomCard = await saveGrade({
       cardId: cardData?.id ?? '',
-      deckId: deckData?.id,
+      deckId: deckData?.id ?? '',
       grade: Number(data.grade),
     })
 
@@ -65,7 +70,12 @@ export const LearnPage = () => {
     reset()
   }
 
-  if (isRandomCardLoading) {
+  const goBack = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    navigate(-1)
+  }
+
+  if (isRandomCardLoading || isDeckLoading) {
     return (
       <PageTemplate>
         <PageLoader />
@@ -77,7 +87,9 @@ export const LearnPage = () => {
     return (
       <PageTemplate showTopLoader={showTopLoader}>
         <div className={s.questionPage}>
-          <BackLink onClick={() => navigate(-1)}>Back to Previous Page</BackLink>
+          <BackLink onClick={goBack} to={'..'}>
+            Back to Previous Page
+          </BackLink>
           <div className={s.cardContainer}>
             <Card className={s.questionCard}>
               <Typography as={'h1'} className={s.deckTitle} variant={'large'}>

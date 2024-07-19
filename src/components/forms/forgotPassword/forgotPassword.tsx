@@ -20,7 +20,11 @@ type ForgotPasswordProps = {
 
 export const ForgotPassword = (props: ForgotPasswordProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const { control, handleSubmit } = useForm<ForgotPasswordFormValues>({
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+  } = useForm<ForgotPasswordFormValues>({
     defaultValues: {
       email: '',
     },
@@ -45,7 +49,9 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
         <Typography as={'p'} className={s.instruction} variant={'body2'}>
           Enter your email address and we will send you further instructions
         </Typography>
-        <Button fullWidth>Send Instructions</Button>
+        <Button disabled={isSubmitting} fullWidth>
+          Send Instructions
+        </Button>
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Did you remember your password?
         </Typography>

@@ -98,7 +98,7 @@ devDependencies:
     specifier: 7.6.4
     version: 7.6.4(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
   '@storybook/manager-api':
-    specifier: ^8.1.0
+    specifier: ^8.2.4
     version: 8.2.4(storybook@7.6.4)
   '@storybook/react':
     specifier: 7.6.4
@@ -110,8 +110,8 @@ devDependencies:
     specifier: 7.6.4
     version: 7.6.4
   '@storybook/theming':
-    specifier: ^8.1.0
-    version: 8.2.4(storybook@7.6.4)
+    specifier: 8.0.10
+    version: 8.0.10(react-dom@18.3.1)(react@18.3.1)
   '@types/node':
     specifier: ^20.10.4
     version: 20.14.10
@@ -3857,6 +3857,12 @@ packages:
     dependencies:
       '@storybook/global': 5.0.0
 
+  /@storybook/client-logger@8.0.10:
+    resolution: {integrity: sha512-u38SbZNAunZzxZNHMJb9jkUwFkLyWxmvp4xtiRM3u9sMUShXoTnzbw1yKrxs+kYJjg+58UQPZ1JhEBRcHt5Oww==}
+    dependencies:
+      '@storybook/global': 5.0.0
+    dev: true
+
   /@storybook/codemod@7.6.4:
     resolution: {integrity: sha512-q4rZVOfozxzbDRH/LzuFDoIGBdXs+orAm18fi6iAx8PeMHe8J/MOXKccNV1zdkm/h7mTQowuRo45KwJHw8vX+g==}
     dependencies:
@@ -4345,12 +4351,23 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@storybook/theming@8.2.4(storybook@7.6.4):
-    resolution: {integrity: sha512-B4HQMzTeg1TgV9uPDIoDkMSnP839Y05I9+Tw60cilAD+jTqrCvMlccHfehsTzJk+gioAflunATcbU05TMZoeIQ==}
+  /@storybook/theming@8.0.10(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-7NHt7bMC7lPkwz9KdDpa6DkLoQZz5OV6jsx/qY91kcdLo1rpnRPAiVlJvmWesFxi1oXOpVDpHHllWzf8KDBv8A==}
     peerDependencies:
-      storybook: ^8.2.4
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
     dependencies:
-      storybook: 7.6.4
+      '@emotion/use-insertion-effect-with-fallbacks': 1.0.1(react@18.3.1)
+      '@storybook/client-logger': 8.0.10
+      '@storybook/global': 5.0.0
+      memoizerific: 1.11.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     dev: true
 
   /@storybook/types@7.6.20:

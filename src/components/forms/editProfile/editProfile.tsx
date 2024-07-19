@@ -1,10 +1,12 @@
-import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react'
+import { ChangeEvent, ComponentPropsWithoutRef, MouseEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import LogOutIcon from '@/assets/svg/icon-out.svg?react'
 import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
 import { EditProfileFormValues, editProfileSchema } from '@/common/formValidation'
+import { BackLink } from '@/components/layouts/backLink/backLink'
 import { Card } from '@/components/ui/card'
 import { InputFileUserPhoto } from '@/components/ui/inputFile/inputFileUserPhoto'
 import { FormTextField } from '@/components/ui/textField/formTextField'
@@ -28,6 +30,7 @@ type EditProfileProps = {
 export const EditProfile = (props: EditProfileProps) => {
   const { className, email, name, onFormSubmit, onSignOut, profilePhoto, ...restProps } = props
   const classNames = clsx(s.editProfile, className)
+  const navigate = useNavigate()
   const {
     control,
     formState: { isSubmitting },
@@ -62,68 +65,77 @@ export const EditProfile = (props: EditProfileProps) => {
     setEditMode(false)
     reset()
   }
+  const goBack = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    navigate(-1)
+  }
 
   return (
-    <Card className={classNames} {...restProps}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography as={'h1'} className={s.header} variant={'large'}>
-          Personal Information
-        </Typography>
+    <div className={s.editProfileContainer}>
+      <BackLink onClick={goBack} to={'..'}>
+        Back to Previous Page
+      </BackLink>
+      <Card className={classNames} {...restProps}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Typography as={'h1'} className={s.header} variant={'large'}>
+            Personal Information
+          </Typography>
 
-        <div className={s.profilePhoto}>
-          {profilePhoto ? (
-            <img alt={'Profile photo'} src={profilePhoto} />
+          <div className={s.profilePhoto}>
+            {profilePhoto ? (
+              <img alt={'Profile photo'} src={profilePhoto} />
+            ) : (
+              <ProfilePhotoDefault />
+            )}
+            {!editMode && (
+              <InputFileUserPhoto containerProps={{ className: s.file }} onChange={onFileChange} />
+            )}
+          </div>
+          {editMode ? (
+            <>
+              <FormTextField
+                containerProps={{ className: s.formTextField }}
+                control={control}
+                label={'Nickname'}
+                name={'name'}
+              />
+              <Button className={s.submitButton} disabled={isSubmitting} fullWidth>
+                Save Changes
+              </Button>
+              <Button
+                className={s.cancelButton}
+                fullWidth
+                onClick={handleCancel}
+                type={'button'}
+                variant={'secondary'}
+              >
+                Cancel
+              </Button>
+            </>
           ) : (
-            <ProfilePhotoDefault />
-          )}
-          {!editMode && (
-            <InputFileUserPhoto containerProps={{ className: s.file }} onChange={onFileChange} />
-          )}
-        </div>
-        {editMode ? (
-          <>
-            <FormTextField
-              containerProps={{ className: s.formTextField }}
-              control={control}
-              label={'Nickname'}
-              name={'name'}
-            />
-            <Button className={s.submitButton} disabled={isSubmitting} fullWidth>
-              Save Changes
-            </Button>
-            <Button
-              className={s.cancelButton}
-              fullWidth
-              onClick={handleCancel}
-              type={'button'}
-              variant={'secondary'}
-            >
-              Cancel
-            </Button>
-          </>
-        ) : (
-          <>
-            <div className={s.name}>
-              <Typography variant={'h2'}>{name}</Typography>
-              <button onClick={handleEdit}>
-                <EditIcon />
-              </button>
-            </div>
+            <>
+              <div className={s.name}>
+                <Typography variant={'h2'}>{name}</Typography>
+                <button onClick={handleEdit}>
+                  <EditIcon />
+                </button>
+              </div>
 
-            <Typography className={s.email} variant={'body2'}>
-              {email}
-            </Typography>
-            <Button
-              className={s.logoutButton}
-              onClick={onSignOut}
-              type={'button'}
-              variant={'secondary'}
-            >
-              <LogOutIcon /> Logout
-            </Button>
-          </>
-        )}
-      </form>
-    </Card>
+              <Typography className={s.email} variant={'body2'}>
+                {email}
+              </Typography>
+              <Button
+                className={s.logoutButton}
+                onClick={onSignOut}
+                type={'button'}
+                variant={'secondary'}
+              >
+                <LogOutIcon /> Logout
+              </Button>
+            </>
+          )}
+        </form>
+      </Card>
+    </div>
   )
 }

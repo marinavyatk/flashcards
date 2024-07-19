@@ -20,7 +20,11 @@ type SingUpProps = {
 
 export const SingUp = (props: SingUpProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const { control, handleSubmit } = useForm<SignUpFormValues>({
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+  } = useForm<SignUpFormValues>({
     defaultValues: {
       confirmPassword: '',
       email: '',
@@ -48,7 +52,9 @@ export const SingUp = (props: SingUpProps) => {
             type={'password'}
           />
         </div>
-        <Button fullWidth>Sing Up</Button>
+        <Button disabled={isSubmitting} fullWidth>
+          Sing Up
+        </Button>
         <Typography as={'span'} className={s.footerCapture} variant={'body2'}>
           Already have an account?
         </Typography>

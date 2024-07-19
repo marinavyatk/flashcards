@@ -13,14 +13,17 @@ type Story = StoryObj<typeof meta>
 
 export const TabSwitcherWithTwoItems: Story = {
   args: {
-    itemProps: [{ value: 'My cards' }, { value: 'All cards' }],
+    itemProps: [
+      { itemName: 'My cards', value: 'my-cards' },
+      { itemName: 'All cards', value: 'all-cards' },
+    ],
   },
 }
 export const TabSwitcherDisabled: Story = {
   args: {
     itemProps: [
-      { disabled: true, value: 'My cards' },
-      { disabled: false, value: 'All cards' },
+      { disabled: true, itemName: 'my-cards', value: 'My cards' },
+      { disabled: false, itemName: 'all-cards', value: 'All cards' },
     ],
   },
 }
@@ -28,11 +31,11 @@ export const TabSwitcherWithFewValues: Story = {
   args: {
     defaultValue: 'Her cards',
     itemProps: [
-      { value: 'My cards' },
-      { value: 'Her cards' },
-      { value: 'His cards' },
-      { value: 'Its cards' },
-      { value: 'All cards' },
+      { itemName: 'My cards', value: 'my-cards' },
+      { itemName: 'Her cards', value: 'her-cards' },
+      { itemName: 'His cards', value: 'his-cards' },
+      { itemName: 'Its cards', value: 'its-cards' },
+      { itemName: 'All cards', value: 'all-cards' },
     ],
   },
 }

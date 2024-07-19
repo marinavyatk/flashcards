@@ -28,7 +28,12 @@ type EditProfileProps = {
 export const EditProfile = (props: EditProfileProps) => {
   const { className, email, name, onFormSubmit, onSignOut, profilePhoto, ...restProps } = props
   const classNames = clsx(s.editProfile, className)
-  const { control, handleSubmit, reset } = useForm<EditProfileFormValues>({
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+    reset,
+  } = useForm<EditProfileFormValues>({
     defaultValues: {
       name: '',
     },
@@ -83,7 +88,7 @@ export const EditProfile = (props: EditProfileProps) => {
               label={'Nickname'}
               name={'name'}
             />
-            <Button className={s.submitButton} fullWidth>
+            <Button className={s.submitButton} disabled={isSubmitting} fullWidth>
               Save Changes
             </Button>
             <Button

@@ -24,7 +24,7 @@ export const LearnPage = () => {
   const [cardData, setCurrentCard] = useState<RandomCard | undefined>(undefined)
   const navigate = useNavigate()
   const { deckId } = useParams()
-  const [saveGrade, { error: saveGradeError, isLoading: showTopLoader }] =
+  const [saveGrade, { error: saveGradeError, isLoading: isSaveGradeLoading }] =
     useSaveCardGradeMutation()
   const {
     data: deckData,
@@ -85,7 +85,7 @@ export const LearnPage = () => {
 
   if (cardData) {
     return (
-      <PageTemplate showTopLoader={showTopLoader}>
+      <PageTemplate showTopLoader={isSaveGradeLoading}>
         <div className={s.questionPage}>
           <BackLink onClick={goBack} to={'..'}>
             Back to Previous Page
@@ -185,7 +185,11 @@ export const LearnPage = () => {
                           },
                         ]}
                       />
-                      <Button className={s.nextQuestionButton} fullWidth>
+                      <Button
+                        className={s.nextQuestionButton}
+                        disabled={isSaveGradeLoading}
+                        fullWidth
+                      >
                         Next Question
                       </Button>
                     </form>

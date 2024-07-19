@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo from '@/assets/svg/logo.svg?react'
+import Logo from '@/assets/logo.png'
 import { routes } from '@/common/router'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,8 +24,10 @@ export const Header = (props: HeaderProps) => {
   return (
     <header className={classNames} {...restProps}>
       <div className={s.innerContainer}>
-        <Link to={routes.private.main}>
-          <Logo className={s.logo} />
+        <Link className={s.logoWithText} to={routes.private.main}>
+          Flash
+          <img className={s.logo} src={Logo} />
+          Cards
         </Link>
         {isAuthorized ? (
           userDropdownProps && (

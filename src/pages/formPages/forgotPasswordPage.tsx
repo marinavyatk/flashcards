@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { routes } from '@/common/router'
 import { ForgotPassword } from '@/components/forms/forgotPassword'
+import { NewAccountEmail } from '@/components/layouts/emails/newAccountEmail/newAccountEmail'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { useSendPasswordRecoveryEmailMutation } from '@/services/auth/authApi'
 import { SendPasswordRecoveryEmailArgs } from '@/services/auth/authApiTypes'
@@ -15,7 +16,7 @@ export const ForgotPasswordPage = () => {
   useShowErrors(errors)
   const navigate = useNavigate()
   const onSubmit = async (data: SendPasswordRecoveryEmailArgs) => {
-    await sendPasswordRecoveryEmail(data)
+    await sendPasswordRecoveryEmail({ ...data, html: <NewAccountEmail userName={} /> })
       .unwrap()
       .then(() => navigate(routes.public.checkEmail))
   }

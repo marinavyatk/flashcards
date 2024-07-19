@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
@@ -9,6 +9,7 @@ import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { useResetPasswordMutation } from '@/services/auth/authApi'
 
 export const CreateNewPasswordPage = () => {
+  const { token } = useParams()
   const [createNewPassword, { error: resetPasswordError, isLoading: showTopLoader }] =
     useResetPasswordMutation()
 
@@ -18,8 +19,7 @@ export const CreateNewPasswordPage = () => {
 
   const navigate = useNavigate()
   const onSubmit = async (data: CreateNewPasswordFormValues) => {
-    const token = localStorage.getItem('accessToken') as string
-    const requestData = { ...data, token }
+    const requestData = { ...data, token: token ?? '' }
 
     await createNewPassword(requestData)
       .unwrap()

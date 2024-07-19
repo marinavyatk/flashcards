@@ -57,13 +57,13 @@ export const recoverPasswordEmail = `
             </tr>
             <tr>
               <td align="center" style="padding: 20px 0;">
-                <a href="http://localhost:5173/create-new-password" style="display: block; text-align: center; padding: 12px 0; background-color: #a280ff; color: #ffffff; text-decoration: none; border-radius: 4px; width: 100%;">Recover password</a>
+                <a href="http://localhost:5173/create-new-password/##token##" style="display: block; text-align: center; padding: 12px 0; background-color: #a280ff; color: #ffffff; text-decoration: none; border-radius: 4px; width: 100%;">Recover password</a>
               </td>
             </tr>
             <tr>
               <td align="center" style="color: #ffffff; padding: 20px 0;">
                 <p style="margin: 0; color: #ffffff;">If it doesn't work, copy and paste the following link in your browser:<br/>
-                http://localhost:5173/create-new-password</p>
+                http://localhost:5173/create-new-password/##token##</p>
               </td>
             </tr>
           </table>

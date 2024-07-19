@@ -75,10 +75,10 @@ export const AuthApi = flashcardsApi.injectEndpoints({
       }),
       signOut: builder.mutation<void, void>({
         invalidatesTags: ['UserData'],
-        // async onQueryStarted(_, { dispatch }) {
-        //   dispatch(flashcardsApi.util.resetApiState())
-        //   localStorage.clear()
-        // },
+        async onQueryStarted(_, { dispatch }) {
+          dispatch(flashcardsApi.util.resetApiState())
+          localStorage.clear()
+        },
         query: () => ({
           method: 'POST',
           url: '/v2/auth/logout',

@@ -5,6 +5,7 @@ export const formatDate = (date: string) => {
 }
 
 export const handleImgError = (setEmpty: (empty: string) => void) => {
+  console.log('handleImgError')
   toast.error('Something wrong with your image. Please, try to choose another one')
   setEmpty('')
 }

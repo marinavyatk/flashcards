@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import {
@@ -7,7 +6,6 @@ import {
   selectMinValue,
   tabSwitcherValueDefault,
 } from '@/common/constants'
-import { useDebounce } from '@/common/customHooks/useDebounce'
 
 export const useAppSearchParams = (args: { max: number; min: number } | void) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -73,6 +71,19 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     setSearchParams(searchParams)
   }
 
+  const handleSearchInputChange = (debouncedInputValue: string) => {
+    if (search === debouncedInputValue || (search === null && debouncedInputValue === '')) {
+      return
+    }
+    if (debouncedInputValue) {
+      searchParams.set('search', debouncedInputValue)
+    } else {
+      searchParams.delete('search')
+    }
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
+  }
+
   return {
     currentPage,
     deckOwnership,
@@ -80,6 +91,7 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     handleCurrentPageChange,
     handleOrderByChange,
     handlePageSizeChange,
+    handleSearchInputChange,
     handleSwitchDeckOwnership,
     maxCardsCount,
     minCardsCount,
@@ -89,27 +101,4 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     searchParams,
     setSearchParams,
   }
-}
-
-export const useDebouncedInputSearchValue = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const search = searchParams.get('search')
-  const [inputValue, setInputValue] = useState(search ?? '')
-
-  const debouncedInputValue = useDebounce(inputValue, 1000)
-  const handleSearchChange = (value: string) => {
-    setInputValue(value)
-  }
-
-  useEffect(() => {
-    if (debouncedInputValue) {
-      searchParams.set('search', debouncedInputValue)
-    } else {
-      searchParams.delete('search')
-    }
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }, [debouncedInputValue])
-
-  return { handleSearchChange, inputValue }
 }

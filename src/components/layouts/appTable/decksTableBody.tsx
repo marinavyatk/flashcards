@@ -52,12 +52,16 @@ const DecksTableRow = (props: DecksTableRowProps) => {
     <tr key={item.id}>
       <td>
         <Link className={s.deckMainInfo} onClick={handleGoToDeck} to={`/decks/${item.id}`}>
-          {item.cover && <img alt={'Deck cover'} src={item.cover} />}
+          {item.cover && (
+            <div className={s.imgContainer}>
+              <img alt={'Deck cover'} src={item.cover} />
+            </div>
+          )}
           <span className={s.deckName}>{item.name}</span>
         </Link>
       </td>
       <td>{item.cardsCount}</td>
-      <td>{formatDate(item.created)}</td>
+      <td>{formatDate(item.updated)}</td>
       <td>{item.author.name}</td>
       <td>
         <div className={s.actions}>

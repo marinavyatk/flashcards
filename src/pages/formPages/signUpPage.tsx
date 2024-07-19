@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
+import { confirmEmail } from '@/common/emails'
 import { SignUpFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
 import { SingUp } from '@/components/forms/signUp'
@@ -16,7 +17,13 @@ export const SignUpPage = () => {
   useShowErrors(errors)
   const navigate = useNavigate()
   const onSubmit = async (data: SignUpFormValues) => {
-    const requestData: CreateNewAccountArgs = { email: data.email, password: data.password }
+    const requestData: CreateNewAccountArgs = {
+      email: data.email,
+      html: confirmEmail,
+      password: data.password,
+      sendConfirmationEmail: true,
+      subject: 'Welcome on FlashCards',
+    }
 
     await signUp(requestData)
       .unwrap()

@@ -12,6 +12,10 @@ export const handleImgError = (setEmpty: (empty: string) => void) => {
 
 export const returnErrorText = (error: any) => {
   if (error.status === 400) {
+    if (error.data === undefined) {
+      return error.errorMessages[0].message
+    }
+
     return error.data.errorMessages[0].message
   } else if (error.status === 401) {
     return error.data.message

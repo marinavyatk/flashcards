@@ -31,7 +31,7 @@ export const routes = {
   },
   public: {
     checkEmail: '/check-email',
-    createNewPassword: '/create-new-password',
+    createNewPassword: '/create-new-password/:token',
     forgotPassword: '/forgot-password',
     signIn: '/sign-in',
     signUp: '/sign-up',

@@ -18,7 +18,11 @@ type CreateNewPasswordProps = {
 
 export const CreateNewPassword = (props: CreateNewPasswordProps) => {
   const { className, onFormSubmit, ...restProps } = props
-  const { control, handleSubmit } = useForm<CreateNewPasswordFormValues>({
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+  } = useForm<CreateNewPasswordFormValues>({
     defaultValues: {
       password: '',
     },
@@ -44,7 +48,10 @@ export const CreateNewPassword = (props: CreateNewPasswordProps) => {
         <Typography as={'p'} className={s.instruction} variant={'body2'}>
           Create new password and we will send you further instructions to email
         </Typography>
-        <Button fullWidth>Create new password</Button>
+        <Button disabled={isSubmitting} fullWidth>
+          {' '}
+          Create new password
+        </Button>
       </form>
     </Card>
   )

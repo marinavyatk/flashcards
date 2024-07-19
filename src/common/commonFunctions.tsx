@@ -5,14 +5,13 @@ export const formatDate = (date: string) => {
 }
 
 export const handleImgError = (setEmpty: (empty: string) => void) => {
-  console.log('handleImgError')
   toast.error('Something wrong with your image. Please, try to choose another one')
   setEmpty('')
 }
 
 export const returnErrorText = (error: any) => {
   if (error.status === 400) {
-    return error.data.errorMessages[0].message
+    return error.data.errorMessages[0].message ?? error.data.errorMessages[0]
   } else if (error.status === 401) {
     return error.data.message
   } else {

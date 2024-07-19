@@ -22,7 +22,6 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       getCurrentUserData: builder.query<UserData, void>({
-        // keepUnusedDataFor: 0,
         providesTags: ['UserData'],
         query: () => ({
           method: 'GET',
@@ -36,8 +35,8 @@ export const AuthApi = flashcardsApi.injectEndpoints({
         }),
       }),
       resetPassword: builder.mutation<void, ResetPasswordArgs>({
-        query: ({ password, token }) => ({
-          body: password,
+        query: ({ token, ...args }) => ({
+          body: args,
           method: 'POST',
           url: `/v1/auth/reset-password/${token}`,
         }),

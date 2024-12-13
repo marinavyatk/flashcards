@@ -1,0 +1,79 @@
+.decksList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.deckCard {
+  overflow: hidden;
+  border: 1px solid var(--color-dark-500);
+  border-radius: 5px;
+}
+
+.deckInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 16px;
+}
+
+.deckMainInfo {
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.imgContainer {
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nameBlock {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 16px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--color-dark-300);
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+
+  button,
+  a {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 6px 36px;
+
+    border-top: 1px solid var(--color-dark-500);
+    border-right: 1px solid var(--color-dark-500);
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}

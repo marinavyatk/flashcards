@@ -10,6 +10,7 @@ import {
   DropdownMenuComponent,
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
+import { Picture } from '@/components/ui/picture'
 import { Typography } from '@/components/ui/typography'
 import { useSignOutMutation } from '@/services/auth/authApi'
 
@@ -43,7 +44,11 @@ export const UserDropdown = (props: UserDropdownProps) => {
           <Typography as={'span'} className={s.name} variant={'subtitle1'}>
             {name}
           </Typography>
-          <img alt={'open menu'} className={s.trigger} src={avatar || ProfilePhotoDefault} />
+          <Picture
+            alt={'open menu'}
+            containerProps={{ className: s.avatar }}
+            src={avatar || ProfilePhotoDefault}
+          />
         </div>
       }
       {...restProps}
@@ -52,7 +57,11 @@ export const UserDropdown = (props: UserDropdownProps) => {
     >
       <DropdownItem>
         <div className={s.userSection}>
-          <img alt={'Your photo'} src={avatar || ProfilePhotoDefault} />
+          <Picture
+            alt={'Your photo'}
+            containerProps={{ className: s.avatar }}
+            src={avatar || ProfilePhotoDefault}
+          />
           <div className={s.userInfo}>
             <Typography as={'span'} className={s.userName} variant={'subtitle2'}>
               {name}

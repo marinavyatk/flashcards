@@ -5,6 +5,7 @@ import EditIcon from '@/assets/svg/editIcon.svg?react'
 import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import PrivateIcon from '@/assets/svg/privateIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
+import { Picture } from '@/components/ui/picture'
 import { Deck } from '@/services/decks/decks.types'
 
 import s from './appTable.module.scss'
@@ -32,7 +33,7 @@ export const DecksTableBody = (props: DecksTableBodyProps) => {
   return <>{tableRows}</>
 }
 
-type DecksTableRowProps = {
+export type DecksTableRowProps = {
   item: Deck
 } & Omit<DecksTableBodyProps, 'tableRowsData'>
 
@@ -53,9 +54,11 @@ const DecksTableRow = (props: DecksTableRowProps) => {
       <td>
         <Link className={s.deckMainInfo} onClick={handleGoToDeck} to={`/decks/${item.id}`}>
           {item.cover && (
-            <div className={s.imgContainer}>
-              <img alt={'Deck cover'} src={item.cover} />
-            </div>
+            <Picture
+              alt={'Deck cover'}
+              containerProps={{ className: s.imgContainer }}
+              src={item.cover}
+            />
           )}
           <span className={s.deckName}>{item.name}</span>
         </Link>
@@ -70,21 +73,30 @@ const DecksTableRow = (props: DecksTableRowProps) => {
               <PrivateIcon />
             </span>
           )}
-          <button disabled={isDeckEmpty} title={learnDeckTitle}>
-            {isDeckEmpty ? (
+          {isDeckEmpty ? (
+            <button disabled={isDeckEmpty} title={learnDeckTitle} type={'button'}>
               <PlayIcon />
-            ) : (
-              <Link to={`/decks/${item.id}/learn`}>
-                <PlayIcon onClick={() => onLearn(item)} />
-              </Link>
-            )}
-          </button>
+            </button>
+          ) : (
+            <Link to={`/decks/${item.id}/learn`}>
+              <PlayIcon onClick={() => onLearn(item)} />
+            </Link>
+          )}
+
           {isMyDeck && (
             <>
-              <button onClick={() => onEditDeckTriggerClick(item)} title={'Edit deck'}>
+              <button
+                onClick={() => onEditDeckTriggerClick(item)}
+                title={'Edit deck'}
+                type={'button'}
+              >
                 <EditIcon />
               </button>
-              <button onClick={() => onDeleteDeckTriggerClick(item)} title={'Delete deck'}>
+              <button
+                onClick={() => onDeleteDeckTriggerClick(item)}
+                title={'Delete deck'}
+                type={'button'}
+              >
                 <BinIcon />
               </button>
             </>

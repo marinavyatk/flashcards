@@ -117,7 +117,7 @@ export const LearnPage = () => {
                   />
                 )}
                 <Typography className={s.shots} variant={'body2'}>
-                  Number of attempts to answer the question: {cardData.shots}
+                  Number of attempts to answer the question:&nbsp;{cardData.shots}
                 </Typography>
                 {!showAnswer ? (
                   <Button fullWidth onClick={handleChangeShowAnswer}>

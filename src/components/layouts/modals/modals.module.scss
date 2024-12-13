@@ -14,6 +14,8 @@
 
 .buttonsBlock {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
 }
@@ -49,5 +51,15 @@
   img {
     max-width: 70vw;
     max-height: calc(90vh - 66px);
+  }
+}
+
+@media (width <= 560px) {
+  .coverControlBlock {
+    flex-wrap: wrap;
+  }
+
+  .buttonsBlock button {
+    width: 100%;
   }
 }

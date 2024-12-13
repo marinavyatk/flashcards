@@ -40,3 +40,9 @@
 .image {
   width: 100%;
 }
+
+@media (width <= 767px) {
+  .questionCard {
+    padding: 13px 16px 28px;
+  }
+}

@@ -84,7 +84,19 @@ export const useAppSearchParams = (args: { max: number; min: number } | void) =>
     setSearchParams(searchParams)
   }
 
+  const clearFilters = () => {
+    searchParams.delete('search')
+    handleSearchInputChange('')
+    searchParams.delete('minCardsCount')
+    searchParams.delete('maxCardsCount')
+    searchParams.delete('deckOwnership')
+    searchParams.delete('orderBy')
+    searchParams.delete('currentPage')
+    setSearchParams(searchParams)
+  }
+
   return {
+    clearFilters,
     currentPage,
     deckOwnership,
     handleCardsCountChange,

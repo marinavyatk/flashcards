@@ -10,3 +10,11 @@
   gap: 12px;
   align-items: center;
 }
+
+@media (width <= 560px) {
+  .appPagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+}

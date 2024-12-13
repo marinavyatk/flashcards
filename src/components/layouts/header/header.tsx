@@ -25,9 +25,9 @@ export const Header = (props: HeaderProps) => {
     <header className={classNames} {...restProps}>
       <div className={s.innerContainer}>
         <Link className={s.logoWithText} to={routes.private.main}>
-          Flash
-          <img className={s.logo} src={Logo} />
-          Cards
+          <span className={s.word}>Flash</span>
+          <img alt={'Logo'} className={s.logo} src={Logo} />
+          <span className={s.word}>Cards</span>
         </Link>
         {isAuthorized ? (
           userDropdownProps && (

@@ -14,6 +14,7 @@ export const Slider = ({ className, rootProps, ...restProps }: SliderProps) => {
   const minValueRef = useRef<HTMLInputElement>(null)
   const maxValueRef = useRef<HTMLInputElement>(null)
   const classNames = clsx(s.sliderContainer, className)
+  const rootClassNames = clsx(s.sliderRoot, rootProps.className)
 
   useEffect(() => {
     if (minValueRef.current && maxValueRef.current && rootProps?.defaultValue) {
@@ -31,7 +32,7 @@ export const Slider = ({ className, rootProps, ...restProps }: SliderProps) => {
       <div className={s.extremeNumber} ref={minValueRef} />
       <RadixSlider.Root
         {...rootProps}
-        className={s.sliderRoot}
+        className={rootClassNames}
         onLostPointerCapture={(event: PointerEvent) => {
           const target = event.target as HTMLSpanElement
           const value = Number(target.ariaValueNow)

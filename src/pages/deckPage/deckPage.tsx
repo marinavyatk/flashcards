@@ -6,19 +6,17 @@ import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { addNewCardFormValues } from '@/common/formValidation'
 import { routes } from '@/common/router'
-import { cardsTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
-import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
-import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { CardsTable } from '@/components/layouts/appTable/cardsTable'
 import { BackLink } from '@/components/layouts/backLink/backLink'
 import { AddNewCardModal } from '@/components/layouts/modals/addNewCardModal/addNewCardModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditCardModal } from '@/components/layouts/modals/editCardModal/editCardModal'
 import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { SettingDropdown } from '@/components/ui/dropdownMenu/settingDropdown/settingDropdown'
-import { Table } from '@/components/ui/table'
 import { TextFieldDebounced } from '@/components/ui/textField/textFieldDebounced'
 import { Typography } from '@/components/ui/typography'
 import { UserData } from '@/services/auth/authApiTypes'
@@ -52,7 +50,6 @@ export const DeckPage = () => {
     searchParams,
     setSearchParams,
   } = useAppSearchParams()
-  // const { handleSearchChange, inputValue } = useDebouncedInputSearchValue()
   const { modalState, toggleModalHandler } = useModalStateHandler<
     'deleteCard' | 'deleteDeck' | 'editCard' | 'editDeck'
   >({
@@ -61,6 +58,7 @@ export const DeckPage = () => {
     editCard: { cardData: {}, open: false },
     editDeck: false,
   })
+
   const [updateDeck, { error: updateDeckError, isLoading: isUpdateDeckLoading }] =
     useUpdateDeckMutation()
   const [deleteDeck, { error: deleteDeckError, isLoading: isDeleteDeckLoading }] =
@@ -101,8 +99,8 @@ export const DeckPage = () => {
     await deleteDeck({ id: deckId ? deckId : '' }).then(handleBackClick)
   }
 
-  const handleAddNewCard = (data: addNewCardFormValues) => {
-    createCard({ ...data, id: deckId ? deckId : '' })
+  const handleAddNewCard = async (data: addNewCardFormValues) => {
+    await createCard({ ...data, id: deckId ? deckId : '' })
     searchParams.delete('currentPage')
     searchParams.delete('orderBy')
     searchParams.delete('search')
@@ -147,6 +145,13 @@ export const DeckPage = () => {
 
   useShowErrors(errors)
 
+  const deckCover = deckData?.cover && (
+    <ViewCloserModal
+      imgSrc={deckData?.cover}
+      trigger={<img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />}
+    />
+  )
+
   if (deckData?.cardsCount === 0) {
     return (
       <PageTemplate isLoading={isCardsLoading} showTopLoader={showTopLoader}>
@@ -155,9 +160,7 @@ export const DeckPage = () => {
           <Typography as={'h1'} className={s.deckName} variant={'large'}>
             {deckData?.name}
           </Typography>
-          {deckData?.cover && (
-            <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
-          )}
+          {deckCover}
           <div className={s.noCardMessage}>
             {isMyDeck ? (
               <>
@@ -204,34 +207,20 @@ export const DeckPage = () => {
               </Button>
             )}
           </div>
-          {deckData?.cover && (
-            <img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />
-          )}
+          {deckCover}
           <TextFieldDebounced
             setSearchInputValue={handleSearchInputChange}
             valueFromSearchParams={search}
           />
           {cards?.items.length ? (
-            <Table
-              thead={
-                <tr>
-                  <TableHead
-                    cellsData={cardsTableData}
-                    changeSort={handleOrderByChange}
-                    currentOrderBy={orderBy}
-                    defaultValue={'updated-desc'}
-                  />
-                  {isMyDeck && <th></th>}
-                </tr>
-              }
-            >
-              <CardsTableBody
-                isMyDeck={isMyDeck}
-                onDeleteCardTriggerClick={handleDeleteCardTriggerClick}
-                onEditCardTriggerClick={handleEditCardTriggerClick}
-                tableRowsData={cards.items}
-              />
-            </Table>
+            <CardsTable
+              handleOrderByChange={handleOrderByChange}
+              isMyDeck={isMyDeck}
+              onDeleteCardTriggerClick={handleDeleteCardTriggerClick}
+              onEditCardTriggerClick={handleEditCardTriggerClick}
+              orderBy={orderBy}
+              tableRowsData={cards.items}
+            />
           ) : (
             <Typography className={s.noMatchingCaption} variant={'body1'}>
               No matching results. Change the search terms and try again
@@ -267,7 +256,6 @@ export const DeckPage = () => {
         onConfirm={handleDeleteCard}
         open={modalState.deleteCard.open}
       />
-
       {modalState.editDeck && (
         <EditDeckModal
           deckData={deckData ?? ({} as Deck)}

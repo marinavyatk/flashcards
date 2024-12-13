@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import s from './table.module.scss'
 
 export type TableProps = {
-  thead: ReactNode
+  thead?: ReactNode
 } & ComponentPropsWithoutRef<'table'>
 
 export const Table = (props: TableProps) => {

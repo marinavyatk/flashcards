@@ -3,37 +3,30 @@
   display: flex;
   gap: 14px;
   align-items: center;
+}
 
-  .name {
-    border-bottom: 1px var(--color-light-100) dashed;
-  }
+.name {
+  border-bottom: 1px var(--color-light-100) dashed;
+}
 
-  img {
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 }
 
 .userSection {
   display: flex;
   gap: 8px;
+}
 
-  img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
 
-  .userInfo {
-    display: flex;
-    flex-direction: column;
-
-    .userEmail {
-      color: var(--color-dark-100);
-    }
-  }
+.userEmail {
+  color: var(--color-dark-100);
 }
 
 .dropItem {
@@ -42,7 +35,6 @@
   gap: 6px;
   align-items: center;
 
-  img,
   svg {
     width: 16px;
     height: 16px;

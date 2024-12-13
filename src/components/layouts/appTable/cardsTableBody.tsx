@@ -2,6 +2,7 @@ import BinIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
+import { Picture } from '@/components/ui/picture'
 import { Rating } from '@/components/ui/rating/rating'
 import { Card } from '@/services/cards/cardsTypes'
 
@@ -31,26 +32,34 @@ const CardsTableRow = (props: CardsTableRowProps) => {
   return (
     <tr>
       <td>
-        <div className={s.cellWithImg}>
-          {item.questionImg && (
-            <ViewCloserModal
-              imgSrc={item.questionImg}
-              trigger={<img alt={'Question deck'} className={s.modalImg} src={item.questionImg} />}
-            />
-          )}
-          <span>{item.question}</span>
-        </div>
+        {item.questionImg && (
+          <ViewCloserModal
+            imgSrc={item.questionImg}
+            trigger={
+              <Picture
+                alt={'Question deck'}
+                containerProps={{ className: s.modalImg }}
+                src={item.questionImg}
+              />
+            }
+          />
+        )}
+        <span>{item.question}</span>
       </td>
       <td>
-        <div className={s.cellWithImg}>
-          {item.answerImg && (
-            <ViewCloserModal
-              imgSrc={item.answerImg}
-              trigger={<img alt={'Question deck'} className={s.modalImg} src={item.answerImg} />}
-            />
-          )}
-          <span> {item.answer}</span>
-        </div>
+        {item.answerImg && (
+          <ViewCloserModal
+            imgSrc={item.answerImg}
+            trigger={
+              <Picture
+                alt={'Question deck'}
+                containerProps={{ className: s.modalImg }}
+                src={item.answerImg}
+              />
+            }
+          />
+        )}
+        <span> {item.answer}</span>
       </td>
       <td>{formatDate(item.updated)}</td>
       <td>
@@ -59,10 +68,18 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       {isMyDeck && (
         <td>
           <div className={s.actions}>
-            <button onClick={() => onEditCardTriggerClick(item)} title={'Edit card'}>
+            <button
+              onClick={() => onEditCardTriggerClick(item)}
+              title={'Edit card'}
+              type={'button'}
+            >
               <EditIcon />
             </button>
-            <button onClick={() => onDeleteCardTriggerClick(item.id)} title={'Delete card'}>
+            <button
+              onClick={() => onDeleteCardTriggerClick(item.id)}
+              title={'Delete card'}
+              type={'button'}
+            >
               <BinIcon />
             </button>
           </div>

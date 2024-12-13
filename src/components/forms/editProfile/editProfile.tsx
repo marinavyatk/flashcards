@@ -9,6 +9,7 @@ import { EditProfileFormValues, editProfileSchema } from '@/common/formValidatio
 import { BackLink } from '@/components/layouts/backLink/backLink'
 import { Card } from '@/components/ui/card'
 import { InputFileUserPhoto } from '@/components/ui/inputFile/inputFileUserPhoto'
+import { Picture } from '@/components/ui/picture'
 import { FormTextField } from '@/components/ui/textField/formTextField'
 import { Typography } from '@/components/ui/typography'
 import { UpdateUserData } from '@/services/auth/authApiTypes'
@@ -83,7 +84,11 @@ export const EditProfile = (props: EditProfileProps) => {
 
           <div className={s.profilePhoto}>
             {profilePhoto ? (
-              <img alt={'Profile photo'} src={profilePhoto} />
+              <Picture
+                alt={'Profile photo'}
+                containerProps={{ className: s.img }}
+                src={profilePhoto}
+              />
             ) : (
               <ProfilePhotoDefault />
             )}
@@ -116,7 +121,7 @@ export const EditProfile = (props: EditProfileProps) => {
             <>
               <div className={s.name}>
                 <Typography variant={'h2'}>{name}</Typography>
-                <button onClick={handleEdit}>
+                <button onClick={handleEdit} type={'button'}>
                   <EditIcon />
                 </button>
               </div>

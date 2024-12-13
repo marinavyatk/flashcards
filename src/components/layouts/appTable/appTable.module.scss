@@ -3,20 +3,8 @@
 }
 
 .deckMainInfo {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-
-  min-width: 370px;
-
   color: var(--color-light-100);
   text-decoration: none;
-
-  .imgContainer {
-    overflow: hidden;
-    background-color: var(--color-dark-300);
-    border-radius: 2px;
-  }
 
   .deckName {
     transition: transform 0.4s;
@@ -28,6 +16,20 @@
       transition: transform 0.4s;
     }
   }
+}
+
+.imgContainer,
+.modalImg {
+  cursor: pointer;
+
+  overflow: hidden;
+  flex-shrink: 0;
+
+  width: 118px;
+  height: 48px;
+  margin-bottom: 6px;
+
+  border-radius: 2px;
 }
 
 .actions {
@@ -47,7 +49,8 @@
     }
   }
 
-  button {
+  button,
+  a {
     all: unset;
 
     cursor: pointer;
@@ -55,11 +58,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    a {
-      all: unset;
-      display: flex;
-    }
 
     svg {
       transition: transform 0.4s;
@@ -85,16 +83,5 @@
     &:focus-visible {
       outline: -webkit-focus-ring-color auto 5px;
     }
-  }
-}
-
-.cellWithImg {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  text-align: justify;
-
-  .modalImg {
-    cursor: pointer;
   }
 }

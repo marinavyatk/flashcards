@@ -1,7 +1,16 @@
+import { ComponentPropsWithoutRef } from 'react'
+
+import { clsx } from 'clsx'
+
 import s from './loader.module.scss'
 
-export const Loader = () => {
-  return <span className={s.loader}></span>
+export type LoaderProps = ComponentPropsWithoutRef<'span'>
+
+export const Loader = (props: LoaderProps) => {
+  const { className, ...restProps } = props
+  const classNames = clsx(s.loader, className)
+
+  return <span className={classNames} {...restProps}></span>
 }
 
 export const PageLoader = () => {

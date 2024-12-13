@@ -1,38 +1,73 @@
 .mainPage {
   width: 100%;
   max-width: 1008px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.elementWithCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tabSwitcher {
+  z-index: 0;
+}
+
+.searchFilter {
+  width: 100%;
+  max-width: 299px;
+}
+
+.table {
+  margin: 36px 0 24px;
+}
+
+.noMatchingCaption {
+  margin-top: 100px;
+  color: var(--color-dark-100);
+  text-align: center;
+}
+
+.pagination {
+  margin-bottom: 36px;
+}
+
+@media (width <= 1100px) {
+  .container > * {
+    max-width: 50%;
+  }
+}
+
+@media (width <= 560px) {
+  .container > * {
+    width: 100%;
+    max-width: unset;
+  }
 
   .container {
-    display: flex;
-    gap: 24px;
-    align-items: flex-end;
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-  }
-
-  .elementWithCaption {
-    display: flex;
     flex-direction: column;
-    gap: 5px;
-  }
+    margin-bottom: 24px;
 
-  .searchFilter {
-    width: 100%;
-    max-width: 299px;
-  }
+    .tabSwitcher {
+      width: 100%;
 
-  .table {
-    margin: 36px 0 24px;
-  }
+      button {
+        width: 100%;
+      }
+    }
 
-  .noMatchingCaption {
-    margin-top: 100px;
-    color: var(--color-dark-100);
-    text-align: center;
-  }
-
-  .pagination {
-    margin-bottom: 36px;
+    .slider {
+      width: 100%;
+    }
   }
 }

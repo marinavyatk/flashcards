@@ -3,19 +3,12 @@ import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
-import {
-  orderByValueDefault,
-  pageDefault,
-  selectMinValue,
-  tabSwitcherValueDefault,
-} from '@/common/constants'
+import { pageDefault, selectMinValue, tabSwitcherValueDefault } from '@/common/constants'
 import { useAppSearchParams } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
-import { decksTableData } from '@/common/tableData'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
-import { DecksTableBody } from '@/components/layouts/appTable/decksTableBody'
-import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { DeckTable } from '@/components/layouts/appTable/decksTable'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
@@ -23,7 +16,6 @@ import { PageTemplate } from '@/components/layouts/pageTemplate/pageTemplate'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { TabSwitcher } from '@/components/ui/tabSwitcher'
-import { Table } from '@/components/ui/table'
 import { TextFieldDebounced } from '@/components/ui/textField/textFieldDebounced'
 import { Typography } from '@/components/ui/typography'
 import { UserData } from '@/services/auth/authApiTypes'
@@ -58,6 +50,7 @@ export const MainPage = () => {
   const { search: urlSearchParams } = useLocation()
   const navigate = useNavigate()
   const {
+    clearFilters,
     currentPage,
     deckOwnership,
     handleCardsCountChange,
@@ -91,17 +84,6 @@ export const MainPage = () => {
   const errors = [getDecksError, minMaxError, createDeckError, deleteDeckError, updateDeckError]
 
   useShowErrors(errors)
-
-  const clearFilters = () => {
-    searchParams.delete('search')
-    handleSearchInputChange('')
-    searchParams.delete('minCardsCount')
-    searchParams.delete('maxCardsCount')
-    searchParams.delete('deckOwnership')
-    searchParams.delete('orderBy')
-    searchParams.delete('currentPage')
-    setSearchParams(searchParams)
-  }
 
   const cardsNumbersFromSearchParams = useMemo(() => {
     if (!minMaxData) {
@@ -169,6 +151,7 @@ export const MainPage = () => {
               Show decks cards
             </Typography>
             <TabSwitcher
+              className={s.tabSwitcher}
               itemProps={[
                 { itemName: 'My Cards', value: '~caller' },
                 { itemName: 'All Cards', value: 'all' },
@@ -184,6 +167,7 @@ export const MainPage = () => {
             <Slider
               key={`${minCardsCount}-${maxCardsCount}`}
               rootProps={{
+                className: s.slider,
                 defaultValue: cardsNumbersFromSearchParams,
                 max: minMaxData ? minMaxData.max : undefined,
                 min: minMaxData ? minMaxData.min : undefined,
@@ -197,28 +181,17 @@ export const MainPage = () => {
         </div>
 
         {decksData?.items.length ? (
-          <Table
-            className={s.table}
-            thead={
-              <tr>
-                <TableHead
-                  cellsData={decksTableData}
-                  changeSort={handleOrderByChange}
-                  currentOrderBy={orderBy}
-                  defaultValue={orderByValueDefault}
-                />
-              </tr>
-            }
-          >
-            <DecksTableBody
-              onDeleteDeckTriggerClick={handleDeleteDeckTriggerClick}
-              onEditDeckTriggerClick={handleEditDeckTriggerClick}
-              onGoToDeck={handleGoToDeck}
-              onLearn={handleLearn}
-              tableRowsData={decksData?.items || []}
-              userId={userData?.id || ''}
-            />
-          </Table>
+          <DeckTable
+            containerProps={{ className: s.table }}
+            handleOrderByChange={handleOrderByChange}
+            onDeleteDeckTriggerClick={handleDeleteDeckTriggerClick}
+            onEditDeckTriggerClick={handleEditDeckTriggerClick}
+            onGoToDeck={handleGoToDeck}
+            onLearn={handleLearn}
+            orderBy={orderBy}
+            tableRowsData={decksData?.items || []}
+            userId={userData?.id || ''}
+          />
         ) : (
           <Typography className={s.noMatchingCaption} variant={'body1'}>
             No matching results. Change the search terms and try again

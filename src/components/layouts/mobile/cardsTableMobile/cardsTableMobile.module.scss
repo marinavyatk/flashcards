@@ -1,0 +1,89 @@
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  overflow: hidden;
+  border: 1px solid var(--color-dark-500);
+  border-radius: 5px;
+}
+
+.mainInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 16px;
+
+  &:first-child {
+    border-right: 1px solid var(--color-dark-500);
+  }
+}
+
+.imgContainer {
+  height: 150px;
+  margin: 6px 0;
+}
+
+.text {
+  word-break: break-word;
+}
+
+.text,
+.caption {
+  padding: 0 16px;
+}
+
+.additionalInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 6px 16px;
+
+  border-bottom: 1px solid var(--color-dark-500);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+
+  button,
+  a {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 6px 36px;
+
+    border-top: 1px solid var(--color-dark-500);
+    border-right: 1px solid var(--color-dark-500);
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (width <= 550px) {
+  .mainInfo {
+    flex-direction: column;
+  }
+
+  .field:first-child {
+    border-right: none;
+  }
+}

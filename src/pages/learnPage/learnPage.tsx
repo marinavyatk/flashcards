@@ -107,13 +107,7 @@ export const LearnPage = () => {
                 {cardData.questionImg && (
                   <ViewCloserModal
                     imgSrc={cardData.questionImg}
-                    trigger={
-                      <img
-                        alt={'Question picture'}
-                        className={s.image}
-                        src={cardData.questionImg}
-                      />
-                    }
+                    triggerImgProps={{ className: s.image }}
                   />
                 )}
                 <Typography className={s.shots} variant={'body2'}>
@@ -136,13 +130,7 @@ export const LearnPage = () => {
                     {cardData.answerImg && (
                       <ViewCloserModal
                         imgSrc={cardData.answerImg}
-                        trigger={
-                          <img
-                            alt={'Answer picture'}
-                            className={s.image}
-                            src={cardData.answerImg}
-                          />
-                        }
+                        triggerImgProps={{ className: s.image }}
                       />
                     )}
                     <form onSubmit={handleSubmit(onSubmit)}>

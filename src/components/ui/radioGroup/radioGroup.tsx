@@ -39,7 +39,7 @@ export const RadioGroupComponent = forwardRef<HTMLButtonElement, RadioGroupCompo
     })
 
     return (
-      <RadioGroup.Root className={classNames} {...restProps}>
+      <RadioGroup.Root className={classNames} {...restProps} tabIndex={1}>
         {radioGroupItems}
       </RadioGroup.Root>
     )

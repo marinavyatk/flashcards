@@ -71,6 +71,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      &:focus-visible {
+        border-radius: 2px;
+        outline: 1px solid var(--color-light-100);
+      }
     }
 
     svg {

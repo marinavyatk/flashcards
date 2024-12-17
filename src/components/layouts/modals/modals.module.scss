@@ -54,6 +54,12 @@
   }
 }
 
+.triggerContainer {
+  all: unset;
+  display: block;
+  width: 100%;
+}
+
 @media (width <= 560px) {
   .coverControlBlock {
     flex-wrap: wrap;

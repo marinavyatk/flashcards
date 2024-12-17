@@ -2,7 +2,6 @@ import BinIcon from '@/assets/svg/binIcon.svg?react'
 import EditIcon from '@/assets/svg/editIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
 import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
-import { Picture } from '@/components/ui/picture'
 import { Rating } from '@/components/ui/rating/rating'
 import { Card } from '@/services/cards/cardsTypes'
 
@@ -35,13 +34,7 @@ const CardsTableRow = (props: CardsTableRowProps) => {
         {item.questionImg && (
           <ViewCloserModal
             imgSrc={item.questionImg}
-            trigger={
-              <Picture
-                alt={'Question deck'}
-                containerProps={{ className: s.modalImg }}
-                src={item.questionImg}
-              />
-            }
+            triggerImgProps={{ alt: 'Question image', className: s.modalImg }}
           />
         )}
         <span>{item.question}</span>
@@ -50,18 +43,12 @@ const CardsTableRow = (props: CardsTableRowProps) => {
         {item.answerImg && (
           <ViewCloserModal
             imgSrc={item.answerImg}
-            trigger={
-              <Picture
-                alt={'Question deck'}
-                containerProps={{ className: s.modalImg }}
-                src={item.answerImg}
-              />
-            }
+            triggerImgProps={{ alt: 'Answer image', className: s.modalImg }}
           />
         )}
         <span> {item.answer}</span>
       </td>
-      <td>{formatDate(item.updated)}</td>
+      <td className={s.date}>{formatDate(item.updated)}</td>
       <td>
         <Rating cardId={item.id} grade={item.grade} />
       </td>

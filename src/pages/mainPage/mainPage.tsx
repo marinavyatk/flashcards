@@ -143,6 +143,8 @@ export const MainPage = () => {
         </div>
         <div className={s.container}>
           <TextFieldDebounced
+            containerProps={{ className: s.searchFilter }}
+            placeholder={'Search by decks...'}
             setSearchInputValue={handleSearchInputChange}
             valueFromSearchParams={search}
           />

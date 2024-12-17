@@ -8,7 +8,6 @@ import {
   CardsTableRowProps,
 } from '@/components/layouts/appTable/cardsTableBody'
 import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
-import { Picture } from '@/components/ui/picture'
 import { Rating } from '@/components/ui/rating'
 import { Typography } from '@/components/ui/typography'
 import clsx from 'clsx'
@@ -50,13 +49,7 @@ export const CardTableItem = (props: CardsTableRowProps) => {
           {item.questionImg && (
             <ViewCloserModal
               imgSrc={item.questionImg}
-              trigger={
-                <Picture
-                  alt={'Question'}
-                  containerProps={{ className: s.imgContainer }}
-                  src={item.questionImg}
-                />
-              }
+              triggerImgProps={{ alt: 'Question image', className: s.imgContainer }}
             />
           )}
           <Typography className={s.text} variant={'body2'}>
@@ -70,13 +63,7 @@ export const CardTableItem = (props: CardsTableRowProps) => {
           {item.answerImg && (
             <ViewCloserModal
               imgSrc={item.answerImg}
-              trigger={
-                <Picture
-                  alt={'Answer'}
-                  containerProps={{ className: s.imgContainer }}
-                  src={item.answerImg}
-                />
-              }
+              triggerImgProps={{ alt: 'Answer image', className: s.imgContainer }}
             />
           )}
           <Typography className={s.text} variant={'body2'}>

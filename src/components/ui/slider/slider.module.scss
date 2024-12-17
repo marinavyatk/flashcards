@@ -50,6 +50,10 @@
   outline: none;
 }
 
+.sliderThumb:focus-visible {
+  outline: 1px solid var(--color-light-100);
+}
+
 .extremeNumber {
   cursor: default;
 

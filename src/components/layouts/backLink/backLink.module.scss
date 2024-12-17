@@ -11,7 +11,8 @@
 
   transition: all 0.4s;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: translateY(2px);
     color: var(--color-accent-300);
     transition: all 0.4s;

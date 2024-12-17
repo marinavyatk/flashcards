@@ -22,7 +22,9 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
   return (
     <div className={className} {...restProps}>
       <DropdownMenu.Root {...rootProps} modal={false}>
-        <DropdownMenu.Trigger asChild>{trigger}</DropdownMenu.Trigger>
+        <DropdownMenu.Trigger asChild tabIndex={0}>
+          {trigger}
+        </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             align={'end'}

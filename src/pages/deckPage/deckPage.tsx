@@ -148,7 +148,7 @@ export const DeckPage = () => {
   const deckCover = deckData?.cover && (
     <ViewCloserModal
       imgSrc={deckData?.cover}
-      trigger={<img alt={'Deck cover'} className={s.deckCover} src={deckData?.cover} />}
+      triggerImgProps={{ alt: 'Deck cover', className: s.deckCover }}
     />
   )
 
@@ -203,12 +203,13 @@ export const DeckPage = () => {
               <AddNewCardModal onFormSubmit={handleAddNewCard} />
             ) : (
               <Button as={Link} state={{ deckData: deckData }} to={`/decks/${deckData?.id}/learn`}>
-                Learn to Pack
+                Learn Deck
               </Button>
             )}
           </div>
           {deckCover}
           <TextFieldDebounced
+            placeholder={'Search by questions...'}
             setSearchInputValue={handleSearchInputChange}
             valueFromSearchParams={search}
           />

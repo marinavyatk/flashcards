@@ -32,7 +32,8 @@
     height: 36px;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: translateX(10px);
     transition: transform 0.4s;
   }

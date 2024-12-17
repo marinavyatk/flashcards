@@ -64,7 +64,7 @@ const DecksTableRow = (props: DecksTableRowProps) => {
         </Link>
       </td>
       <td>{item.cardsCount}</td>
-      <td>{formatDate(item.updated)}</td>
+      <td className={s.date}>{formatDate(item.updated)}</td>
       <td>{item.author.name}</td>
       <td>
         <div className={s.actions}>

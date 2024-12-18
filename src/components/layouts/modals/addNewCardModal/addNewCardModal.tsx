@@ -55,21 +55,29 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
 
   const handleFormSubmit = (data: addNewCardFormValues) => {
     onFormSubmit(data)
-    reset()
-    setQuestionCover('')
-    setAnswerCover('')
     setOpen(false)
   }
-  const handleCancel = () => {
+
+  const cleanForm = () => {
     reset()
     setQuestionCover('')
     setAnswerCover('')
   }
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open)
+    if (open) {
+      cleanForm()
+    }
+  }
+
   return (
     <Modal
       modalHeader={'Add New Card'}
-      rootProps={{ onOpenChange: setOpen, open: open }}
+      rootProps={{
+        onOpenChange: handleOpenChange,
+        open: open,
+      }}
       trigger={<Button>Add New Card</Button>}
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
@@ -101,7 +109,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
 
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
-            <Button onClick={handleCancel} type={'button'} variant={'secondary'}>
+            <Button type={'button'} variant={'secondary'}>
               Cancel
             </Button>
           </Dialog.Close>

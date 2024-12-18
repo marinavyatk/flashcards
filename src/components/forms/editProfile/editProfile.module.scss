@@ -88,8 +88,24 @@
     margin-bottom: 13px;
     color: var(--color-dark-100);
   }
+}
 
-  .logoutButton {
-    margin-bottom: 16px;
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+@media (width <= 400px) {
+  .buttons {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
   }
 }

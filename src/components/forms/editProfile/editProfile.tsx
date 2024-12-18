@@ -7,6 +7,7 @@ import LogOutIcon from '@/assets/svg/icon-out.svg?react'
 import ProfilePhotoDefault from '@/assets/svg/profilePhotoDefault.svg?react'
 import { EditProfileFormValues, editProfileSchema } from '@/common/formValidation'
 import { BackLink } from '@/components/layouts/backLink/backLink'
+import { ConfirmDeleteAccountModal } from '@/components/layouts/modals/confirnDeleteAccountModal/confirnDeleteAccountModal'
 import { Card } from '@/components/ui/card'
 import { InputFileUserPhoto } from '@/components/ui/inputFile/inputFileUserPhoto'
 import { Picture } from '@/components/ui/picture'
@@ -23,13 +24,23 @@ import { Button } from '../../ui/button'
 type EditProfileProps = {
   email: string
   name: string
+  onDeleteAccount: () => void
   onFormSubmit: (data: UpdateUserData) => void
   onSignOut: () => void
   profilePhoto?: string
 } & ComponentPropsWithoutRef<'div'>
 
 export const EditProfile = (props: EditProfileProps) => {
-  const { className, email, name, onFormSubmit, onSignOut, profilePhoto, ...restProps } = props
+  const {
+    className,
+    email,
+    name,
+    onDeleteAccount,
+    onFormSubmit,
+    onSignOut,
+    profilePhoto,
+    ...restProps
+  } = props
   const classNames = clsx(s.editProfile, className)
   const navigate = useNavigate()
   const {
@@ -39,7 +50,7 @@ export const EditProfile = (props: EditProfileProps) => {
     reset,
   } = useForm<EditProfileFormValues>({
     defaultValues: {
-      name: '',
+      name: name,
     },
     mode: 'onBlur',
     resolver: zodResolver(editProfileSchema),
@@ -125,18 +136,20 @@ export const EditProfile = (props: EditProfileProps) => {
                   <EditIcon />
                 </button>
               </div>
-
               <Typography className={s.email} variant={'body2'}>
                 {email}
               </Typography>
-              <Button
-                className={s.logoutButton}
-                onClick={onSignOut}
-                type={'button'}
-                variant={'secondary'}
-              >
-                <LogOutIcon /> Logout
-              </Button>
+              <div className={s.buttons}>
+                <Button
+                  className={s.logoutButton}
+                  onClick={onSignOut}
+                  type={'button'}
+                  variant={'secondary'}
+                >
+                  <LogOutIcon /> Logout
+                </Button>
+                <ConfirmDeleteAccountModal onConfirm={onDeleteAccount} />
+              </div>
             </>
           )}
         </form>

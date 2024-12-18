@@ -144,6 +144,7 @@ export const MainPage = () => {
         <div className={s.container}>
           <TextFieldDebounced
             containerProps={{ className: s.searchFilter }}
+            key={search} //need for remove text from input when clear filters
             placeholder={'Search by decks...'}
             setSearchInputValue={handleSearchInputChange}
             valueFromSearchParams={search}

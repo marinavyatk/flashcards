@@ -21,6 +21,12 @@ export const AuthApi = flashcardsApi.injectEndpoints({
           url: '/v1/auth/sign-up',
         }),
       }),
+      deleteAccount: builder.mutation<void, void>({
+        query: () => ({
+          method: 'DELETE',
+          url: '/v1/auth/me',
+        }),
+      }),
       getCurrentUserData: builder.query<UserData, void>({
         providesTags: ['UserData'],
         query: () => ({
@@ -144,6 +150,7 @@ export const AuthApi = flashcardsApi.injectEndpoints({
 
 export const {
   useCreateNewAccountMutation,
+  useDeleteAccountMutation,
   useGetCurrentUserDataQuery,
   useGetNewAccessTokenMutation,
   useResetPasswordMutation,

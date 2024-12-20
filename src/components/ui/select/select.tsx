@@ -39,7 +39,10 @@ export const Select = ({
   return (
     <div {...restProps} className={classNames}>
       <RadixSelect.Root {...rootProps}>
-        <RadixSelect.Trigger className={s.selectTrigger}>
+        <RadixSelect.Trigger
+          aria-label={'Change quantity items per page'}
+          className={s.selectTrigger}
+        >
           <RadixSelect.Value {...triggerValue} className={s.selectValue} />
           <RadixSelect.Icon asChild className={s.selectIcon}>
             <ArrowDown className={s.selectArrow} />

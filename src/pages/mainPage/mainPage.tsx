@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
+import { useLocation, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import BinIcon from '@/assets/svg/binIcon.svg?react'
@@ -8,7 +8,7 @@ import { useAppSearchParams } from '@/common/customHooks/searchParamsHooks'
 import { useModalStateHandler } from '@/common/customHooks/useModalStateHandler'
 import { useShowErrors } from '@/common/customHooks/useShowErrors'
 import { AppPagination } from '@/components/layouts/appPagination/appPagination'
-import { DeckTable } from '@/components/layouts/appTable/decksTable'
+import { DeckTable } from '@/components/layouts/appTable/decks/decksTable'
 import { AddNewDeckModal } from '@/components/layouts/modals/addNewDeckModal/addNewDeckModal'
 import { ConfirmDeleteModal } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import { EditDeckModal } from '@/components/layouts/modals/editDeckModal/editDeckModal'
@@ -48,7 +48,6 @@ export const MainPage = () => {
   const [updateDeck, { error: updateDeckError, isLoading: isUpdateDeckLoading }] =
     useUpdateDeckMutation()
   const { search: urlSearchParams } = useLocation()
-  const navigate = useNavigate()
   const {
     clearFilters,
     currentPage,
@@ -116,10 +115,6 @@ export const MainPage = () => {
 
   const handleGoToDeck = () => {
     localStorage.setItem('urlSearchParams', urlSearchParams)
-  }
-
-  const handleLearn = (deck: Deck) => {
-    navigate(`/decks/${deck.id}/learn`)
   }
 
   const handleEditDeckTriggerClick = (deckData: Deck) => {
@@ -190,7 +185,6 @@ export const MainPage = () => {
             onDeleteDeckTriggerClick={handleDeleteDeckTriggerClick}
             onEditDeckTriggerClick={handleEditDeckTriggerClick}
             onGoToDeck={handleGoToDeck}
-            onLearn={handleLearn}
             orderBy={orderBy}
             tableRowsData={decksData?.items || []}
             userId={userData?.id || ''}

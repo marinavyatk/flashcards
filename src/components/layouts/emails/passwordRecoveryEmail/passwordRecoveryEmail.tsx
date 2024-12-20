@@ -12,7 +12,7 @@ export const PasswordRecoveryEmail = () => {
         <Typography as={'h1'} variant={'h1'}>
           Hello, ##name## !
         </Typography>
-        <img className={s.logo} src={Logo} />
+        <img alt={'Flashcards logo'} className={s.logo} src={Logo} />
         <Typography>
           Click here to recover your password. If this wasn't you, please ignore this message.
         </Typography>
@@ -20,7 +20,7 @@ export const PasswordRecoveryEmail = () => {
           as={'a'}
           className={s.confirmButton}
           fullWidth
-          href={'http://localhost:3000/create-new-password/##token##'}
+          href={'http://localhost:5173/create-new-password/##token##'}
         >
           Recover password
         </Button>

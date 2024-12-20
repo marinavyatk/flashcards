@@ -18,7 +18,7 @@ export const ForgotPasswordPage = () => {
   const onSubmit = async (data: SendPasswordRecoveryEmailArgs) => {
     await sendPasswordRecoveryEmail({ ...data, html: recoverPasswordEmail })
       .unwrap()
-      .then(() => navigate(routes.public.checkEmail))
+      .then(() => navigate(routes.public.checkEmail, { state: { email: data.email } }))
   }
 
   return (

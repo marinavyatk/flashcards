@@ -4,10 +4,8 @@
   opacity: 0;
 }
 
-.inputFileLabel {
-  cursor: pointer;
-}
-
 .inputFile:focus-visible + label {
-  outline: -webkit-focus-ring-color auto 5px;
+  border-radius: 2px;
+  outline: 1px solid var(--color-light-100);
+  outline-offset: 2px;
 }

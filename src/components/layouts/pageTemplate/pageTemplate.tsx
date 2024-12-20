@@ -21,23 +21,20 @@ export const PageTemplate = ({ children, isLoading, showTopLoader }: PageTemplat
   const isAuthorized = !!userData
 
   return (
-    <div className={s.template}>
-      <div className={s.fixingContainer}>
-        <div className={s.headerContainer}>
-          <Header
-            className={s.header}
-            isAuthorized={isAuthorized}
-            userDropdownProps={{
-              avatar: userData?.avatar || '',
-              email: userData?.email || '',
-              name: userData?.name || '',
-            }}
-          />
-          {showTopLoader && <LoaderLine className={s.loaderLine} />}
-        </div>
+    <>
+      <div className={s.headerContainer}>
+        <Header
+          className={s.header}
+          isAuthorized={isAuthorized}
+          userDropdownProps={{
+            avatar: userData?.avatar || '',
+            email: userData?.email || '',
+            name: userData?.name || '',
+          }}
+        />
+        {showTopLoader && <LoaderLine className={s.loaderLine} />}
       </div>
-
       {isLoading ? <PageLoader /> : <div className={s.children}>{children}</div>}
-    </div>
+    </>
   )
 }

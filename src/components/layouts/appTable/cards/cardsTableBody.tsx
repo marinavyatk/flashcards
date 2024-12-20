@@ -1,11 +1,12 @@
-import BinIcon from '@/assets/svg/binIcon.svg?react'
-import EditIcon from '@/assets/svg/editIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
+import { Actions } from '@/components/layouts/appTable/actions/actions'
+import { DeleteButton } from '@/components/layouts/appTable/actions/buttons/deleteButton'
+import { EditButton } from '@/components/layouts/appTable/actions/buttons/editButton'
 import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { Rating } from '@/components/ui/rating/rating'
 import { Card } from '@/services/cards/cardsTypes'
 
-import s from './appTable.module.scss'
+import s from '../appTable.module.scss'
 
 export type CardsTableBodyProps = {
   isMyDeck: boolean
@@ -54,22 +55,10 @@ const CardsTableRow = (props: CardsTableRowProps) => {
       </td>
       {isMyDeck && (
         <td>
-          <div className={s.actions}>
-            <button
-              onClick={() => onEditCardTriggerClick(item)}
-              title={'Edit card'}
-              type={'button'}
-            >
-              <EditIcon />
-            </button>
-            <button
-              onClick={() => onDeleteCardTriggerClick(item.id)}
-              title={'Delete card'}
-              type={'button'}
-            >
-              <BinIcon />
-            </button>
-          </div>
+          <Actions>
+            <EditButton onClick={() => onEditCardTriggerClick(item)} />
+            <DeleteButton onClick={() => onDeleteCardTriggerClick(item.id)} />
+          </Actions>
         </td>
       )}
     </tr>

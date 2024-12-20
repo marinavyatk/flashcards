@@ -7,13 +7,13 @@
   text-decoration: none;
 
   .deckName {
+    display: block;
     transition: transform 0.4s;
   }
 
   &:hover {
     .deckName {
       transform: translateY(2px);
-      transition: transform 0.4s;
     }
   }
 }
@@ -36,60 +36,7 @@
   width: 140px;
 }
 
-td:has(.actions) {
+th:last-child,
+td:last-child {
   width: 85px;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      width: 16px;
-      fill: var(--color-dark-300);
-    }
-  }
-
-  button,
-  a {
-    all: unset;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      transition: transform 0.4s;
-
-      &:hover {
-        transform: translateY(2px);
-        transition: transform 0.4s;
-      }
-    }
-
-    &:disabled {
-      pointer-events: none;
-
-      svg {
-        fill: var(--color-dark-300);
-
-        &:hover {
-          transform: unset;
-        }
-      }
-    }
-
-    &:focus-visible {
-      outline: -webkit-focus-ring-color auto 5px;
-    }
-  }
 }

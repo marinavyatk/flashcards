@@ -146,7 +146,7 @@ export const EditProfile = (props: EditProfileProps) => {
                   type={'button'}
                   variant={'secondary'}
                 >
-                  <LogOutIcon /> Logout
+                  <LogOutIcon /> Sign out
                 </Button>
                 <ConfirmDeleteAccountModal onConfirm={onDeleteAccount} />
               </div>

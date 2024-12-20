@@ -39,7 +39,12 @@ export const Pagination = (props: PaginationProps) => {
   return (
     <ul className={classNames}>
       <li onClick={onPrevious}>
-        <button className={clsx(s.paginationItem, s.arrowLeft)} disabled={currentPage === 1}>
+        <button
+          aria-label={'Go to previous page'}
+          className={clsx(s.paginationItem, s.arrowLeft)}
+          disabled={currentPage === 1}
+          type={'button'}
+        >
           <ArrowPaginationIcon />
         </button>
       </li>
@@ -55,10 +60,12 @@ export const Pagination = (props: PaginationProps) => {
           return (
             <li key={pageNumber}>
               <button
+                aria-label={`Go to page ${pageNumber}`}
                 className={clsx(s.paginationItem, {
                   [s.selected]: pageNumber === currentPage,
                 })}
                 onClick={() => onPageChange(pageNumber)}
+                type={'button'}
                 value={pageNumber}
               >
                 {pageNumber}
@@ -69,8 +76,10 @@ export const Pagination = (props: PaginationProps) => {
       })}
       <li onClick={onNext}>
         <button
+          aria-label={'Go to next page'}
           className={clsx(s.paginationItem, s.arrowRight)}
           disabled={currentPage === lastPage}
+          type={'button'}
         >
           <ArrowPaginationIcon />
         </button>

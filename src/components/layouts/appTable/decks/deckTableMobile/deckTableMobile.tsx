@@ -1,15 +1,16 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import BinIcon from '@/assets/svg/binIcon.svg?react'
-import EditIcon from '@/assets/svg/editIcon.svg?react'
-import PlayIcon from '@/assets/svg/playIcon.svg?react'
 import PrivateIcon from '@/assets/svg/privateIcon.svg?react'
 import { formatDate } from '@/common/commonFunctions'
+import { Actions } from '@/components/layouts/appTable/actions/actions'
+import { DeleteButton } from '@/components/layouts/appTable/actions/buttons/deleteButton'
+import { EditButton } from '@/components/layouts/appTable/actions/buttons/editButton'
+import { LearnButton } from '@/components/layouts/appTable/actions/buttons/learnButton'
 import {
   DecksTableBodyProps,
   DecksTableRowProps,
-} from '@/components/layouts/appTable/decksTableBody'
+} from '@/components/layouts/appTable/decks/decksTableBody'
 import { Picture } from '@/components/ui/picture'
 import { Typography } from '@/components/ui/typography'
 import clsx from 'clsx'
@@ -35,8 +36,7 @@ export const DeckTableMobile = (props: DeckTableMobileProps) => {
 }
 
 export const DeckTableItem = (props: DecksTableRowProps) => {
-  const { item, onDeleteDeckTriggerClick, onEditDeckTriggerClick, onGoToDeck, onLearn, userId } =
-    props
+  const { item, onDeleteDeckTriggerClick, onEditDeckTriggerClick, onGoToDeck, userId } = props
   const isMyDeck = item.author.id === userId
   const isDeckEmpty = item.cardsCount === 0
   const handleGoToDeck = () => {
@@ -74,30 +74,15 @@ export const DeckTableItem = (props: DecksTableRowProps) => {
           <Typography variant={'body2'}>{item.author.name}</Typography>
         </div>
       </div>
-      <div>
-        <div className={s.actions}>
-          {isDeckEmpty ? (
-            <button disabled={isDeckEmpty} type={'button'}>
-              <PlayIcon />
-            </button>
-          ) : (
-            <Link onClick={handleGoToDeck} to={`/decks/${item.id}/learn`}>
-              <PlayIcon onClick={() => onLearn(item)} />
-            </Link>
-          )}
-
-          {isMyDeck && (
-            <>
-              <button onClick={() => onEditDeckTriggerClick(item)} type={'button'}>
-                <EditIcon />
-              </button>
-              <button onClick={() => onDeleteDeckTriggerClick(item)} type={'button'}>
-                <BinIcon />
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+      <Actions>
+        <LearnButton deckId={item.id} isDeckEmpty={isDeckEmpty} />
+        {isMyDeck && (
+          <>
+            <EditButton onClick={() => onEditDeckTriggerClick(item)} />
+            <DeleteButton onClick={() => onDeleteDeckTriggerClick(item)} />
+          </>
+        )}
+      </Actions>
     </div>
   )
 }

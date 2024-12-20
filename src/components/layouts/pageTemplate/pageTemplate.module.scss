@@ -1,22 +1,16 @@
-.template {
-  .children {
-    display: flex;
-    justify-content: center;
-    margin: 36px 16px;
-  }
+.children {
+  display: flex;
+  justify-content: center;
+  margin: 36px 16px;
+}
 
-  .fixingContainer {
-    position: sticky;
-    z-index: 2;
-    top: 0;
-    width: 100%;
-  }
+.headerContainer {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+}
 
-  .headerContainer {
-    position: relative;
-
-    .loaderLine {
-      position: absolute;
-    }
-  }
+.loaderLine {
+  position: absolute;
 }

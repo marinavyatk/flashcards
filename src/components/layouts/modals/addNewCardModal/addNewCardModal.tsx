@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import ImageIcon from '@/assets/svg/imageIcon.svg?react'
+import { handleFileChange } from '@/common/commonFunctions'
 import { addNewCardFormValues, addNewCardSchema } from '@/common/formValidation'
+import { CoverControl } from '@/components/layouts/modals/coverControl'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { Button } from '@/components/ui/button'
-import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextArea } from '@/components/ui/textarea/formTextArea'
-import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -20,7 +20,7 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
   const [questionCover, setQuestionCover] = useState<string>('')
   const [answerCover, setAnswerCover] = useState<string>('')
   const [open, setOpen] = useState(false)
-  const { control, handleSubmit, reset } = useForm<addNewCardFormValues>({
+  const { control, handleSubmit, reset, setValue } = useForm<addNewCardFormValues>({
     defaultValues: {
       answer: '',
       answerImg: undefined,
@@ -32,26 +32,39 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
     shouldUnregister: true,
   })
 
-  const handleQuestionFileChange = (newFile: File | undefined) => {
-    if (questionCover) {
-      URL.revokeObjectURL(questionCover)
-    }
-    if (!newFile) {
-      setQuestionCover('')
-    } else {
-      setQuestionCover(URL.createObjectURL(newFile))
-    }
+  const handleChangeQuestionCover = (newFile: File | undefined) => {
+    handleFileChange({
+      cover: questionCover,
+      newFile: newFile,
+      setCover: setQuestionCover,
+    })
   }
-  const handleAnswerFileChange = (newFile: File | undefined) => {
-    if (answerCover) {
-      URL.revokeObjectURL(answerCover)
-    }
-    if (!newFile) {
-      setAnswerCover('')
-    } else {
-      setAnswerCover(URL.createObjectURL(newFile))
-    }
+
+  const handleRemoveQuestionCover = () =>
+    handleFileChange({
+      cover: questionCover,
+      fieldName: 'questionImg',
+      newFile: undefined,
+      setCover: setQuestionCover,
+      setValue,
+    })
+
+  const handleChangeAnswerCover = (newFile: File | undefined) => {
+    handleFileChange({
+      cover: answerCover,
+      newFile: newFile,
+      setCover: setAnswerCover,
+    })
   }
+
+  const handleRemoveAnswerCover = () =>
+    handleFileChange({
+      cover: answerCover,
+      fieldName: 'answerImg',
+      newFile: undefined,
+      setCover: setAnswerCover,
+      setValue,
+    })
 
   const handleFormSubmit = (data: addNewCardFormValues) => {
     onFormSubmit(data)
@@ -82,31 +95,33 @@ export const AddNewCardModal = ({ onFormSubmit }: AddNewCardModalProps) => {
     >
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextArea control={control} label={'Question'} name={'question'} />
-        {questionCover && <img alt={'Question Cover'} className={s.cover} src={questionCover} />}
-        <FormInputFileCover
+        {questionCover && (
+          <ViewCloserModal
+            imgSrc={questionCover}
+            triggerImgProps={{ alt: 'Question Cover', className: s.cover }}
+          />
+        )}
+        <CoverControl
           control={control}
+          cover={questionCover}
+          handleChangeCover={handleChangeQuestionCover}
+          handleRemoveCover={handleRemoveQuestionCover}
           name={'questionImg'}
-          onFileChange={handleQuestionFileChange}
-        >
-          <ImageIcon />
-          <Typography as={'span'} variant={'subtitle2'}>
-            {questionCover ? 'Change Image' : 'Upload Image'}
-          </Typography>
-        </FormInputFileCover>
-
+        />
         <FormTextArea control={control} label={'Answer'} name={'answer'} />
-        {answerCover && <img alt={'Deck Cover'} className={s.cover} src={answerCover} />}
-        <FormInputFileCover
+        {answerCover && (
+          <ViewCloserModal
+            imgSrc={answerCover}
+            triggerImgProps={{ alt: 'Answer Cover', className: s.cover }}
+          />
+        )}
+        <CoverControl
           control={control}
+          cover={answerCover}
+          handleChangeCover={handleChangeAnswerCover}
+          handleRemoveCover={handleRemoveAnswerCover}
           name={'answerImg'}
-          onFileChange={handleAnswerFileChange}
-        >
-          <ImageIcon />
-          <Typography as={'span'} variant={'subtitle2'}>
-            {answerCover ? 'Change Image' : 'Upload Image'}
-          </Typography>
-        </FormInputFileCover>
-
+        />
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
             <Button type={'button'} variant={'secondary'}>

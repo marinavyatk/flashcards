@@ -43,7 +43,7 @@ export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps) => {
       }}
       trigger={
         needShowTrigger && (
-          <button className={s.triggerButton} {...triggerProps}>
+          <button className={s.triggerButton} {...triggerProps} type={'button'}>
             <BinIcon />
           </button>
         )

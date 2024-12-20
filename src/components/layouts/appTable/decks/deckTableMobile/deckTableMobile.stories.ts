@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { DeckTableMobile } from '@/components/layouts/mobile/deckTableMobile/deckTableMobile'
+import { DeckTableMobile } from '@/components/layouts/appTable/decks/deckTableMobile/deckTableMobile'
 
 const meta = {
   component: DeckTableMobile,
@@ -15,7 +15,6 @@ export const Primary: Story = {
   args: {
     onDeleteDeckTriggerClick: () => {},
     onEditDeckTriggerClick: () => {},
-    onLearn: () => {},
     tableRowsData: [
       {
         author: { id: '1', name: 'Ivan' },

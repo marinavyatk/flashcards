@@ -28,7 +28,6 @@
 
   &:has(.radioSign:hover) {
     background-color: var(--color-dark-500);
-    transition: background-color 0.4s;
   }
 
   &:has(.radioSign:active) {
@@ -48,6 +47,8 @@
   align-items: center;
   justify-content: center;
 
+  box-sizing: border-box;
+  aspect-ratio: 1;
   width: 16px;
   height: 16px;
 

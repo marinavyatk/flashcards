@@ -1,15 +1,14 @@
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
 import { updateDeckFormValues, updateDeckSchema } from '@/common/formValidation'
+import { CoverControl } from '@/components/layouts/modals/coverControl'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { Button } from '@/components/ui/button'
 import { FormCheckbox } from '@/components/ui/checkbox/formCheckbox'
-import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextField } from '@/components/ui/textField/formTextField'
-import { Typography } from '@/components/ui/typography'
 import { Deck, UpdateDeckArgs } from '@/services/decks/decks.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -42,10 +41,11 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
     resolver: zodResolver(updateDeckSchema),
   })
 
-  const handleRemoveCover = () => handleFileChange(undefined, cover, setCover, 'cover', setValue)
+  const handleRemoveCover = () =>
+    handleFileChange({ cover, fieldName: 'cover', newFile: undefined, setCover, setValue })
 
   const handleChangeCover = (newFile: File | undefined) =>
-    handleFileChange(newFile, cover, setCover, 'cover', setValue)
+    handleFileChange({ cover, fieldName: 'cover', newFile, setCover, setValue })
 
   const handleFormSubmit = (data: updateDeckFormValues) => {
     const preparedData = prepareData(data, dirtyFields)
@@ -73,32 +73,22 @@ export const EditDeckModal = (props: EditDeckModalProps) => {
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextField control={control} label={'Name Pack'} name={'name'} />
         {cover && (
-          <img
-            alt={'Deck Cover'}
-            className={s.cover}
-            onError={() => handleImgError(setCover)}
-            src={cover}
+          <ViewCloserModal
+            imgSrc={cover}
+            triggerImgProps={{
+              alt: 'Deck Cover',
+              className: s.cover,
+              onError: () => handleImgError(setCover),
+            }}
           />
         )}
-        <div className={s.coverControlBlock}>
-          {cover && (
-            <Button
-              className={s.removeCoverButton}
-              fullWidth
-              onClick={handleRemoveCover}
-              type={'button'}
-              variant={'secondary'}
-            >
-              Remove Image
-            </Button>
-          )}
-          <FormInputFileCover control={control} name={'cover'} onFileChange={handleChangeCover}>
-            <ImageIcon />
-            <Typography as={'span'} variant={'subtitle2'}>
-              {cover ? 'Change Image' : 'Upload Image'}
-            </Typography>
-          </FormInputFileCover>
-        </div>
+        <CoverControl
+          control={control}
+          cover={cover}
+          handleChangeCover={handleChangeCover}
+          handleRemoveCover={handleRemoveCover}
+          name={'cover'}
+        />
         <FormCheckbox control={control} label={'Private pack'} name={'isPrivate'} />
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>

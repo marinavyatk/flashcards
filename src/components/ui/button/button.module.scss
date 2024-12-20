@@ -1,24 +1,21 @@
 .button {
-  cursor: pointer;
-
   display: inline-flex;
   flex-shrink: 0;
   gap: 10px;
   align-items: center;
   justify-content: center;
 
-  width: fit-content;
+  box-sizing: border-box;
   padding: 6px 28px;
 
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-m);
-  text-decoration: none;
   white-space: nowrap;
 
-  border: transparent;
   border-radius: 4px;
+
+  transition: background-color 0.4s;
 
   &:focus-visible {
     outline: 2px solid var(--color-info-700);
@@ -35,11 +32,9 @@
   color: var(--color-light-100);
   background-color: var(--color-accent-500);
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
-  transition: background-color 0.4s;
 
   &:hover {
     background-color: var(--color-accent-300);
-    transition: background-color 0.4s;
   }
 
   &:active {
@@ -56,11 +51,9 @@
   color: var(--color-light-100);
   background-color: var(--color-dark-300);
   box-shadow: 0 4px 4px 0 rgb(77 86 96 / 13%);
-  transition: background-color 0.4s;
 
   &:hover {
     background-color: var(--color-dark-100);
-    transition: background-color 0.4s;
   }
 
   &:active {

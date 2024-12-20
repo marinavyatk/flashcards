@@ -1,11 +1,13 @@
 .dropdownMenuContent {
+  z-index: 3;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
 
   padding: 12px;
 
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: var(--line-height-s);
 
   background-color: var(--color-dark-700);

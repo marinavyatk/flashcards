@@ -1,7 +1,6 @@
 import {
   CreateNewAccountArgs,
   ResetPasswordArgs,
-  SendEmailAgainArgs,
   SendPasswordRecoveryEmailArgs,
   SignInArgs,
   Tokens,
@@ -45,13 +44,6 @@ export const AuthApi = flashcardsApi.injectEndpoints({
           body: args,
           method: 'POST',
           url: `/v1/auth/reset-password/${token}`,
-        }),
-      }),
-      sendEmailAgain: builder.mutation<void, SendEmailAgainArgs>({
-        query: args => ({
-          body: args,
-          method: 'POST',
-          url: '',
         }),
       }),
       sendPasswordRecoveryEmail: builder.mutation<void, SendPasswordRecoveryEmailArgs>({
@@ -154,7 +146,6 @@ export const {
   useGetCurrentUserDataQuery,
   useGetNewAccessTokenMutation,
   useResetPasswordMutation,
-  useSendEmailAgainMutation,
   useSendPasswordRecoveryEmailMutation,
   useSignInMutation,
   useSignOutMutation,

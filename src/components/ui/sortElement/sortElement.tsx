@@ -61,7 +61,7 @@ export const SortElement = (props: SortElementProps) => {
   }
 
   return (
-    <button {...restProps} className={classNames} onClick={handleChangeSort}>
+    <button {...restProps} className={classNames} onClick={handleChangeSort} type={'button'}>
       {children}
       {icon && <ArrowIcon className={icon === 'asc' ? s.ascArrow : s.descArrow} />}
     </button>

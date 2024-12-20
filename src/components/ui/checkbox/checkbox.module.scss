@@ -6,19 +6,12 @@
 
   width: fit-content;
 
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-bold);
   color: var(--color-light-100);
-
-  label {
-    cursor: pointer;
-  }
 }
 
 .checkboxRoot {
-  cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +43,6 @@
 
   &:hover {
     background-color: var(--color-dark-500);
-    transition: background-color 0.4s;
   }
 
   &:focus-visible,

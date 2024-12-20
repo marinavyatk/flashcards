@@ -1,15 +1,11 @@
 import { ComponentPropsWithoutRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import ProfilePhotoDefault from '@/assets/defaultUserPhoto.png'
 import OutIcon from '@/assets/svg/outIcon.svg?react'
 import ProfileIcon from '@/assets/svg/userIcon.svg?react'
 import { routes } from '@/common/router'
-import {
-  DropdownItem,
-  DropdownMenuComponent,
-  DropdownSeparator,
-} from '@/components/ui/dropdownMenu'
+import { DropdownItem, DropdownMenu, DropdownSeparator } from '@/components/ui/dropdownMenu'
 import { Picture } from '@/components/ui/picture'
 import { Typography } from '@/components/ui/typography'
 import { useSignOutMutation } from '@/services/auth/authApi'
@@ -21,6 +17,7 @@ export type UserDropdownProps = {
   email: string
   name: string
 } & ComponentPropsWithoutRef<'div'>
+
 export const UserDropdown = (props: UserDropdownProps) => {
   const { avatar, className, email, name, ...restProps } = props
   const [signOut] = useSignOutMutation()
@@ -33,51 +30,46 @@ export const UserDropdown = (props: UserDropdownProps) => {
         navigate(routes.public.signIn)
       })
   }
-  const handleOpenProfile = () => {
-    navigate(routes.private.editProfile)
-  }
 
   return (
-    <DropdownMenuComponent
+    <DropdownMenu
       trigger={
-        <div className={s.trigger}>
+        <button className={s.trigger} type={'button'}>
           <Typography as={'span'} className={s.name} variant={'subtitle1'}>
             {name}
           </Typography>
           <Picture
-            alt={'open menu'}
+            alt={'Avatar'}
             containerProps={{ className: s.avatar }}
             src={avatar || ProfilePhotoDefault}
           />
-        </div>
+        </button>
       }
       {...restProps}
       className={className}
       contentProps={{ alignOffset: -5 }}
     >
-      <DropdownItem>
-        <div className={s.userSection}>
-          <Picture
-            alt={'Your photo'}
-            containerProps={{ className: s.avatar }}
-            src={avatar || ProfilePhotoDefault}
-          />
-          <div className={s.userInfo}>
-            <Typography as={'span'} className={s.userName} variant={'subtitle2'}>
-              {name}
-            </Typography>
-            <Typography as={'span'} className={s.userEmail} variant={'caption'}>
-              {email}
-            </Typography>
-          </div>
+      <DropdownItem className={s.userSection}>
+        <Picture
+          alt={'Your photo'}
+          containerProps={{ className: s.avatar }}
+          src={avatar || ProfilePhotoDefault}
+        />
+        <div className={s.userInfo}>
+          <Typography variant={'subtitle2'}>{name}</Typography>
+          <Typography className={s.userEmail} variant={'caption'}>
+            {email}
+          </Typography>
         </div>
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.dropItem} onClick={handleOpenProfile}>
-        <ProfileIcon />
-        <Typography as={'span'} variant={'caption'}>
-          My Profile
-        </Typography>
+      <DropdownItem>
+        <Link className={s.dropItem} to={routes.private.editProfile}>
+          <ProfileIcon />
+          <Typography as={'span'} variant={'caption'}>
+            My Profile
+          </Typography>
+        </Link>
       </DropdownItem>
       <DropdownSeparator />
       <DropdownItem className={s.dropItem} onClick={handleSignOut}>
@@ -86,6 +78,6 @@ export const UserDropdown = (props: UserDropdownProps) => {
           Sign Out
         </Typography>
       </DropdownItem>
-    </DropdownMenuComponent>
+    </DropdownMenu>
   )
 }

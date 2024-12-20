@@ -16,17 +16,19 @@ export type TableHeadProps = {
 
 export const TableHead = (props: TableHeadProps) => {
   const { cellsData, changeSort, currentOrderBy, defaultValue } = props
-  const tableHeadCells = cellsData.map(item => {
+  const tableHeadCells = cellsData.map((item, index) => {
     return (
       <th className={s.th} key={item.orderBy}>
-        <SortElement
-          changeSort={changeSort}
-          currentOrderBy={currentOrderBy}
-          defaultValue={defaultValue}
-          orderBy={item.orderBy}
-        >
-          {item.name}
-        </SortElement>
+        {index !== cellsData.length - 1 && (
+          <SortElement
+            changeSort={changeSort}
+            currentOrderBy={currentOrderBy}
+            defaultValue={defaultValue}
+            orderBy={item.orderBy}
+          >
+            {item.name}
+          </SortElement>
+        )}
       </th>
     )
   })

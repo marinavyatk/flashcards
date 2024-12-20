@@ -1,122 +1,123 @@
-.textField {
-  .textFieldContainer {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 5px;
-    justify-content: space-between;
+.textFieldContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  justify-content: space-between;
 
-    height: fit-content;
-    padding: 6px 12px;
+  height: fit-content;
+  padding: 6px 12px;
 
-    border: 1px solid var(--color-dark-300);
-    border-radius: 2px;
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
 
+  transition: all 0.4s;
+
+  &:hover:not(:has(:disabled)) {
+    background: var(--color-dark-700);
+    border-color: var(--color-dark-100);
     transition: all 0.4s;
+  }
 
-    .startElements {
-      display: flex;
-      flex-grow: 2;
-      gap: 9px;
-      align-items: center;
-    }
-
-    .input {
-      resize: none;
-      scrollbar-width: none;
-
-      flex-grow: 2;
-
-      max-height: 200px;
-      padding: 0;
-
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 150%;
-      color: var(--light-100);
-
-      appearance: none;
-      background-color: transparent;
-      border: none;
-      outline: none;
-
-      &::placeholder {
-        color: var(--color-dark-100);
-      }
-
-      &[type='search']::-webkit-search-cancel-button {
-        display: none;
-      }
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 1000px var(--color-dark-700) inset;
-
-        -webkit-text-fill-color: var(--color-light-100);
-      }
-
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover,
-      &:-webkit-autofill:focus {
-        background: linear-gradient(
-          rgb(255 255 255 / 0%) 0%,
-          rgb(0 174 255 / 4%) 50%,
-          rgb(255 255 255 / 0%) 51%,
-          rgb(0 174 255 / 3%) 100%
-        );
-        box-shadow: 0 0 0 1000px transparent inset;
-        transition: background-color 5000s ease-in-out 0s;
-
-        -webkit-text-fill-color: var(--color-light-100);
-      }
-    }
+  &:focus-within:not(:has(:disabled)) {
+    border-color: var(--color-info-700);
+    outline: 1px solid var(--color-info-700);
 
     .endButton {
-      cursor: pointer;
-
       display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background-color: transparent;
-      border: none;
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      &:has(.deleteIcon) {
-        display: none;
-      }
     }
 
     .deleteIcon {
-      display: none;
-    }
-
-    &:hover:not(:has(:disabled)) {
-      background: var(--color-dark-700);
-      border-color: var(--color-dark-100);
-      transition: all 0.4s;
-    }
-
-    &:focus-within:not(:has(:disabled)) {
-      border-color: var(--color-info-700);
-      outline: 1px solid var(--color-info-700);
-
-      .endButton {
-        display: flex;
-      }
-
-      .deleteIcon {
-        display: block;
-      }
-    }
-
-    &:active:not(:has(:disabled)) {
-      border-color: var(--color-light-100);
+      display: block;
     }
   }
 
+  &:active:not(:has(:disabled)) {
+    border-color: var(--color-light-100);
+  }
+}
+
+.startElements {
+  display: flex;
+  flex-grow: 2;
+  gap: 9px;
+  align-items: center;
+}
+
+.input {
+  resize: none;
+  scrollbar-width: none;
+
+  flex-grow: 2;
+
+  max-height: 200px;
+  padding: 0;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: var(--light-100);
+
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-dark-100);
+  }
+
+  &[type='search']::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px var(--color-dark-700) inset;
+
+    -webkit-text-fill-color: var(--color-light-100);
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    background: linear-gradient(
+      rgb(255 255 255 / 0%) 0%,
+      rgb(0 174 255 / 4%) 50%,
+      rgb(255 255 255 / 0%) 51%,
+      rgb(0 174 255 / 3%) 100%
+    );
+    box-shadow: 0 0 0 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+
+    -webkit-text-fill-color: var(--color-light-100);
+  }
+}
+
+.endButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:has(.deleteIcon) {
+    display: none;
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 1px solid var(--color-light-100);
+  }
+}
+
+.deleteIcon {
+  display: none;
+}
+
+.textField {
   &.disabled {
     .textFieldContainer {
       border-color: var(--color-dark-300);
@@ -156,8 +157,8 @@
       color: var(--color-danger-300);
     }
   }
+}
 
-  .label {
-    color: var(--color-dark-100);
-  }
+.label {
+  color: var(--color-dark-100);
 }

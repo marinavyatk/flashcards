@@ -8,8 +8,8 @@ import SettingIcon from '@/assets/svg/settingIcon.svg?react'
 import { DeletedElement } from '@/components/layouts/modals/confirmDeleteModal/confirmDeleteModal'
 import {
   DropdownItem,
-  DropdownMenuComponent,
-  DropdownMenuComponentProps,
+  DropdownMenu,
+  DropdownMenuProps,
   DropdownSeparator,
 } from '@/components/ui/dropdownMenu'
 
@@ -22,15 +22,15 @@ export type SettingDropdownProps = {
   learnPath: string
   onConfirmDelete: () => void
   onEdit: () => void
-  otherDropDownProps?: DropdownMenuComponentProps
+  otherDropDownProps?: DropdownMenuProps
 } & ComponentPropsWithoutRef<'div'>
 
 export const SettingDropdown = (props: SettingDropdownProps) => {
   const {
     className,
-    deletedElement,
-    elementName,
-    id,
+    // deletedElement,
+    // elementName,
+    // id,
     learnPath,
     onConfirmDelete,
     onEdit,
@@ -39,30 +39,34 @@ export const SettingDropdown = (props: SettingDropdownProps) => {
   } = props
 
   return (
-    <DropdownMenuComponent
+    <DropdownMenu
       trigger={
-        <span className={s.trigger}>
+        <button className={s.trigger} type={'button'}>
           <SettingIcon />
-        </span>
+        </button>
       }
       {...otherDropDownProps}
       {...restProps}
       className={className}
       contentProps={{ alignOffset: -5 }}
     >
-      <DropdownItem className={s.item}>
-        <Link to={learnPath}>
+      <DropdownItem>
+        <Link className={s.item} to={learnPath}>
           <PlayIcon /> Learn
         </Link>
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.item} onClick={onEdit}>
-        <EditIcon /> Edit
+      <DropdownItem>
+        <button className={s.item} onClick={onEdit} type={'button'}>
+          <EditIcon /> Edit
+        </button>
       </DropdownItem>
       <DropdownSeparator />
-      <DropdownItem className={s.item} onClick={onConfirmDelete}>
-        <BinIcon /> Delete
+      <DropdownItem>
+        <button className={s.item} onClick={onConfirmDelete} type={'button'}>
+          <BinIcon /> Delete
+        </button>
       </DropdownItem>
-    </DropdownMenuComponent>
+    </DropdownMenu>
   )
 }

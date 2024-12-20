@@ -10,6 +10,7 @@ import { PageLoader } from '@/components/ui/loader/loader'
 import { PageNotFound } from '@/pages/404/404'
 import { DeckPage } from '@/pages/deckPage/deckPage'
 import { CheckEmailPage } from '@/pages/formPages/checkEmailPage'
+import { ConfirmEmailPage } from '@/pages/formPages/confirmEmailPage'
 import { CreateNewPasswordPage } from '@/pages/formPages/createNewPasswordPage'
 import { EditProfilePage } from '@/pages/formPages/editProfilePage'
 import { ForgotPasswordPage } from '@/pages/formPages/forgotPasswordPage'
@@ -31,6 +32,7 @@ export const routes = {
   },
   public: {
     checkEmail: '/check-email',
+    confirmEmail: '/confirm-email/:token',
     createNewPassword: '/create-new-password/:token',
     forgotPassword: '/forgot-password',
     signIn: '/sign-in',
@@ -61,6 +63,10 @@ const publicRoutes: RouteObject[] = [
   {
     element: <CheckEmailPage />,
     path: routes.public.checkEmail,
+  },
+  {
+    element: <ConfirmEmailPage />,
+    path: routes.public.confirmEmail,
   },
   {
     element: <CreateNewPasswordPage />,

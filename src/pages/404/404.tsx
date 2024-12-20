@@ -12,7 +12,7 @@ export const PageNotFound = () => {
   return (
     <PageTemplate>
       <div className={s.container}>
-        <PageNotFoundImg />
+        <PageNotFoundImg className={s.image} />
         <Typography as={'span'} variant={'body1'}>
           Sorry! Page not found!
         </Typography>

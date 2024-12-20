@@ -1,12 +1,12 @@
 import { useMediaQuery } from 'react-responsive'
 
 import { cardsTableData } from '@/common/tableData'
-import { CardsTableBody } from '@/components/layouts/appTable/cardsTableBody'
-import { TableHead } from '@/components/layouts/appTable/tableHead'
+import { CardsTableBody } from '@/components/layouts/appTable/cards/cardsTableBody'
 import {
   CardsTableMobile,
   CardsTableMobileProps,
-} from '@/components/layouts/mobile/cardsTableMobile/cardsTableMobile'
+} from '@/components/layouts/appTable/cards/cardsTableMobile/cardsTableMobile'
+import { TableHead } from '@/components/layouts/appTable/tableHead'
 import { Table } from '@/components/ui/table'
 
 type CardsTableProps = {

@@ -26,6 +26,20 @@ option {
   color: inherit;
 }
 
+button {
+  all: unset;
+}
+
+a,
+button,
+label {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
 a:visited {
   color: inherit;
 }

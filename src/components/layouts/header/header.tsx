@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo from '@/assets/logo.png'
+import Logo from '@/assets/logo.webp'
 import { routes } from '@/common/router'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,13 +30,7 @@ export const Header = (props: HeaderProps) => {
           <span className={s.word}>Cards</span>
         </Link>
         {isAuthorized ? (
-          userDropdownProps && (
-            <UserDropdown
-              avatar={userDropdownProps?.avatar}
-              email={userDropdownProps?.email}
-              name={userDropdownProps?.name}
-            />
-          )
+          userDropdownProps && <UserDropdown {...userDropdownProps} />
         ) : (
           <Button as={Link} to={'/sign-in'} variant={'secondary'}>
             Sign In

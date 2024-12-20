@@ -37,12 +37,6 @@ export type VerifyUserEmailArgs = {
   code: string
 }
 
-export type SendEmailAgainArgs = {
-  html: string
-  subject: string
-  userId: string
-}
-
 export type SendPasswordRecoveryEmailArgs = {
   email: string
   html?: string

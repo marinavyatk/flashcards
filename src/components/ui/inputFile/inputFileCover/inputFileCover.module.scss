@@ -1,32 +1,30 @@
 .inputFileCover {
-  position: relative;
   width: 100%;
+}
 
-  .labelButton {
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+.labelButton {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 
-    width: 99.9%;
-    padding: 6px;
+  width: 99.9%;
+  padding: 6px;
 
-    white-space: nowrap;
+  white-space: nowrap;
 
-    background-color: var(--color-dark-300);
-    border-radius: 4px;
-    box-shadow: 0 2px 10px 0 rgb(109 109 109 / 25%);
+  background-color: var(--color-dark-300);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px 0 rgb(109 109 109 / 25%);
 
-    transition: background-color 0.4s;
+  transition: background-color 0.4s;
 
-    svg {
-      width: 16px;
-      height: 16px;
-    }
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 
-    &:hover {
-      background-color: var(--color-dark-100);
-      transition: background-color 0.4s;
-    }
+  &:hover {
+    background-color: var(--color-dark-100);
   }
 }

@@ -1,14 +1,13 @@
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import ImageIcon from '@/assets/svg/imageIcon.svg?react'
 import { handleFileChange, handleImgError, prepareData } from '@/common/commonFunctions'
 import { updateCardFormValues, updateCardSchema } from '@/common/formValidation'
+import { CoverControl } from '@/components/layouts/modals/coverControl'
+import { ViewCloserModal } from '@/components/layouts/modals/viewCloserModal/viewCloserModal'
 import { Button } from '@/components/ui/button'
-import { FormInputFileCover } from '@/components/ui/inputFile/inputFileCover/formInputFileCover'
 import { Modal } from '@/components/ui/modal'
 import { FormTextArea } from '@/components/ui/textarea/formTextArea'
-import { Typography } from '@/components/ui/typography'
 import { Card, UpdateCardArg } from '@/services/cards/cardsTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -54,16 +53,40 @@ export const EditCardModal = (props: EditCardModalProps) => {
   }
 
   const handleRemoveQuestionCover = () =>
-    handleFileChange(undefined, questionCover, setQuestionCover, 'questionImg', setValue)
+    handleFileChange({
+      cover: questionCover,
+      fieldName: 'questionImg',
+      newFile: undefined,
+      setCover: setQuestionCover,
+      setValue,
+    })
 
   const handleRemoveAnswerCover = () =>
-    handleFileChange(undefined, answerCover, setAnswerCover, 'answerImg', setValue)
+    handleFileChange({
+      cover: answerCover,
+      fieldName: 'answerImg',
+      newFile: undefined,
+      setCover: setAnswerCover,
+      setValue,
+    })
 
   const handleChangeQuestionCover = (newFile: File | undefined) =>
-    handleFileChange(newFile, questionCover, setQuestionCover, 'questionImg', setValue)
+    handleFileChange({
+      cover: questionCover,
+      fieldName: 'questionImg',
+      newFile,
+      setCover: setQuestionCover,
+      setValue,
+    })
 
   const handleChangeAnswerCover = (newFile: File | undefined) =>
-    handleFileChange(newFile, answerCover, setAnswerCover, 'answerImg', setValue)
+    handleFileChange({
+      cover: answerCover,
+      fieldName: 'answerImg',
+      newFile,
+      setCover: setAnswerCover,
+      setValue,
+    })
 
   return (
     <Modal
@@ -81,69 +104,40 @@ export const EditCardModal = (props: EditCardModalProps) => {
       <form className={s.modalContent} onSubmit={handleSubmit(handleFormSubmit)}>
         <FormTextArea control={control} label={'Question'} name={'question'} />
         {questionCover && (
-          <img
-            alt={'Question Cover'}
-            className={s.cover}
-            onError={() => handleImgError(setQuestionCover)}
-            src={questionCover}
+          <ViewCloserModal
+            imgSrc={questionCover}
+            triggerImgProps={{
+              alt: 'Question Cover',
+              className: s.cover,
+              onError: () => handleImgError(setQuestionCover),
+            }}
           />
         )}
-        <div className={s.coverControlBlock}>
-          {questionCover && (
-            <Button
-              className={s.removeCoverButton}
-              fullWidth
-              onClick={handleRemoveQuestionCover}
-              type={'button'}
-              variant={'secondary'}
-            >
-              Remove Image
-            </Button>
-          )}
-          <FormInputFileCover
-            control={control}
-            name={'questionImg'}
-            onFileChange={handleChangeQuestionCover}
-          >
-            <ImageIcon />
-            <Typography as={'span'} variant={'subtitle2'}>
-              {questionCover ? 'Change Image' : 'Upload Image'}
-            </Typography>
-          </FormInputFileCover>
-        </div>
-
+        <CoverControl
+          control={control}
+          cover={questionCover}
+          handleChangeCover={handleChangeQuestionCover}
+          handleRemoveCover={handleRemoveQuestionCover}
+          name={'questionImg'}
+        />
         <FormTextArea control={control} label={'Answer'} name={'answer'} />
         {answerCover && (
-          <img
-            alt={'Deck Cover'}
-            className={s.cover}
-            onError={() => handleImgError(setAnswerCover)}
-            src={answerCover}
+          <ViewCloserModal
+            imgSrc={answerCover}
+            triggerImgProps={{
+              alt: 'Answer Cover',
+              className: s.cover,
+              onError: () => handleImgError(setAnswerCover),
+            }}
           />
         )}
-        <div className={s.coverControlBlock}>
-          {answerCover && (
-            <Button
-              className={s.removeCoverButton}
-              fullWidth
-              onClick={handleRemoveAnswerCover}
-              type={'button'}
-              variant={'secondary'}
-            >
-              Remove Image
-            </Button>
-          )}
-          <FormInputFileCover
-            control={control}
-            name={'answerImg'}
-            onFileChange={handleChangeAnswerCover}
-          >
-            <ImageIcon />
-            <Typography as={'span'} variant={'subtitle2'}>
-              {answerCover ? 'Change Image' : 'Upload Image'}
-            </Typography>
-          </FormInputFileCover>
-        </div>
+        <CoverControl
+          control={control}
+          cover={answerCover}
+          handleChangeCover={handleChangeAnswerCover}
+          handleRemoveCover={handleRemoveAnswerCover}
+          name={'answerImg'}
+        />
         <div className={s.buttonsBlock}>
           <Dialog.Close asChild>
             <Button onClick={handleCancel} type={'button'} variant={'secondary'}>

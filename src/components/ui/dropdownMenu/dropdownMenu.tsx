@@ -1,32 +1,32 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import * as RadixDropdown from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenuContentProps,
   DropdownMenuItemProps,
-  DropdownMenuProps,
+  DropdownMenuProps as DropdownMenuRootProps,
 } from '@radix-ui/react-dropdown-menu'
 
 import s from './dropdownMenu.module.scss'
 
-export type DropdownMenuComponentProps = {
+export type DropdownMenuProps = {
   contentProps?: DropdownMenuContentProps
-  rootProps?: DropdownMenuProps
+  rootProps?: DropdownMenuRootProps
   trigger: ReactNode
 } & ComponentPropsWithoutRef<'div'>
 
-export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
+export const DropdownMenu = (props: DropdownMenuProps) => {
   const { children, className, contentProps, rootProps, trigger, ...restProps } = props
 
   //div need to pass className to component (DropdownMenu.Root don`t have className props)
   return (
     <div className={className} {...restProps}>
-      <DropdownMenu.Root {...rootProps} modal={false}>
-        <DropdownMenu.Trigger asChild tabIndex={0}>
+      <RadixDropdown.Root {...rootProps} modal={false}>
+        <RadixDropdown.Trigger asChild tabIndex={0}>
           {trigger}
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content
+        </RadixDropdown.Trigger>
+        <RadixDropdown.Portal>
+          <RadixDropdown.Content
             align={'end'}
             className={s.dropdownMenuContent}
             sideOffset={12}
@@ -34,18 +34,19 @@ export const DropdownMenuComponent = (props: DropdownMenuComponentProps) => {
           >
             <div className={s.angle}></div>
             {children}
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
+          </RadixDropdown.Content>
+        </RadixDropdown.Portal>
+      </RadixDropdown.Root>
     </div>
   )
 }
 
 export type DropdownItemProps = DropdownMenuItemProps
+
 export const DropdownItem = (props: DropdownItemProps) => {
-  return <DropdownMenu.Item {...props} className={props.className} />
+  return <RadixDropdown.Item {...props} className={props.className} />
 }
 
 export const DropdownSeparator = () => {
-  return <DropdownMenu.Separator className={s.separator} />
+  return <RadixDropdown.Separator className={s.separator} />
 }

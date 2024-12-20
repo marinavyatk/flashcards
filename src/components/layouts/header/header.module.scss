@@ -15,10 +15,6 @@
 }
 
 .logoWithText {
-  all: unset;
-
-  cursor: pointer;
-
   display: flex;
   gap: 5px;
   align-items: center;
@@ -29,13 +25,13 @@
   transition: transform 0.4s;
 
   .logo {
+    width: 36px;
     height: 36px;
   }
 
   &:hover,
   &:focus-visible {
     transform: translateX(10px);
-    transition: transform 0.4s;
   }
 }
 

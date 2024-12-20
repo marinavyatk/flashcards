@@ -19,19 +19,21 @@ export const returnErrorText = (error: any) => {
   }
 }
 
-export const handleFileChange = (
-  newFile: File | undefined,
-  cover: string,
-  setCover: (cover: string) => void,
-  fieldName: string,
-  setValue: any
-) => {
+export const handleFileChange = (args: {
+  cover: string
+  fieldName?: string
+  newFile: File | undefined
+  setCover: (cover: string) => void
+  setValue?: any
+}) => {
+  const { cover, fieldName = '', newFile, setCover, setValue } = args
+
   if (cover) {
     URL.revokeObjectURL(cover)
   }
   if (!newFile) {
     setCover('')
-    setValue(fieldName, undefined, { shouldDirty: true })
+    setValue && setValue(fieldName, undefined, { shouldDirty: true })
   } else {
     setCover(URL.createObjectURL(newFile))
   }

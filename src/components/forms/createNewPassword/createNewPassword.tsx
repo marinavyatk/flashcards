@@ -46,7 +46,7 @@ export const CreateNewPassword = (props: CreateNewPasswordProps) => {
           type={'password'}
         />
         <Typography as={'p'} className={s.instruction} variant={'body2'}>
-          Create new password and we will send you further instructions to email
+          Create new password and try to sign in with this.
         </Typography>
         <Button disabled={isSubmitting} fullWidth>
           {' '}

@@ -1,28 +1,14 @@
 .trigger {
-  cursor: pointer;
-
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: fit-content;
 }
 
 .item {
-  cursor: pointer;
   display: flex;
   gap: 6px;
   align-items: center;
+  color: var(--color-light-100);
 
-  a {
-    all: unset;
-    display: flex;
-    gap: 6px;
-  }
-
-  img,
   svg {
-    cursor: pointer;
     width: 16px;
     height: 16px;
   }

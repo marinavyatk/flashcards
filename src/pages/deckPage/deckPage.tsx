@@ -1,4 +1,4 @@
-import { Link, useOutletContext, useParams } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { useAppSearchParams } from '@/common/customHooks/searchParamsHooks'
@@ -88,6 +88,7 @@ export const DeckPage = () => {
     orderBy: orderBy,
     question: search ? search : undefined,
   })
+  const navigate = useNavigate()
 
   const isMyDeck = deckData?.userId === userData?.id
 
@@ -96,7 +97,7 @@ export const DeckPage = () => {
   }
 
   const handleDeleteDeck = async () => {
-    await deleteDeck({ id: deckId ? deckId : '' }).then(handleBackClick)
+    await deleteDeck({ id: deckId ? deckId : '' }).then(() => navigate(handleBackClick()))
   }
 
   const handleAddNewCard = async (data: addNewCardFormValues) => {

@@ -30,7 +30,7 @@ export const LearnPage = () => {
     data: deckData,
     error: getDeckError,
     isLoading: isDeckLoading,
-  } = useRetrieveDeckQuery({ id: deckId ?? '' })
+  } = useRetrieveDeckQuery({ id: deckId ?? '' }) //this request sent on every question because of invalidate tag "Cards" in saveGrade request
   const {
     data: randomCard,
     error: randomCardError,

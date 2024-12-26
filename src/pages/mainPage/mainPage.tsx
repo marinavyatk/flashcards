@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -36,6 +36,7 @@ export const MainPage = () => {
     deleteDeck: { deckData: {}, open: false },
     editDeck: { deckData: {}, open: false },
   })
+  const [skip, setSkip] = useState(true)
   const {
     data: minMaxData,
     error: minMaxError,
@@ -71,15 +72,25 @@ export const MainPage = () => {
     data: decksData,
     error: getDecksError,
     isLoading: isDecksLoading,
-  } = useGetDecksQuery({
-    authorId: deckOwnership ? deckOwnership : undefined,
-    currentPage: currentPage ? Number(currentPage) : undefined,
-    itemsPerPage: pageSize ? Number(pageSize) : undefined,
-    maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
-    minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
-    name: search ?? undefined,
-    orderBy: orderBy,
-  })
+  } = useGetDecksQuery(
+    {
+      authorId: deckOwnership ? deckOwnership : undefined,
+      currentPage: currentPage ? Number(currentPage) : undefined,
+      itemsPerPage: pageSize ? Number(pageSize) : undefined,
+      maxCardsCount: maxCardsCount !== null ? Number(maxCardsCount) : minMaxData?.max || 0,
+      minCardsCount: minCardsCount !== null ? Number(minCardsCount) : minMaxData?.min || 0,
+      name: search ?? undefined,
+      orderBy: orderBy,
+    },
+    { skip }
+  )
+
+  useEffect(() => {
+    if (minMaxData) {
+      setSkip(false)
+    }
+  }, [minMaxData])
+
   const errors = [getDecksError, minMaxError, createDeckError, deleteDeckError, updateDeckError]
 
   useShowErrors(errors)

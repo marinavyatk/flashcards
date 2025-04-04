@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# Flashcards
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Flashcards is a card-based learning app that makes the memorization process easier and more efficient.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Registration and login**: Users can create an account and log in.
+- **Password recovery**: Users can reset their password with email notifications.
+- **Protected private routes**: Access restricted to authorized users only.
+- **Create, edit, and delete decks and flashcards**: Users can manage their flashcards and decks.
+- **Public or private decks**: Users can make decks either public or private.
+- **Deck/flashcard filtering**: Easy search and filtering for decks and flashcards.
 
-## Expanding the ESLint configuration
+- **Client-side form validation**: Ensures data is correct before sending it to the server.
+- **Responsive cross-browser layout**: Works across multiple browsers and devices.
+- **Storybook**: For isolated component development and testing.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- React (Vite)
+- TypeScript
+- Redux Toolkit Query
+- React Hook Form
+- Zod
+- Radix UI
+- SCSS
+- Storybook

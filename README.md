@@ -1,6 +1,6 @@
 # Flashcards
 
-Flashcards is a card-based learning app that makes the memorization process easier and more efficient.
+Flashcards is an intuitive learning app designed to help you memorize information efficiently and easily. Create and manage flashcards with questions and answers, adding text and images to deepen your understanding of the material. Take advantage of pre-made decks created by other users, or create your own — whether private or public — and share them with friends and colleagues.
 
 ## Features
 
